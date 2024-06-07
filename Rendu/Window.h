@@ -1,15 +1,4 @@
 #pragma once
-//#include "header.h"
-//#if defined(DEBUG) || defined(_DEBUG)
-//#define _CRTDBG_MAP_ALLOC
-//#include <crtdbg.h>
-//#endif
-//#include "d3dUtil.h"
-//#include "Timer.h"
-//
-//// Link necessary d3d12 libraries.
-//class GCRender;
-
 class Window
 {
 

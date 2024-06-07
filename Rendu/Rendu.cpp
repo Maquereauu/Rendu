@@ -1,4 +1,4 @@
-// Rendu.cpp : Définit le point d'entrée de l'application.
+/*// Rendu.cpp : Définit le point d'entrée de l'application.
 //
 
 #include "framework.h"
@@ -178,3 +178,4 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     }
     return (INT_PTR)FALSE;
 }
+*/

@@ -34,6 +34,7 @@
 #include <cassert>
 #include "d3dx12.h"
 #include <WindowsX.h>
+#include "MathHelper.h"
 #include "d3dUtil.h"
 #include <wrl/client.h>
 #include <dxgi1_4.h>
@@ -44,25 +45,24 @@
 #pragma comment(lib, "d3dcompiler.lib")
 #include "d3dx12.h"
 #include "DDSTextureLoader.h"
+#include "Window.h"
+//#include "GCGraphics.h"
+#include "GCRender.h"
+#include "GCShader.h"
 #include "GCGeometry.h"
-#include "GCGraphics.h"
 #include "GCMaterial.h"
 #include "GCMesh.h"
 #include "GCModelParser.h"
 #include "GCModelParserObj.h"
 #include "GCPrimitiveFactory.h"
-#include "GCRender.h"
-#include "GCShader.h"
 #include "GCShaderColor.h"
 #include "GCShaderTexture.h"
 #include "GCTexture.h"
 #include "GCTextureFactory.h"
 #include "Global.h"
-#include "MathHelper.h"
 #include "ShaderTypeEnum.h"
 #include "Timer.h"
 #include "UploadBuffer.h"
-#include "Window.h"
 #include "PrimitiveTypeEnum.h"
 class GCGeometry;
 class GCGraphics;

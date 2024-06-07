@@ -67,6 +67,6 @@ private:
 
 	GCRender* m_pRender;
 
-	GCGeometry* m_pGeometry;
+	GCGeo* m_pGeometry;
 };
 
