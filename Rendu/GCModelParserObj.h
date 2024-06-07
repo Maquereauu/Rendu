@@ -14,8 +14,8 @@ public:
 	void Initialize(GCRender* pRender, std::string fileName);
 	void ParseObj();
 
-	GCGeo* BuildObjColor();
-	GCGeo* BuildObjTexture();
+	GCGeometry* BuildObjColor();
+	GCGeometry* BuildObjTexture();
 
 
 private:

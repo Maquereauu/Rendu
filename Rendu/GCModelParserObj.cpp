@@ -131,39 +131,39 @@ void ModelParserObj::ParseObj()
 }
 
 
-GCGeometryTexture* ModelParserObj::BuildObjTexture()
+GCGeometry* ModelParserObj::BuildObjTexture()
 {
-	GCGeometryTexture* objGeometry = new GCGeometryTexture();
+	GCGeometry* objGeometry = new GCGeometry();
 
-	for (int i = 0; i < m_ParsedObj.facesInfos.size(); i++)
-	{
-		objGeometry->vertices.push_back(
-			GCVERTEXTEXTURE({
-				DirectX::XMFLOAT3(m_ParsedObj.coords[m_ParsedObj.facesInfos[i][0]][0], m_ParsedObj.coords[m_ParsedObj.facesInfos[i][0]][1], m_ParsedObj.coords[m_ParsedObj.facesInfos[i][0]][2]),
-				DirectX::XMFLOAT2(m_ParsedObj.uvs[m_ParsedObj.facesInfos[i][1]][0], m_ParsedObj.uvs[m_ParsedObj.facesInfos[i][1]][1]) }));
+	//for (int i = 0; i < m_ParsedObj.facesInfos.size(); i++)
+	//{
+	//	objGeometry->vertices.push_back(
+	//		GCVERTEXTEXTURE({
+	//			DirectX::XMFLOAT3(m_ParsedObj.coords[m_ParsedObj.facesInfos[i][0]][0], m_ParsedObj.coords[m_ParsedObj.facesInfos[i][0]][1], m_ParsedObj.coords[m_ParsedObj.facesInfos[i][0]][2]),
+	//			DirectX::XMFLOAT2(m_ParsedObj.uvs[m_ParsedObj.facesInfos[i][1]][0], m_ParsedObj.uvs[m_ParsedObj.facesInfos[i][1]][1]) }));
 
-		objGeometry->indices.push_back(i);
-	}
+	//	objGeometry->indices.push_back(i);
+	//}
 
 	return objGeometry;
 }
 
 
-GCGeometryColor* ModelParserObj::BuildObjColor() {
-	GCGeometryColor* objGeometry = new GCGeometryColor();
+GCGeometry* ModelParserObj::BuildObjColor() {
+	GCGeometry* objGeometry = new GCGeometry();
 
-	for (int i = 0; i < m_ParsedObj.coords.size(); i++) {
-		objGeometry->vertices.push_back(
-			GCVERTEX({
-				DirectX::XMFLOAT3(m_ParsedObj.coords[i][0], m_ParsedObj.coords[i][1], m_ParsedObj.coords[i][2]),
-				DirectX::XMFLOAT4(DirectX::Colors::White)
-				})
-		);
-	}
+	//for (int i = 0; i < m_ParsedObj.coords.size(); i++) {
+	//	objGeometry->vertices.push_back(
+	//		GCVERTEX({
+	//			DirectX::XMFLOAT3(m_ParsedObj.coords[i][0], m_ParsedObj.coords[i][1], m_ParsedObj.coords[i][2]),
+	//			DirectX::XMFLOAT4(DirectX::Colors::White)
+	//			})
+	//	);
+	//}
 
-	for (int i = 0; i < m_ParsedObj.facesInfos.size(); i++) {
-		objGeometry->indices.push_back(m_ParsedObj.facesInfos[i][0]);
-	}
+	//for (int i = 0; i < m_ParsedObj.facesInfos.size(); i++) {
+	//	objGeometry->indices.push_back(m_ParsedObj.facesInfos[i][0]);
+	//}
 
 
 

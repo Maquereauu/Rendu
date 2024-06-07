@@ -8,8 +8,8 @@ public:
 	~PrimitiveFactory();
 	void Initialize(int type, GCRender* pRender);
 
-	GCGeo* BuildBoxGeometryColor();
-	GCGeo* BuildBoxGeometryTexture();
+	GCGeometry* BuildBoxGeometryColor();
+	GCGeometry* BuildBoxGeometryTexture();
 
 	// 
 	//void BuildSphereGeometry();

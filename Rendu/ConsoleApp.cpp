@@ -17,33 +17,43 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	window->Initialize();
 	//SetWindow(window);
 
+	GCGraphics* graphics = new GCGraphics();
+	graphics->Initialize(window);
 
-	GCRender* render = new GCRender();
-	render->Initialize();
-	/*graphics->Initialize();*/
+	graphics->m_pRender->ResetCommandList();
 
+	PrimitiveFactory* primFact = new PrimitiveFactory();
 
-	render->ResetCommandList();
+	GCGeometry* geo = primFact->BuildBoxGeometryColor();
 
-	/*GCMesh* mesh = graphics->CreateMesh();
+	GCMesh* mesh = graphics->CreateMesh(geo);
 	GCShader* shader1 = graphics->CreateShader(STEnum::color, L"color");
-	GCShader* shader2 = graphics->CreateShader(STEnum::texture, L"texture");*/
+	GCShader* shader2 = graphics->CreateShader(STEnum::texture, L"texture");
 
 	//GCMaterial* material1 = graphics->CreateMaterial();
 	//material1->AddTexture("ahah", graphics);
 
-	//graphics->CreateTexture("ahah");
 
 
-	render->CloseCommandList();
-	render->ExecuteCommandList();
+	graphics->m_pRender->CloseCommandList();
+	graphics->m_pRender->ExecuteCommandList();
+
+	//graphics->m_pRender->ResetCommandList();
+	//GCTexture* tex1 = graphics->CreateTexture("ahah");
+	//graphics->m_pRender->CloseCommandList();
+	//graphics->m_pRender->ExecuteCommandList();
+
+
+	graphics->m_pRender->ResetCommandList();
+
+	graphics->m_pRender->DrawOneObject(mesh, shader1, nullptr, MathHelper::Identity4x4());
 
 
 	//GCRender* render = new GCRender();
 	////SetRender(render);
 	//render->Initialize();
 
-	window->Run(render);
+	window->Run(graphics->m_pRender);
 
 }
 

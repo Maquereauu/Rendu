@@ -1,6 +1,7 @@
 #include "framework.h"
 
-bool GCRender::Initialize(Window* pWindow) {
+bool GCRender::Initialize(GCGraphics* pGraphics,Window* pWindow) {
+	m_pGraphicsManager = pGraphics;
 	m_pWindow = pWindow;
 	InitDirect3D();
 	OnResize();
@@ -442,9 +443,8 @@ void GCRender::Draw(const Timer& gt) {
 
 
 
-void GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTexture) {
+void GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTexture, DirectX::XMFLOAT4X4 worldMatrix) {
 	//m_pGraphicsManager->GetShaders()[0]->Render();
-	/*
 
 	// Mesh
 	//m_pGraphicsManager->GetMeshes()[0]->Render();
@@ -456,13 +456,13 @@ void GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 
 
 	m_CommandList->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView = pMesh->GetBoxGeometry()->boxGeo->VertexBufferView();
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView = pMesh->GetBoxGeometry()->VertexBufferView();
 	m_CommandList->IASetVertexBuffers(0, 1, &vertexBufferView);
-	D3D12_INDEX_BUFFER_VIEW indexBufferView = pMesh->GetBoxGeometry()->boxGeo->IndexBufferView();
+	D3D12_INDEX_BUFFER_VIEW indexBufferView = pMesh->GetBoxGeometry()->IndexBufferView();
 	m_CommandList->IASetIndexBuffer(&indexBufferView);
 	if (pShader->m_Type == STEnum::texture)
 	{
-		m_CommandList->SetGraphicsRootDescriptorTable(0, textm_pGraphicsManager->GetMaterials()[0]->GetTexture()->m_HDescriptorGPU);
+		m_CommandList->SetGraphicsRootDescriptorTable(0, pTexture->m_HDescriptorGPU);
 	}
 	DirectX::XMFLOAT3 pos1 = { 0.f, 0.f, 0.f };
 	DirectX::XMVECTOR pos = DirectX::XMVectorSet(0, -10, 5, 1.0f);
@@ -471,7 +471,7 @@ void GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 
 	DirectX::XMMATRIX view = DirectX::XMMatrixLookAtLH(pos, target, up);
 	DirectX::XMFLOAT4X4 MId = MathHelper::Identity4x4();
-	DirectX::XMMATRIX world = DirectX::XMLoadFloat4x4(&MId);
+	DirectX::XMMATRIX world = DirectX::XMLoadFloat4x4(&worldMatrix);
 	DirectX::XMMATRIX proj = DirectX::XMLoadFloat4x4(&mProj);
 	DirectX::XMMATRIX worldViewProj = world * view * proj;
 
@@ -481,7 +481,7 @@ void GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 	m_Buffer->CopyData(0, objConstants);
 	m_CommandList->SetGraphicsRootConstantBufferView(pShader->m_Type == STEnum::texture ? 1 : 0, m_Buffer->Resource()->GetGPUVirtualAddress());
 
-	m_CommandList->DrawIndexedInstanced(m_pGraphicsManager->GetMeshes()[0]->GetBoxGeometry()->boxGeo->DrawArgs["box"].IndexCount, 1, 0, 0, 0);
+	m_CommandList->DrawIndexedInstanced(pMesh->GetBoxGeometry()->DrawArgs["mesh"].IndexCount, 1, 0, 0, 0);
 }
 
 void GCRender::PostDraw() {
@@ -500,7 +500,7 @@ void GCRender::PostDraw() {
 	m_CurrBackBuffer = (m_CurrBackBuffer + 1) % SwapChainBufferCount;
 
 
-	FlushCommandQueue();*/
+	FlushCommandQueue();
 }
 // DRAW
 

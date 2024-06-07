@@ -1,6 +1,4 @@
-#include "MathHelper.h"
-#include <float.h>
-#include <cmath>
+#include "framework.h"
 
 using namespace DirectX;
 

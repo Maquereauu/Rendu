@@ -12,7 +12,7 @@ class GCRender
 public:
 	GCRender() {}
 
-	bool Initialize(Window* pWindow);
+	bool Initialize(GCGraphics* pGraphics,Window* pWindow);
 	bool InitDirect3D();
 
 
@@ -53,8 +53,8 @@ public:
 	void PostDraw();
 	void Draw(const Timer& gt);
 
-	void DrawOneObject(GCMesh* pMesh, GCShader* pShader,GCTexture* pTexture);
-	void BuildBoxGeometry();
+	void DrawOneObject(GCMesh* pMesh, GCShader* pShader,GCTexture* pTexture, DirectX::XMFLOAT4X4 world);
+	//void BuildBoxGeometry();
 
 
 	void OnResize();
