@@ -135,35 +135,41 @@ GCGeometry* ModelParserObj::BuildObjTexture()
 {
 	GCGeometry* objGeometry = new GCGeometry();
 
-	//for (int i = 0; i < m_ParsedObj.facesInfos.size(); i++)
-	//{
-	//	objGeometry->vertices.push_back(
-	//		GCVERTEXTEXTURE({
-	//			DirectX::XMFLOAT3(m_ParsedObj.coords[m_ParsedObj.facesInfos[i][0]][0], m_ParsedObj.coords[m_ParsedObj.facesInfos[i][0]][1], m_ParsedObj.coords[m_ParsedObj.facesInfos[i][0]][2]),
-	//			DirectX::XMFLOAT2(m_ParsedObj.uvs[m_ParsedObj.facesInfos[i][1]][0], m_ParsedObj.uvs[m_ParsedObj.facesInfos[i][1]][1]) }));
+	objGeometry->indiceNumber = m_ParsedObj.facesInfos.size();
+	objGeometry->vertexNumber = m_ParsedObj.coords.size();
 
-	//	objGeometry->indices.push_back(i);
-	//}
+	for (int i = 0; i < m_ParsedObj.facesInfos.size(); i++)
+	{
+		objGeometry->pos.push_back(
+			DirectX::XMFLOAT3(m_ParsedObj.coords[m_ParsedObj.facesInfos[i][0]][0], m_ParsedObj.coords[m_ParsedObj.facesInfos[i][0]][1], m_ParsedObj.coords[m_ParsedObj.facesInfos[i][0]][2]));
+
+		objGeometry->texC.push_back(
+				DirectX::XMFLOAT2(m_ParsedObj.uvs[m_ParsedObj.facesInfos[i][1]][0], m_ParsedObj.uvs[m_ParsedObj.facesInfos[i][1]][1]) );
+
+		objGeometry->indices.push_back(i);
+	}
 
 	return objGeometry;
 }
 
-
 GCGeometry* ModelParserObj::BuildObjColor() {
+
 	GCGeometry* objGeometry = new GCGeometry();
 
-	//for (int i = 0; i < m_ParsedObj.coords.size(); i++) {
-	//	objGeometry->vertices.push_back(
-	//		GCVERTEX({
-	//			DirectX::XMFLOAT3(m_ParsedObj.coords[i][0], m_ParsedObj.coords[i][1], m_ParsedObj.coords[i][2]),
-	//			DirectX::XMFLOAT4(DirectX::Colors::White)
-	//			})
-	//	);
-	//}
+	objGeometry->indiceNumber = m_ParsedObj.facesInfos.size();
+	objGeometry->vertexNumber = m_ParsedObj.coords.size();
 
-	//for (int i = 0; i < m_ParsedObj.facesInfos.size(); i++) {
-	//	objGeometry->indices.push_back(m_ParsedObj.facesInfos[i][0]);
-	//}
+	for (int i = 0; i < m_ParsedObj.coords.size(); i++) {
+		objGeometry->pos.push_back(
+			DirectX::XMFLOAT3(m_ParsedObj.coords[i][0], m_ParsedObj.coords[i][1], m_ParsedObj.coords[i][2]));
+
+		objGeometry->color.push_back(
+			DirectX::XMFLOAT4(DirectX::Colors::White));
+	}
+
+	for (int i = 0; i < m_ParsedObj.facesInfos.size(); i++) {
+		objGeometry->indices.push_back(m_ParsedObj.facesInfos[i][0]);
+	}
 
 
 
