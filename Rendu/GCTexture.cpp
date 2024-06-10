@@ -28,7 +28,7 @@ GCTexture::~GCTexture()
 }
 
 
-void GCTexture::Initialize(std::string fileName, GCGraphics* pGraphics)
+bool GCTexture::Initialize(std::string fileName, GCGraphics* pGraphics)
 {
 	//GetEngine()->mCommandList->Reset(GetEngine()->mDirectCmdListAlloc, GetEngine()->graphicManager->mShaders[1]->mPSO);
 		//to do for gianni mcommandelist
@@ -44,8 +44,8 @@ void GCTexture::Initialize(std::string fileName, GCGraphics* pGraphics)
 	std::wstring Filename = ss.str();
 
 	DirectX::CreateDDSTextureFromFile12(pGraphics->m_pRender->Getmd3dDevice(), pGraphics->m_pRender->GetCommandList(), Filename.c_str(), &m_resource, &m_uploadHeap);
-	//if (Resource == nullptr)
-	//	return false;
+	if (m_resource == nullptr || m_uploadHeap == nullptr)
+		return false;
 
 	// Heap
 	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(pGraphics->m_pRender->GetCbvSrvUavSrvDescriptorHeap()->GetCPUDescriptorHandleForHeapStart());
@@ -65,7 +65,8 @@ void GCTexture::Initialize(std::string fileName, GCGraphics* pGraphics)
 
 	m_HDescriptorGPU = CD3DX12_GPU_DESCRIPTOR_HANDLE(pGraphics->m_pRender->GetCbvSrvUavSrvDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
 	m_HDescriptorGPU.Offset(pGraphics->m_pRender->m_pGraphicsManager->m_textureId, m_haepDescSize);
-
+	return true;
+	
 }
 
 void GCTexture::Render() {

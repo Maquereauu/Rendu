@@ -1,6 +1,6 @@
 #include "framework.h"
 GCGraphics::GCGraphics() {
-    /*m_pRender = nullptr;*/
+    m_pRender = nullptr;
 }
 
 void GCGraphics::Initialize(Window* window) {
@@ -50,6 +50,12 @@ GCShader* GCGraphics::CreateShader(int type, std::wstring hlsl) {
     GCShader* shader = nullptr; // Initialisation de la variable shader à nullptr
 
     switch (type) {
+    default:
+    {
+        shader = new GCShader();
+        return shader;
+        break;
+    }
     case 0:
     {
         shader = new GCShaderColor();
@@ -72,13 +78,13 @@ GCShader* GCGraphics::CreateShader(int type, std::wstring hlsl) {
     }
     }
 
-    GCShader* parentShader = dynamic_cast<GCShader*>(shader);
-    if (parentShader != nullptr) {
-        return parentShader;
-    }
-    else {
-        return nullptr;
-    }
+    //GCShader* parentShader = dynamic_cast<GCShader*>(shader);
+    //if (parentShader != nullptr) {
+    //    return parentShader;
+    //}
+    //else {
+    //    return nullptr;
+    //}
 }
 
 GCMaterial* GCGraphics::CreateMaterial() {

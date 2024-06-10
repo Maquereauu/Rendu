@@ -53,7 +53,7 @@ public:
 	void PostDraw();
 	void Draw(const Timer& gt);
 
-	void DrawOneObject(GCMesh* pMesh, GCShader* pShader,GCTexture* pTexture, DirectX::XMFLOAT4X4 world);
+	bool DrawOneObject(GCMesh* pMesh, GCShader* pShader,GCTexture* pTexture, DirectX::XMFLOAT4X4 world);
 	//void BuildBoxGeometry();
 
 
@@ -88,7 +88,7 @@ public:
 public:
 	GCGraphics* m_pGraphicsManager;
 private:
-	DirectX::XMFLOAT4X4 mProj = MathHelper::Identity4x4();
+	DirectX::XMFLOAT4X4 m_Proj = MathHelper::Identity4x4();
 	Window* m_pWindow;
 	// Swap chain size
 	static const int SwapChainBufferCount = 2;

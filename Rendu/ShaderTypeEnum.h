@@ -1,5 +1,5 @@
 #pragma once
-typedef enum STEnum {
+enum STEnum {
 	color,
 	texture,
 	total
