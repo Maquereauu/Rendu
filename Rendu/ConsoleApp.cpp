@@ -24,7 +24,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 
 	PrimitiveFactory* primFact = new PrimitiveFactory();
 
-	GCGeometry* geo = primFact->BuildBoxGeometryColor();
+	GCGeometry* geo = primFact->BuildBoxGeometryTexture();
 
 	GCMesh* mesh = graphics->CreateMesh(geo);
 	GCShader* shader1 = graphics->CreateShader(STEnum::color, L"color");
@@ -34,7 +34,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	//material1->AddTexture("ahah", graphics);
 
 
-	//GCTexture* tex1 = graphics->CreateTexture("ahah");
+	GCTexture* tex1 = graphics->CreateTexture("ahah");
 
 	graphics->m_pRender->CloseCommandList();
 	graphics->m_pRender->ExecuteCommandList();
@@ -47,7 +47,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	//graphics->m_pRender->ResetCommandList();
 
 	graphics->m_pRender->PrepareDraw();
-	graphics->m_pRender->DrawOneObject(mesh, shader1, nullptr, MathHelper::Identity4x4());
+	graphics->m_pRender->DrawOneObject(mesh, shader2, tex1, MathHelper::Identity4x4());
 	graphics->m_pRender->PostDraw();
 
 	//GCRender* render = new GCRender();

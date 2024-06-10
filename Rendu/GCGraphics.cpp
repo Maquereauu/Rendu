@@ -25,7 +25,13 @@ void GCGraphics::Initialize(Window* window) {
 GCMesh* GCGraphics::CreateMesh(GCGeometry* pGeometry) {
     GCMesh* mesh = new GCMesh();
     mesh->Initialize(m_pRender);
-    mesh->UploadGeometryDataColor(pGeometry);
+    if(pGeometry->texC.size() == 0)        
+    {
+        mesh->UploadGeometryDataColor(pGeometry);
+    }
+    else {
+        mesh->UploadGeometryDataTexture(pGeometry);
+    }
     m_vMeshes.push_back(mesh);
     return mesh;
 }

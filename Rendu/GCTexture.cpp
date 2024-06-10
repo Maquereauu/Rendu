@@ -43,7 +43,7 @@ void GCTexture::Initialize(std::string fileName, GCGraphics* pGraphics)
 	ss << L"Textures/" << wideFileName << L".dds";
 	std::wstring Filename = ss.str();
 
-	DirectX::CreateDDSTextureFromFile12(pGraphics->m_pRender->Getmd3dDevice(), pGraphics->m_pRender->GetCommandList(), Filename.c_str(), m_resource, m_uploadHeap);
+	DirectX::CreateDDSTextureFromFile12(pGraphics->m_pRender->Getmd3dDevice(), pGraphics->m_pRender->GetCommandList(), Filename.c_str(), &m_resource, &m_uploadHeap);
 	//if (Resource == nullptr)
 	//	return false;
 
