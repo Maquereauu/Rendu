@@ -84,10 +84,11 @@ public:
 	UINT GetRtvDescriptorSize() const { return m_rtvDescriptorSize; }
 	UINT GetDsvDescriptorSize() const { return m_dsvDescriptorSize; }
 	UINT GetCbvSrvUavDescriptorSize() const { return m_cbvSrvUavDescriptorSize; }
+	GCGraphics* GetGraphics() const { return m_pGraphicsManager; }
 	//GCGraphics* graphicsManager;
 public:
-	GCGraphics* m_pGraphicsManager;
 private:
+	GCGraphics* m_pGraphicsManager;
 	DirectX::XMFLOAT4X4 m_Proj = MathHelper::Identity4x4();
 	Window* m_pWindow;
 	// Swap chain size
@@ -121,7 +122,7 @@ private:
 
 
 	// State var
-	bool m_canResize;
+	bool m_canResize = true;
 	int m_CurrBackBuffer = 0;
 
 	// Format

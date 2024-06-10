@@ -1,12 +1,4 @@
-//#include <iostream>
 #include "framework.h"
-
-//void DebugOutput(const std::string& message)
-//{
-//	OutputDebugString(L"Salut");
-//	OutputDebugString(L"\n");
-//}
-
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
@@ -20,10 +12,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	GCGraphics* graphics = new GCGraphics();
 	graphics->Initialize(window);
 
-	graphics->m_pRender->ResetCommandList();
+	graphics->GetRender()->ResetCommandList();
 
 	GCModelParserObj* ModelParser = new GCModelParserObj();
-	ModelParser->Initialize(graphics->m_pRender, "monkeyUv.obj");
+	ModelParser->Initialize(graphics->GetRender(), "monkeyUv.obj");
 	ModelParser->ParseObj();
 	PrimitiveFactory* primFact = new PrimitiveFactory();
 
@@ -41,14 +33,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 
 	GCTexture* tex1 = graphics->CreateTexture("texture");
 
-	graphics->m_pRender->CloseCommandList();
-	graphics->m_pRender->ExecuteCommandList();
+	graphics->GetRender()->CloseCommandList();
+	graphics->GetRender()->ExecuteCommandList();
 
-	graphics->m_pRender->PrepareDraw();
-	graphics->m_pRender->DrawOneObject(mesh1, shader2, tex1, MathHelper::Identity4x4());
-	graphics->m_pRender->PostDraw();
+	graphics->GetRender()->PrepareDraw();
+	graphics->GetRender()->DrawOneObject(mesh1, shader2, tex1, MathHelper::Identity4x4());
+	graphics->GetRender()->PostDraw();
 
-	window->Run(graphics->m_pRender);
+	window->Run(graphics->GetRender());
 
 }
 

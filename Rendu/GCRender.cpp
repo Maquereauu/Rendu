@@ -260,7 +260,9 @@ void GCRender::CreateRtvAndDsvDescriptorHeaps()
 // RESIZE
 void GCRender::OnResize() {
 	// Vérification des conditions initiales.
-	if (m_canResize == false) return;
+	m_canResize = true;
+	if (m_canResize == false)
+		return;
 	assert(m_d3dDevice);
 	assert(m_SwapChain);
 	assert(m_DirectCmdListAlloc);
@@ -457,7 +459,7 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 	D3D12_INDEX_BUFFER_VIEW indexBufferView = pMesh->GetBoxGeometry()->IndexBufferView();
 	m_CommandList->IASetIndexBuffer(&indexBufferView);
 
-	if (pShader->m_Type == STEnum::texture)
+	if (pShader->GetType() == STEnum::texture)
 	{
 		if(pTexture)
 		{
@@ -483,7 +485,7 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 	ObjectConstants objConstants;
 	XMStoreFloat4x4(&objConstants.WorldViewProj, XMMatrixTranspose(worldViewProj));
 	m_Buffer->CopyData(0, objConstants);
-	m_CommandList->SetGraphicsRootConstantBufferView(pShader->m_Type == STEnum::texture ? 1 : 0, m_Buffer->Resource()->GetGPUVirtualAddress());
+	m_CommandList->SetGraphicsRootConstantBufferView(pShader->GetType() == STEnum::texture ? 1 : 0, m_Buffer->Resource()->GetGPUVirtualAddress());
 
 	m_CommandList->DrawIndexedInstanced(pMesh->GetBoxGeometry()->DrawArgs["mesh"].IndexCount, 1, 0, 0, 0);
 	return true;
@@ -565,56 +567,6 @@ ID3D12Device* GCRender::Getmd3dDevice()
 
 
 // LOG 
-
-//void GCRender::LogAdapters()
-//{
-//	UINT i = 0;
-//	IDXGIAdapter* adapter = nullptr;
-//	std::vector<IDXGIAdapter*> adapterList;
-//	while (m_dxgiFactory->EnumAdapters(i, &adapter) != DXGI_ERROR_NOT_FOUND)
-//	{
-//		DXGI_ADAPTER_DESC desc;
-//		adapter->GetDesc(&desc);
-//
-//		std::wstring text = L"***Adapter: ";
-//		text += desc.Description;
-//		text += L"\n";
-//
-//		OutputDebugString(text.c_str());
-//
-//		adapterList.push_back(adapter);
-//
-//		++i;
-//	}
-//
-//	for (size_t i = 0; i < adapterList.size(); ++i)
-//	{
-//		LogAdapterOutputs(adapterList[i]);
-//		ReleaseCom(adapterList[i]);
-//	}
-//}
-//
-//void GCRender::LogAdapterOutputs(IDXGIAdapter* adapter)
-//{
-//	UINT i = 0;
-//	IDXGIOutput* output = nullptr;
-//	while (adapter->EnumOutputs(i, &output) != DXGI_ERROR_NOT_FOUND)
-//	{
-//		DXGI_OUTPUT_DESC desc;
-//		output->GetDesc(&desc);
-//
-//		std::wstring text = L"***Output: ";
-//		text += desc.DeviceName;
-//		text += L"\n";
-//		OutputDebugString(text.c_str());
-//
-//		LogOutputDisplayModes(output, m_BackBufferFormat);
-//
-//		ReleaseCom(output);
-//
-//		++i;
-//	}
-//}
 
 void GCRender::LogOutputDisplayModes(IDXGIOutput* output, DXGI_FORMAT format)
 {

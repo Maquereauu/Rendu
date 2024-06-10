@@ -21,11 +21,13 @@ public:
 	void Render();
 
 	//void Render(Mesh* mesh, Material* material, matrix);
-
+	int GetType() const { return m_Type; }
+	void SetType(int type) {
+		m_Type = type;
+	}
 private:
 	ID3D12RootSignature* m_RootSignature = nullptr;
 	ID3D12PipelineState* m_PSO = nullptr;
-public:
 	int m_Type;
 
 protected:

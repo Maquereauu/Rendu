@@ -105,6 +105,10 @@ bool Window::Initialize()
 	return true;
 }
 
+void Window::OnResize() {
+	//m_pRender->OnResize();
+}
+
 
 LRESULT Window::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {

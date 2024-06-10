@@ -8,41 +8,7 @@ GCMesh::~GCMesh() {
 
 void GCMesh::Initialize(GCRender* pRender) {
     m_pRender = pRender;
-    //CreateboxGeometry();
-    //CreateBoxGeometryTexture();
-    //CreateObjGeometryTexture();
-    //CreateObjGeometryColor();
 }
-
-//void GCMesh::CreatePrimitiveGeometry(int id) {
-//    switch (id) {
-//    case PIEnum::BoxColor: {
-//        CreateboxGeometry(id);
-//        break;
-//    }
-//
-//    case PIEnum::BoxTexture: {
-//        CreateBoxGeometryTexture(id);
-//        break;
-//    }
-//
-//    case PIEnum::PlaneTexture: {
-//        CreateBoxGeometryTexture(id);
-//        break;
-//    }
-//    }
-//}
-//
-//void GCMesh::CreateObjGeometry(std::wstring obj, bool isTextured)
-//{
-//    if (isTextured)
-//    {
-//        CreateObjGeometryTexture(obj);
-//    }
-//    else {
-//        CreateObjGeometryColor(obj);
-//    }
-//}
 
 void GCMesh::UploadGeometryDataColor(GCGeometry* pGeometry) {
     m_boxGeo = new MeshGeometry();
@@ -88,7 +54,6 @@ void GCMesh::UploadGeometryDataColor(GCGeometry* pGeometry) {
 
 }
 
-
 void GCMesh::UploadGeometryDataTexture(GCGeometry* pGeometry) {
     std::vector<GCVERTEXTEXTURE> vertices = {};
     for (int i = 0; i < pGeometry->texC.size(); i++) {
@@ -131,103 +96,7 @@ void GCMesh::UploadGeometryDataTexture(GCGeometry* pGeometry) {
     m_boxGeo->DrawArgs["mesh"] = submesh;
 }
 
-/*
-void GCMesh::CreateboxGeometry(int id)
-{
-    PrimitiveFactory* factory = new PrimitiveFactory();
-    factory->Initialize(id, m_pRender);
-    m_pGeometry = factory->BuildGeometryColor();
-
-    UploadGeometryDataColor();
-
-    m_pGeometry->boxGeo->DrawArgs["box"] = m_pGeometry->submesh;
-}
-
-void GCMesh::CreateBoxGeometryTexture(int id)
-{
-    PrimitiveFactory* factory = new PrimitiveFactory();
-    factory->Initialize(id, m_pRender);
-
-    m_pGeometry = factory->BuildGeometryTexture();
-    UploadGeometryDataTexture();
-
-    m_pGeometry->boxGeo->DrawArgs["box"] = m_pGeometry->submesh;
-
-
-}
-//
-void GCMesh::CreateObjGeometryColor(std::wstring obj)
-{
-    ModelParserObj* objParser = new ModelParserObj();
-    objParser->Initialize(m_pRender, obj);
-    objParser->ParseObj();
-    m_pGeometry = objParser->BuildObjColor();
-
-    UploadGeometryDataColor();
-
-    m_pGeometry->boxGeo->DrawArgs["box"] = m_pGeometry->submesh;
-
-}
-
-void GCMesh::CreateObjGeometryTexture(std::wstring obj)
-{
-    ModelParserObj* objParser = new ModelParserObj();
-    objParser->Initialize(m_pRender, obj);
-    objParser->ParseObj();
-    m_pGeometry = objParser->BuildObjTexture();
-
-    UploadGeometryDataTexture();
-
-    m_pGeometry->boxGeo->DrawArgs["box"] = m_pGeometry->submesh;
-}*/
-
-
-
 MeshGeometry* GCMesh::GetBoxGeometry()
 {
     return m_boxGeo;
 }
-
-//GCGEOMETRYTEXTURE* GCMesh::GetGeometryTexture()
-//{
-//	return m_boxGeometryTexture;
-//}
-
-
-
-
-//void GCMesh::Render() {
-//
-//
-//
-//
-//    //m_pRender->GetCommandList()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-//    //D3D12_VERTEX_BUFFER_VIEW vertexBufferView = m_boxGeometry->boxGeo->VertexBufferView();
-//    //m_pRender->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView);
-//    //D3D12_INDEX_BUFFER_VIEW indexBufferView = m_boxGeometry->boxGeo->IndexBufferView();
-//    //m_pRender->GetCommandList()->IASetIndexBuffer(&indexBufferView);
-//
-//    //OutputDebugString(L"Set index buffer");
-//
-//    //DirectX::XMFLOAT3 pos1 = { 0.f, 0.f, 0.f };
-//    //DirectX::XMVECTOR pos = DirectX::XMVectorSet(10, 10, 10, 1.0f);
-//    //DirectX::XMVECTOR target = DirectX::XMVectorZero();
-//    //DirectX::XMVECTOR up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-//
-//    //DirectX::XMMATRIX view = DirectX::XMMatrixLookAtLH(pos, target, up);
-//    //DirectX::XMFLOAT4X4 MId = MathHelper::Identity4x4();
-//    //DirectX::XMMATRIX world = DirectX::XMLoadFloat4x4(&MId);
-//    //DirectX::XMMATRIX proj = DirectX::XMLoadFloat4x4(&mProj);
-//    //DirectX::XMMATRIX worldViewProj = world * view * proj;
-//
-//    //m_Buffer = std::make_unique<UploadBuffer<ObjectConstants>>(m_pRender->Getmd3dDevice(), 1, true);
-//    //ObjectConstants objConstants;
-//    //XMStoreFloat4x4(&objConstants.WorldViewProj, XMMatrixTranspose(worldViewProj));
-//    //m_Buffer->CopyData(0, objConstants);
-//    //m_pRender->GetCommandList()->SetGraphicsRootConstantBufferView(0, m_Buffer->Resource()->GetGPUVirtualAddress());
-//
-//    //m_pRender->GetCommandList()->DrawIndexedInstanced(m_boxGeometry->boxGeo->DrawArgs["box"].IndexCount, 1, 0, 0, 0);
-//
-//
-//
-//}

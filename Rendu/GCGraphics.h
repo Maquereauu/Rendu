@@ -22,7 +22,10 @@ public:
 	std::vector<GCMesh*> GetMeshes();
 	std::vector<GCTexture*> GetTextures();
 
+	GCRender* GetRender() const { return m_pRender; }
+	int GetTexId() const { return m_textureId; }
 
+private:
 	// Render instance contain Window
 	GCRender* m_pRender;
 
@@ -36,8 +39,6 @@ public:
 	std::vector<GCShader*> m_vShaders;
 	std::vector<GCMaterial*> m_vMaterials;
 	std::vector<GCMesh*> m_vMeshes;
-
-private:
 
 
 
