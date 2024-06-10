@@ -81,7 +81,7 @@ int Window::Run(GCRender* pRender)
 			//if (!mAppPaused)
 			{
 				CalculateFrameStats();
-				pRender->Draw(mTimer);
+				//pRender->Draw(mTimer);
 				//Update(mTimer);
 				//Draw(mTimer);
 			}

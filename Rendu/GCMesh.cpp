@@ -45,7 +45,7 @@ void GCMesh::Initialize(GCRender* pRender) {
 //}
 
 void GCMesh::UploadGeometryDataColor(GCGeometry* pGeometry) {
-
+    m_boxGeo = new MeshGeometry();
     std::vector<GCVERTEX> vertices = {};
     for (int i = 0; i < pGeometry->pos.size(); i++) {
         vertices.push_back({ pGeometry->pos[i], pGeometry->color[i] });
@@ -53,27 +53,27 @@ void GCMesh::UploadGeometryDataColor(GCGeometry* pGeometry) {
     const UINT vbByteSize = static_cast<UINT>(vertices.size() * sizeof(GCVERTEX) );
     const UINT ibByteSize = static_cast<UINT>(pGeometry->indices.size() * sizeof(std::uint16_t));
 
-    pGeometry->boxGeo = new MeshGeometry();
-    pGeometry->boxGeo->Name = "boxGeo";
+    //m_boxGeo = new MeshGeometry();
+    m_boxGeo->Name = "boxGeo";
 
-    ThrowIfFailed(D3DCreateBlob(vbByteSize, &pGeometry->boxGeo->VertexBufferCPU));
+    ThrowIfFailed(D3DCreateBlob(vbByteSize, &m_boxGeo->VertexBufferCPU));
 
-    CopyMemory(pGeometry->boxGeo->VertexBufferCPU->GetBufferPointer(), vertices.data(), vbByteSize);
+    CopyMemory(m_boxGeo->VertexBufferCPU->GetBufferPointer(), vertices.data(), vbByteSize);
 
-    ThrowIfFailed(D3DCreateBlob(ibByteSize, &pGeometry->boxGeo->IndexBufferCPU));
+    ThrowIfFailed(D3DCreateBlob(ibByteSize, &m_boxGeo->IndexBufferCPU));
 
-    CopyMemory(pGeometry->boxGeo->IndexBufferCPU->GetBufferPointer(), pGeometry->indices.data(), ibByteSize);
+    CopyMemory(m_boxGeo->IndexBufferCPU->GetBufferPointer(), pGeometry->indices.data(), ibByteSize);
 
 
-    pGeometry->boxGeo->VertexBufferGPU = d3dUtil::CreateDefaultBuffer(m_pRender->Getmd3dDevice(),
-        m_pRender->GetCommandList(), vertices.data(), vbByteSize, pGeometry->boxGeo->VertexBufferUploader);
-    pGeometry->boxGeo->IndexBufferGPU = d3dUtil::CreateDefaultBuffer(m_pRender->Getmd3dDevice(),
-        m_pRender->GetCommandList(), pGeometry->indices.data(), ibByteSize, pGeometry->boxGeo->IndexBufferUploader);
+    m_boxGeo->VertexBufferGPU = d3dUtil::CreateDefaultBuffer(m_pRender->Getmd3dDevice(),
+        m_pRender->GetCommandList(), vertices.data(), vbByteSize, m_boxGeo->VertexBufferUploader);
+    m_boxGeo->IndexBufferGPU = d3dUtil::CreateDefaultBuffer(m_pRender->Getmd3dDevice(),
+        m_pRender->GetCommandList(), pGeometry->indices.data(), ibByteSize, m_boxGeo->IndexBufferUploader);
 
-    pGeometry->boxGeo->VertexByteStride = sizeof(GCVERTEX);
-    pGeometry->boxGeo->VertexBufferByteSize = vbByteSize;
-    pGeometry->boxGeo->IndexFormat = DXGI_FORMAT_R16_UINT;
-    pGeometry->boxGeo->IndexBufferByteSize = ibByteSize;
+    m_boxGeo->VertexByteStride = sizeof(GCVERTEX);
+    m_boxGeo->VertexBufferByteSize = vbByteSize;
+    m_boxGeo->IndexFormat = DXGI_FORMAT_R16_UINT;
+    m_boxGeo->IndexBufferByteSize = ibByteSize;
 
     // Initialize submesh
     SubmeshGeometry submesh;
@@ -82,7 +82,7 @@ void GCMesh::UploadGeometryDataColor(GCGeometry* pGeometry) {
     submesh.BaseVertexLocation = 0;
 
     // Assign submesh to box geometry
-    //pGeometry->submesh = submesh;
+    //pGeometry->submesh = submesh;   
 
     m_boxGeo->DrawArgs["mesh"] = submesh;
 
@@ -98,27 +98,27 @@ void GCMesh::UploadGeometryDataTexture(GCGeometry* pGeometry) {
     const UINT vbByteSize = static_cast<UINT>(vertices.size() * sizeof(GCVERTEXTEXTURE));
     const UINT ibByteSize = static_cast<UINT>(pGeometry->indices.size() * sizeof(std::uint16_t));
 
-    pGeometry->boxGeo = new MeshGeometry();
-    pGeometry->boxGeo->Name = "boxGeo";
+    m_boxGeo = new MeshGeometry();
+    m_boxGeo->Name = "boxGeo";
 
-    ThrowIfFailed(D3DCreateBlob(vbByteSize, &pGeometry->boxGeo->VertexBufferCPU));
+    ThrowIfFailed(D3DCreateBlob(vbByteSize, &m_boxGeo->VertexBufferCPU));
 
-    CopyMemory(pGeometry->boxGeo->VertexBufferCPU->GetBufferPointer(), vertices.data(), vbByteSize);
+    CopyMemory(m_boxGeo->VertexBufferCPU->GetBufferPointer(), vertices.data(), vbByteSize);
 
-    ThrowIfFailed(D3DCreateBlob(ibByteSize, &pGeometry->boxGeo->IndexBufferCPU));
+    ThrowIfFailed(D3DCreateBlob(ibByteSize, &m_boxGeo->IndexBufferCPU));
 
-    CopyMemory(pGeometry->boxGeo->IndexBufferCPU->GetBufferPointer(), pGeometry->indices.data(), ibByteSize);
+    CopyMemory(m_boxGeo->IndexBufferCPU->GetBufferPointer(), pGeometry->indices.data(), ibByteSize);
 
 
-    pGeometry->boxGeo->VertexBufferGPU = d3dUtil::CreateDefaultBuffer(m_pRender->Getmd3dDevice(),
-        m_pRender->GetCommandList(), vertices.data(), vbByteSize, pGeometry->boxGeo->VertexBufferUploader);
-    pGeometry->boxGeo->IndexBufferGPU = d3dUtil::CreateDefaultBuffer(m_pRender->Getmd3dDevice(),
-        m_pRender->GetCommandList(), pGeometry->indices.data(), ibByteSize, pGeometry->boxGeo->IndexBufferUploader);
+    m_boxGeo->VertexBufferGPU = d3dUtil::CreateDefaultBuffer(m_pRender->Getmd3dDevice(),
+        m_pRender->GetCommandList(), vertices.data(), vbByteSize, m_boxGeo->VertexBufferUploader);
+    m_boxGeo->IndexBufferGPU = d3dUtil::CreateDefaultBuffer(m_pRender->Getmd3dDevice(),
+        m_pRender->GetCommandList(), pGeometry->indices.data(), ibByteSize, m_boxGeo->IndexBufferUploader);
 
-    pGeometry->boxGeo->VertexByteStride = sizeof(GCVERTEXTEXTURE);
-    pGeometry->boxGeo->VertexBufferByteSize = vbByteSize;
-    pGeometry->boxGeo->IndexFormat = DXGI_FORMAT_R16_UINT;
-    pGeometry->boxGeo->IndexBufferByteSize = ibByteSize;
+    m_boxGeo->VertexByteStride = sizeof(GCVERTEXTEXTURE);
+    m_boxGeo->VertexBufferByteSize = vbByteSize;
+    m_boxGeo->IndexFormat = DXGI_FORMAT_R16_UINT;
+    m_boxGeo->IndexBufferByteSize = ibByteSize;
 
     // Initialize submesh
     SubmeshGeometry submesh;

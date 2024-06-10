@@ -12,7 +12,7 @@ public:
 	std::vector<DirectX::XMFLOAT4> color;
 	std::vector<DirectX::XMFLOAT2> texC;
 	SubmeshGeometry submesh;
-	MeshGeometry* boxGeo;
+	//MeshGeometry* boxGeo;
 };
 
 

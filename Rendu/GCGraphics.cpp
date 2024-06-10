@@ -25,7 +25,7 @@ void GCGraphics::Initialize(Window* window) {
 GCMesh* GCGraphics::CreateMesh(GCGeometry* pGeometry) {
     GCMesh* mesh = new GCMesh();
     mesh->Initialize(m_pRender);
-    mesh->m_boxGeo = pGeometry->boxGeo;
+    mesh->UploadGeometryDataColor(pGeometry);
     m_vMeshes.push_back(mesh);
     return mesh;
 }

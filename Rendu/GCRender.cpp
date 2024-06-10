@@ -429,12 +429,12 @@ void GCRender::PrepareDraw() {
 }
 
 void GCRender::Draw(const Timer& gt) {
-	PrepareDraw();
+	//PrepareDraw();
 
-	//DrawOneObject(m_pGraphicsManager->GetMeshes()[0], m_pGraphicsManager->GetShaders()[0]);
+	////DrawOneObject(m_pGraphicsManager->GetMeshes()[0], m_pGraphicsManager->GetShaders()[0]);
 
 
-	PostDraw();
+	//PostDraw();
 }
 
 
