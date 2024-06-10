@@ -1,12 +1,4 @@
-//#include <iostream>
 #include "framework.h"
-
-//void DebugOutput(const std::string& message)
-//{
-//	OutputDebugString(L"Salut");
-//	OutputDebugString(L"\n");
-//}
-
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
@@ -20,14 +12,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	GCGraphics* graphics = new GCGraphics();
 	graphics->Initialize(window);
 
-	graphics->m_pRender->ResetCommandList();
+	graphics->GetRender()->ResetCommandList();
 
 	GCModelParserObj* ModelParser = new GCModelParserObj();
-	ModelParser->Initialize(graphics->m_pRender, "monkeyUv.obj");
+	ModelParser->Initialize(graphics->GetRender(), "monkeyUv.obj");
 	ModelParser->ParseObj();
 	PrimitiveFactory* primFact = new PrimitiveFactory();
 
-	GCGeometry* geo = primFact->BuildBoxGeometryTexture();
+	GCGeometry* geo = primFact->BuildBoxGeometryColor();
 	GCGeometry* geo1 = ModelParser->BuildObjTexture();
 
 	GCMesh* mesh = graphics->CreateMesh(geo);
@@ -38,28 +30,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	//GCMaterial* material1 = graphics->CreateMaterial();
 	//material1->AddTexture("ahah", graphics);
 
-
 	GCTexture* tex1 = graphics->CreateTexture("texture");
 
-	graphics->m_pRender->CloseCommandList();
-	graphics->m_pRender->ExecuteCommandList();
+	graphics->GetRender()->CloseCommandList();
+	graphics->GetRender()->ExecuteCommandList();
+	DirectX::XMFLOAT4X4 I(
+		0.5f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.5f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+	graphics->GetRender()->PrepareDraw();
+	graphics->GetRender()->DrawOneObject(mesh1, shader2, tex1, MathHelper::Identity4x4());
+	graphics->GetRender()->DrawOneObject(mesh, shader1, nullptr, I);
+	graphics->GetRender()->PostDraw();
 
-	//graphics->m_pRender->ResetCommandList();
-	//graphics->m_pRender->CloseCommandList();
-	//graphics->m_pRender->ExecuteCommandList();
-
-
-	//graphics->m_pRender->ResetCommandList();
-
-	graphics->m_pRender->PrepareDraw();
-	graphics->m_pRender->DrawOneObject(mesh1, shader2, tex1, MathHelper::Identity4x4());
-	graphics->m_pRender->PostDraw();
-
-	//GCRender* render = new GCRender();
-	////SetRender(render);
-	//render->Initialize();
-
-	window->Run(graphics->m_pRender);
+	window->Run(graphics->GetRender());
 
 }
 

@@ -4,36 +4,23 @@
 GCTexture::GCTexture()
 {
 	GCRender r;
-
-	// 
 	SrvHeapIndex = 0;
-	//m_namePath = "";
-
-
 	m_textureBuffer = nullptr;
 	m_uploadTexture = nullptr;
-
-	// Texture offset for GPU ? 
-
-	//m_textureAdress = nullptr;
 }
 
 GCTexture::~GCTexture()
 {
-	// 
 	delete m_textureBuffer;
 	delete m_uploadTexture;
-
-
 }
 
 
-void GCTexture::Initialize(std::string fileName, GCGraphics* pGraphics)
+bool GCTexture::Initialize(std::string fileName, GCGraphics* pGraphics)
 {
-	//GetEngine()->mCommandList->Reset(GetEngine()->mDirectCmdListAlloc, GetEngine()->graphicManager->mShaders[1]->mPSO);
-		//to do for gianni mcommandelist
-	m_haepDescSize = pGraphics->m_pRender->Getmd3dDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	m_CbvSrvUavDescriptorSize = pGraphics->m_pRender->Getmd3dDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	m_haepDescSize = pGraphics->GetRender()->Getmd3dDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	m_CbvSrvUavDescriptorSize = pGraphics->GetRender()->Getmd3dDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
 	// Texture resource
 	std::string Name = "ahah";
 	std::wstring wideFileName(fileName.begin(), fileName.end());
@@ -43,13 +30,13 @@ void GCTexture::Initialize(std::string fileName, GCGraphics* pGraphics)
 	ss << L"Textures/" << wideFileName << L".dds";
 	std::wstring Filename = ss.str();
 
-	DirectX::CreateDDSTextureFromFile12(pGraphics->m_pRender->Getmd3dDevice(), pGraphics->m_pRender->GetCommandList(), Filename.c_str(), &m_resource, &m_uploadHeap);
-	//if (Resource == nullptr)
-	//	return false;
+	DirectX::CreateDDSTextureFromFile12(pGraphics->GetRender()->Getmd3dDevice(), pGraphics->GetRender()->GetCommandList(), Filename.c_str(), &m_resource, &m_uploadHeap);
+	if (m_resource == nullptr || m_uploadHeap == nullptr)
+		return false;
 
 	// Heap
-	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(pGraphics->m_pRender->GetCbvSrvUavSrvDescriptorHeap()->GetCPUDescriptorHandleForHeapStart());
-	hDescriptor.Offset(pGraphics->m_pRender->m_pGraphicsManager->m_textureId, m_haepDescSize);
+	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(pGraphics->GetRender()->GetCbvSrvUavSrvDescriptorHeap()->GetCPUDescriptorHandleForHeapStart());
+	hDescriptor.Offset(pGraphics->GetTexId(), m_haepDescSize);
 
 	// Desc texture
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
@@ -59,13 +46,14 @@ void GCTexture::Initialize(std::string fileName, GCGraphics* pGraphics)
 	srvDesc.Texture2D.MostDetailedMip = 0;
 	srvDesc.Texture2D.MipLevels = m_resource->GetDesc().MipLevels;
 	srvDesc.Texture2D.ResourceMinLODClamp = 0.0f;
-	pGraphics->m_pRender->Getmd3dDevice()->CreateShaderResourceView(m_resource, &srvDesc, hDescriptor);
+	pGraphics->GetRender()->Getmd3dDevice()->CreateShaderResourceView(m_resource, &srvDesc, hDescriptor);
 	//getGPU pour les dessiner	
 	// Manager
 
-	m_HDescriptorGPU = CD3DX12_GPU_DESCRIPTOR_HANDLE(pGraphics->m_pRender->GetCbvSrvUavSrvDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
-	m_HDescriptorGPU.Offset(pGraphics->m_pRender->m_pGraphicsManager->m_textureId, m_haepDescSize);
-
+	m_HDescriptorGPU = CD3DX12_GPU_DESCRIPTOR_HANDLE(pGraphics->GetRender()->GetCbvSrvUavSrvDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
+	m_HDescriptorGPU.Offset(pGraphics->GetTexId(), m_haepDescSize);
+	return true;
+	
 }
 
 void GCTexture::Render() {

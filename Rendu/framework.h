@@ -39,7 +39,8 @@
 #include <wrl/client.h>
 #include <WindowsX.h>
 
-class GCGeometry;
+struct GCGeometry;
+
 class GCGraphics;
 class GCMaterial;
 class GCMesh;

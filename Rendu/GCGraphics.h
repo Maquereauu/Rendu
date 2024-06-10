@@ -16,13 +16,21 @@ public:
 	GCMaterial* CreateMaterial();
 	GCMesh* CreateMesh(GCGeometry* pGeometry);
 	GCTexture* CreateTexture(std::string fileName);
+	//Delete
+	void DeleteShader(GCShader* pShader);
+	void DeleteMaterial(GCMaterial* pMaterial);
+	void DeleteMesh(GCMesh* pMesh);
+	void DeleteTexture(GCTexture* pTexture);
 	//// Resources Manager
 	std::vector<GCShader*> GetShaders();
 	std::vector<GCMaterial*> GetMaterials();
 	std::vector<GCMesh*> GetMeshes();
 	std::vector<GCTexture*> GetTextures();
 
+	GCRender* GetRender() const { return m_pRender; }
+	int GetTexId() const { return m_textureId; }
 
+private:
 	// Render instance contain Window
 	GCRender* m_pRender;
 
@@ -36,8 +44,6 @@ public:
 	std::vector<GCShader*> m_vShaders;
 	std::vector<GCMaterial*> m_vMaterials;
 	std::vector<GCMesh*> m_vMeshes;
-
-private:
 
 
 

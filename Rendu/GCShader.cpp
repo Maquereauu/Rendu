@@ -85,12 +85,12 @@ void GCShader::RootSign() {
 	{
 		::OutputDebugStringA((char*)errorBlob->GetBufferPointer());
 	}
-	ThrowIfFailed(hr);
-	ThrowIfFailed(m_pRender->Getmd3dDevice()->CreateRootSignature(
+	//hr;
+	m_pRender->Getmd3dDevice()->CreateRootSignature(
 		0,
 		serializedRootSig->GetBufferPointer(),
 		serializedRootSig->GetBufferSize(),
-		IID_PPV_ARGS(&m_RootSignature)));
+		IID_PPV_ARGS(&m_RootSignature));
 }
 
 void GCShader::Pso() {
@@ -136,7 +136,7 @@ void GCShader::Pso() {
 	psoDesc.DSVFormat = m_pRender->GetDepthStencilFormat();
 
 	// Create the graphics pipeline state
-	ThrowIfFailed(m_pRender->Getmd3dDevice()->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&m_PSO)));
+	m_pRender->Getmd3dDevice()->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&m_PSO));
 }
 
 
@@ -159,3 +159,30 @@ ID3DBlob* GCShader::GetmpsByteCode()
 {
 	return m_psByteCode;
 };
+
+
+ID3DBlob* GCShader::CompileShaderBase(
+	const std::wstring& filename,
+	const D3D_SHADER_MACRO* defines,
+	const std::string& entrypoint,
+	const std::string& target)
+{
+	UINT compileFlags = 0;
+#if defined(DEBUG) || defined(_DEBUG)  
+	compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+#endif
+
+	HRESULT hr = S_OK;
+
+	ID3DBlob* byteCode = nullptr;
+	ID3DBlob* errors;
+	hr = D3DCompileFromFile(filename.c_str(), defines, D3D_COMPILE_STANDARD_FILE_INCLUDE,
+		entrypoint.c_str(), target.c_str(), compileFlags, 0, &byteCode, &errors);
+
+	if (errors != nullptr)
+		OutputDebugStringA((char*)errors->GetBufferPointer());
+
+	//hr;
+
+	return byteCode;
+}

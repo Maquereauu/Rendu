@@ -28,7 +28,7 @@ public:
 
 private:
 
-    virtual void OnResize() { }
+    void OnResize();
 
     bool InitMainWindow();
 
@@ -59,5 +59,5 @@ private:
     std::wstring mMainWndCaption = L"Rendu";
 
 
-    GCRender* m_pRender;
+    //GCRender* m_pRender;
 };

@@ -1,6 +1,7 @@
 #include "framework.h"
 
 PrimitiveFactory::PrimitiveFactory() {
+	m_pRender = nullptr;
 }
 
 PrimitiveFactory::~PrimitiveFactory() {

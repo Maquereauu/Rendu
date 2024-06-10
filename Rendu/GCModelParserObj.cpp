@@ -48,11 +48,18 @@ void GCModelParserObj::Initialize(GCRender* pRender, std::string fileName)
 	m_fileName = fileName;
 }
 
-void GCModelParserObj::ParseObj()
+bool GCModelParserObj::ParseObj()
 {
 
 	std::ifstream objFile(m_fileName);
 	std::string line;
+
+	if (objFile) {
+
+	}
+	else {
+		return false;
+	}
 
 	while (!objFile.eof()) {
 
@@ -127,7 +134,7 @@ void GCModelParserObj::ParseObj()
 		}
 	}
 
-
+	return true;
 }
 
 

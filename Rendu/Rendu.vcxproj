@@ -148,7 +148,6 @@
     <ClInclude Include="header.h" />
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="PrimitiveTypeEnum.h" />
-    <ClInclude Include="Rendu.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ShaderTypeEnum.h" />
     <ClInclude Include="targetver.h" />
@@ -175,7 +174,6 @@
     <ClCompile Include="GCGeometry.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="MathHelper.cpp" />
-    <ClCompile Include="Rendu.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>

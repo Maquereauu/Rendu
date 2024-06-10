@@ -6,7 +6,7 @@ public:
 	GCTexture();
 	~GCTexture();
 
-	void Initialize(std::string fileName, GCGraphics* pGraphics);
+	bool Initialize(std::string fileName, GCGraphics* pGraphics);
 
 	void Render();
 public:
