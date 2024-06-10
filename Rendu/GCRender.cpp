@@ -22,7 +22,7 @@ bool GCRender::Initialize(GCGraphics* pGraphics,Window* pWindow) {
 
 
 void GCRender::ResetCommandList() {
-	ThrowIfFailed(m_CommandList->Reset(m_DirectCmdListAlloc, nullptr));
+	m_CommandList->Reset(m_DirectCmdListAlloc, nullptr);
 }
 
 void GCRender::ExecuteCommandList() {
@@ -31,7 +31,7 @@ void GCRender::ExecuteCommandList() {
 }
 
 void GCRender::CloseCommandList() {
-	ThrowIfFailed(m_CommandList->Close());
+	m_CommandList->Close();
 }
 
 
@@ -41,7 +41,7 @@ void GCRender::EnableDebugController() {
 	// Enable the D3D12 debug layer.
 	{
 		ID3D12Debug* debugController;
-		ThrowIfFailed(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)));
+		D3D12GetDebugInterface(IID_PPV_ARGS(&debugController));
 		debugController->EnableDebugLayer();
 	}
 #endif
@@ -53,7 +53,7 @@ bool GCRender::InitDirect3D()
 
 	EnableDebugController();
 
-	ThrowIfFailed(CreateDXGIFactory1(IID_PPV_ARGS(&m_dxgiFactory)));
+	CreateDXGIFactory1(IID_PPV_ARGS(&m_dxgiFactory));
 
 	// Try to create hardware device.
 	HRESULT hardwareResult = D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&m_d3dDevice));
@@ -62,16 +62,16 @@ bool GCRender::InitDirect3D()
 	if (FAILED(hardwareResult))
 	{
 		IDXGIAdapter* pWarpAdapter;
-		ThrowIfFailed(m_dxgiFactory->EnumWarpAdapter(IID_PPV_ARGS(&pWarpAdapter)));
+		m_dxgiFactory->EnumWarpAdapter(IID_PPV_ARGS(&pWarpAdapter));
 
-		ThrowIfFailed(D3D12CreateDevice(
+		D3D12CreateDevice(
 			pWarpAdapter,
 			D3D_FEATURE_LEVEL_11_0,
-			IID_PPV_ARGS(&m_d3dDevice)));
+			IID_PPV_ARGS(&m_d3dDevice));
 	}
 
-	ThrowIfFailed(m_d3dDevice->CreateFence(0, D3D12_FENCE_FLAG_NONE,
-		IID_PPV_ARGS(&m_Fence)));
+	m_d3dDevice->CreateFence(0, D3D12_FENCE_FLAG_NONE,
+		IID_PPV_ARGS(&m_Fence));
 
 	m_rtvDescriptorSize = m_d3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	m_dsvDescriptorSize = m_d3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
@@ -82,10 +82,10 @@ bool GCRender::InitDirect3D()
 	msQualityLevels.SampleCount = 4;
 	msQualityLevels.Flags = D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_NONE;
 	msQualityLevels.NumQualityLevels = 0;
-	ThrowIfFailed(m_d3dDevice->CheckFeatureSupport(
+	m_d3dDevice->CheckFeatureSupport(
 		D3D12_FEATURE_MULTISAMPLE_QUALITY_LEVELS,
 		&msQualityLevels,
-		sizeof(msQualityLevels)));
+		sizeof(msQualityLevels));
 
 	m_4xMsaaQuality = msQualityLevels.NumQualityLevels;
 	assert(m_4xMsaaQuality > 0 && "Unexpected MSAA quality level.");
@@ -166,18 +166,18 @@ void GCRender::CreateCommandObjects()
 	D3D12_COMMAND_QUEUE_DESC queueDesc = {};
 	queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
 	queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
-	ThrowIfFailed(m_d3dDevice->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&m_CommandQueue)));
+	m_d3dDevice->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&m_CommandQueue));
 
-	ThrowIfFailed(m_d3dDevice->CreateCommandAllocator(
+	m_d3dDevice->CreateCommandAllocator(
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
-		IID_PPV_ARGS(&m_DirectCmdListAlloc)));
+		IID_PPV_ARGS(&m_DirectCmdListAlloc));
 
-	ThrowIfFailed(m_d3dDevice->CreateCommandList(
+	m_d3dDevice->CreateCommandList(
 		0,
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
 		m_DirectCmdListAlloc, // Associated command allocator
 		nullptr,                   // Initial PipelineStateObject
-		IID_PPV_ARGS(&m_CommandList)));
+		IID_PPV_ARGS(&m_CommandList));
 
 	// Start off in a closed state.  This is because the first time we refer 
 	// to the command list we will Reset it, and it needs to be closed before
@@ -216,10 +216,10 @@ void GCRender::CreateSwapChain()
 	sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
 	// Note: Swap chain uses queue to perform flush.
-	ThrowIfFailed(m_dxgiFactory->CreateSwapChain(
+	m_dxgiFactory->CreateSwapChain(
 		m_CommandQueue,
 		&sd,
-		&m_SwapChain));
+		&m_SwapChain);
 }
 
 
@@ -232,7 +232,7 @@ void GCRender::CreateCbvSrvUavDescriptorHeaps() {
 	cbvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	cbvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 	cbvHeapDesc.NodeMask = 0;
-	ThrowIfFailed(m_d3dDevice->CreateDescriptorHeap(&cbvHeapDesc, IID_PPV_ARGS(&m_cbvSrvUavDescriptorHeap)));
+	m_d3dDevice->CreateDescriptorHeap(&cbvHeapDesc, IID_PPV_ARGS(&m_cbvSrvUavDescriptorHeap));
 
 	//m_cbvSrvUavDescriptorSize = m_d3dDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 }
@@ -244,7 +244,7 @@ void GCRender::CreateRtvAndDsvDescriptorHeaps()
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 	rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
 	rtvHeapDesc.NodeMask = 0;
-	ThrowIfFailed(m_d3dDevice->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&m_rtvHeap)));
+	m_d3dDevice->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&m_rtvHeap));
 
 
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc;
@@ -252,7 +252,7 @@ void GCRender::CreateRtvAndDsvDescriptorHeaps()
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
 	dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
 	dsvHeapDesc.NodeMask = 0;
-	ThrowIfFailed(m_d3dDevice->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&m_dsvHeap)));
+	m_d3dDevice->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&m_dsvHeap));
 }
 //
 
@@ -298,11 +298,11 @@ void GCRender::ReleasePreviousResources() {
 
 
 void GCRender::ResizeSwapChain() {
-	ThrowIfFailed(m_SwapChain->ResizeBuffers(
+	m_SwapChain->ResizeBuffers(
 		SwapChainBufferCount,
 		m_pWindow->GetClientWidth(), m_pWindow->GetClientHeight(),
 		m_BackBufferFormat,
-		DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH));
+		DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
 	m_CurrBackBuffer = 0;
 }
 
@@ -310,7 +310,7 @@ void GCRender::ResizeSwapChain() {
 void GCRender::CreateRenderTargetViews() {
 	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHeapHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart());
 	for (UINT i = 0; i < SwapChainBufferCount; i++) {
-		ThrowIfFailed(m_SwapChain->GetBuffer(i, IID_PPV_ARGS(&m_SwapChainBuffer[i])));
+		m_SwapChain->GetBuffer(i, IID_PPV_ARGS(&m_SwapChainBuffer[i]));
 		m_d3dDevice->CreateRenderTargetView(m_SwapChainBuffer[i], nullptr, rtvHeapHandle);
 		rtvHeapHandle.Offset(1, m_rtvDescriptorSize);
 	}
@@ -337,13 +337,13 @@ void GCRender::CreateDepthStencilBufferAndView() {
 	optClear.DepthStencil.Stencil = 0;
 
 	CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_DEFAULT);
-	ThrowIfFailed(m_d3dDevice->CreateCommittedResource(
+	m_d3dDevice->CreateCommittedResource(
 		&heapProps,
 		D3D12_HEAP_FLAG_NONE,
 		&depthStencilDesc,
 		D3D12_RESOURCE_STATE_COMMON,
 		&optClear,
-		IID_PPV_ARGS(&m_DepthStencilBuffer)));
+		IID_PPV_ARGS(&m_DepthStencilBuffer));
 
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
 	dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
@@ -390,7 +390,7 @@ void GCRender::FlushCommandQueue()
 	// Add an instruction to the command queue to set a new fence point.  Because we 
 	// are on the GPU timeline, the new fence point won't be set until the GPU finishes
 	// processing all the commands prior to this Signal().
-	ThrowIfFailed(m_CommandQueue->Signal(m_Fence, m_CurrentFence));
+	m_CommandQueue->Signal(m_Fence, m_CurrentFence);
 
 	// Wait until the GPU has completed commands up to this fence point.
 	if (m_Fence->GetCompletedValue() < m_CurrentFence)
@@ -398,7 +398,7 @@ void GCRender::FlushCommandQueue()
 		HANDLE eventHandle = CreateEventEx(nullptr, NULL, false, EVENT_ALL_ACCESS);
 
 		// Fire event when GPU hits current fence.  
-		ThrowIfFailed(m_Fence->SetEventOnCompletion(m_CurrentFence, eventHandle));
+		m_Fence->SetEventOnCompletion(m_CurrentFence, eventHandle);
 
 		// Wait until the GPU hits current fence event is fired.
 		WaitForSingleObject(eventHandle, INFINITE);
@@ -406,8 +406,8 @@ void GCRender::FlushCommandQueue()
 	}
 }
 void GCRender::PrepareDraw() {
-	ThrowIfFailed(m_DirectCmdListAlloc->Reset());
-	ThrowIfFailed(m_CommandList->Reset(m_DirectCmdListAlloc, nullptr));
+	m_DirectCmdListAlloc->Reset();
+	m_CommandList->Reset(m_DirectCmdListAlloc, nullptr);
 
 	m_CommandList->RSSetViewports(1, &m_ScreenViewport);
 	m_CommandList->RSSetScissorRects(1, &m_ScissorRect);
@@ -481,11 +481,11 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 	DirectX::XMMATRIX proj = DirectX::XMLoadFloat4x4(&m_Proj);
 	DirectX::XMMATRIX worldViewProj = world * view * proj;
 
-	m_Buffer = std::make_unique<UploadBuffer<ObjectConstants>>(Getmd3dDevice(), 1, true);
+	pMesh->m_Buffer = new UploadBuffer<ObjectConstants>(Getmd3dDevice(), 1, true);
 	ObjectConstants objConstants;
 	XMStoreFloat4x4(&objConstants.WorldViewProj, XMMatrixTranspose(worldViewProj));
-	m_Buffer->CopyData(0, objConstants);
-	m_CommandList->SetGraphicsRootConstantBufferView(pShader->GetType() == STEnum::texture ? 1 : 0, m_Buffer->Resource()->GetGPUVirtualAddress());
+	pMesh->m_Buffer->CopyData(0, objConstants);
+	m_CommandList->SetGraphicsRootConstantBufferView(pShader->GetType() == STEnum::texture ? 1 : 0, pMesh->m_Buffer->Resource()->GetGPUVirtualAddress());
 
 	m_CommandList->DrawIndexedInstanced(pMesh->GetBoxGeometry()->DrawArgs["mesh"].IndexCount, 1, 0, 0, 0);
 	return true;
@@ -496,14 +496,14 @@ void GCRender::PostDraw() {
 		D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
 
 	m_CommandList->ResourceBarrier(1, &ResBar2);
-	ThrowIfFailed(m_CommandList->Close());
+	m_CommandList->Close();
 
 
 	ID3D12CommandList* cmdsLists[] = { m_CommandList };
 	m_CommandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
 
 
-	ThrowIfFailed(m_SwapChain->Present(0, 0));
+	m_SwapChain->Present(0, 0);
 	m_CurrBackBuffer = (m_CurrBackBuffer + 1) % SwapChainBufferCount;
 
 

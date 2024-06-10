@@ -41,13 +41,19 @@ public:
 	void CreateObjGeometryTexture();
 	void SetWorldMatrix(DirectX::XMMATRIX world);
 	MeshGeometry* GetBoxGeometry();
+	ID3D12Resource* CreateDefaultBuffer(
+		ID3D12Device* device,
+		ID3D12GraphicsCommandList* cmdList,
+		const void* initData,
+		UINT64 byteSize,
+		ID3D12Resource* uploadBuffer);
 	//GCGeometry* GetGeometryTexture();
 	//std::unique_ptr<UploadBuffer<ObjectConstants>> m_Buffer;
 	//DirectX::XMMATRIX m_World;
 
 
 	MeshGeometry* m_boxGeo;
-
+	UploadBuffer<ObjectConstants>* m_Buffer;
 private:
 
 	GCRender* m_pRender;

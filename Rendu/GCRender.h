@@ -145,7 +145,7 @@ private:
 
 	// Instance (Temporary)
 
-	std::unique_ptr<UploadBuffer<ObjectConstants>> m_Buffer;
+	//UploadBuffer<ObjectConstants>* m_Buffer;
 
 
 	// 
