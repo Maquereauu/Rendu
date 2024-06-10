@@ -11,6 +11,7 @@ public:
 	GCGeometry* BuildBoxGeometryColor();
 	GCGeometry* BuildBoxGeometryTexture();
 
+	GCGeometry* BuildPrimitive(std::wstring name, bool hasTexture);
 	// 
 	//void BuildSphereGeometry();
 protected:
@@ -20,5 +21,8 @@ protected:
 	//Geometry m_SphereGeometry;
 
 	GCRender* m_pRender;
+	std::map < std::wstring, std::map<
+		std::wstring, std::variant<std::vector<uint16_t>, std::vector<DirectX::XMFLOAT2>, std::vector<DirectX::XMFLOAT3>, std::vector<DirectX::XMFLOAT4>
+		>>> m_primitiveInfos;
 };
 

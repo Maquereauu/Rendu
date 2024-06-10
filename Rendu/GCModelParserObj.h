@@ -22,5 +22,6 @@ private:
 	ObjInfo m_ParsedObj;
 	GCRender* m_pRender;
 	std::string m_fileName;
+	
 };
 
