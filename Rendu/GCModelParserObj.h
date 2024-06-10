@@ -6,11 +6,11 @@ struct ObjInfo {
 	std::vector<std::vector<float>> uvs;
 };
 
-class ModelParserObj
+class GCModelParserObj
 {
 public:
-	ModelParserObj();
-	~ModelParserObj();
+	GCModelParserObj();
+	~GCModelParserObj();
 	void Initialize(GCRender* pRender, std::string fileName);
 	void ParseObj();
 

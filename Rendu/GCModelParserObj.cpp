@@ -36,19 +36,19 @@ std::vector<float> getFloatCoordinates(std::vector<std::string>* pStrCoord)
 	return floatCoord;
 }
 
-ModelParserObj::ModelParserObj() {
+GCModelParserObj::GCModelParserObj() {
 }
 
-ModelParserObj::~ModelParserObj() {
+GCModelParserObj::~GCModelParserObj() {
 }
 
-void ModelParserObj::Initialize(GCRender* pRender, std::string fileName)
+void GCModelParserObj::Initialize(GCRender* pRender, std::string fileName)
 {
 	m_pRender = pRender;
 	m_fileName = fileName;
 }
 
-void ModelParserObj::ParseObj()
+void GCModelParserObj::ParseObj()
 {
 
 	std::ifstream objFile(m_fileName);
@@ -131,7 +131,7 @@ void ModelParserObj::ParseObj()
 }
 
 
-GCGeometry* ModelParserObj::BuildObjTexture()
+GCGeometry* GCModelParserObj::BuildObjTexture()
 {
 	GCGeometry* objGeometry = new GCGeometry();
 
@@ -152,7 +152,7 @@ GCGeometry* ModelParserObj::BuildObjTexture()
 	return objGeometry;
 }
 
-GCGeometry* ModelParserObj::BuildObjColor() {
+GCGeometry* GCModelParserObj::BuildObjColor() {
 
 	GCGeometry* objGeometry = new GCGeometry();
 
