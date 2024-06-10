@@ -111,3 +111,39 @@ std::vector<GCTexture*> GCGraphics::GetTextures() {
     return m_vTextures;
 }
 
+void GCGraphics::DeleteShader(GCShader* pShader) {
+    auto it = std::find(m_vShaders.begin(), m_vShaders.end(), pShader);
+
+    if (it != m_vShaders.end()) {
+        m_vShaders.erase(it);
+    }
+
+    delete pShader;
+}
+
+void GCGraphics::DeleteMaterial(GCMaterial* pMaterial) {
+    auto it = std::find(m_vMaterials.begin(), m_vMaterials.end(), pMaterial);
+
+    if (it != m_vMaterials.end()) {
+        m_vMaterials.erase(it);
+    }
+
+    delete pMaterial;
+}
+void GCGraphics::DeleteMesh(GCMesh* pMesh) {
+    auto it = std::find(m_vMeshes.begin(), m_vMeshes.end(), pMesh);
+
+    if (it != m_vMeshes.end()) {
+        m_vMeshes.erase(it);
+    }
+    delete pMesh;
+}
+void GCGraphics::DeleteTexture(GCTexture* pTexture) {
+    auto it = std::find(m_vTextures.begin(), m_vTextures.end(), pTexture);
+
+    if (it != m_vTextures.end()) {
+        m_vTextures.erase(it);
+    }
+
+    delete pTexture;
+}

@@ -16,6 +16,11 @@ public:
 	GCMaterial* CreateMaterial();
 	GCMesh* CreateMesh(GCGeometry* pGeometry);
 	GCTexture* CreateTexture(std::string fileName);
+	//Delete
+	void DeleteShader(GCShader* pShader);
+	void DeleteMaterial(GCMaterial* pMaterial);
+	void DeleteMesh(GCMesh* pMesh);
+	void DeleteTexture(GCTexture* pTexture);
 	//// Resources Manager
 	std::vector<GCShader*> GetShaders();
 	std::vector<GCMaterial*> GetMaterials();

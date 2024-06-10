@@ -30,7 +30,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	//GCMaterial* material1 = graphics->CreateMaterial();
 	//material1->AddTexture("ahah", graphics);
 
-
 	GCTexture* tex1 = graphics->CreateTexture("texture");
 
 	graphics->GetRender()->CloseCommandList();
