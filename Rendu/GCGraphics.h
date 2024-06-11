@@ -40,11 +40,14 @@ public:
 
 
 
+	GCPrimitiveFactory* GetPrimitiveFactory() const {return m_pPrimitiveFactory;}
+	GCModelParserObj* GetModelParserFactory() const {return m_pModelParserFactory;}
+
+
+
 private:
 	// Render instance contain Window
 	GCRender* m_pRender;
-
-
 
 	int m_meshId = 0;
 	int m_shaderId = 0;

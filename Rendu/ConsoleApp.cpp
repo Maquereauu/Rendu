@@ -13,16 +13,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	graphics->Initialize(window);
 
 
-	GCModelParserObj* ModelParser = new GCModelParserObj();
-	ModelParser->Initialize(graphics->GetRender(), "monkeyUv.obj");
-	ModelParser->ParseObj();
+	graphics->GetModelParserFactory()->Initialize(graphics->GetRender(), "monkeyUv.obj");
+	graphics->GetModelParserFactory()->ParseObj();
 
 
-	GCPrimitiveFactory* primFact = new GCPrimitiveFactory();
-	GCGeometry* geo = primFact->BuildBoxGeometryColor();
 
-
-	GCGeometry* geo1 = ModelParser->BuildObjTexture();
+	GCGeometry* geo = graphics->GetPrimitiveFactory()->BuildBoxGeometryColor();
+	GCGeometry* geo1 = graphics->GetModelParserFactory()->BuildObjTexture();
 
 
 	graphics->GetRender()->ResetCommandList(); // Reset Command List Before Resources Creation
@@ -48,9 +45,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 
 
 	graphics->GetRender()->PrepareDraw();
+
+
 	graphics->GetRender()->DrawOneObject(mesh1, shader2, tex1, MathHelper::Identity4x4());
 	graphics->GetRender()->DrawOneObject(mesh, shader1, nullptr, I);
+
+
 	graphics->GetRender()->PostDraw();
+
+	//graphics->GetRender()->PrepareDraw();
+
+	//graphics->GetRender()->PostDraw();
+
 
 	window->Run(graphics->GetRender());
 
