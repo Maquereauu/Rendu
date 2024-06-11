@@ -1,7 +1,6 @@
 #include "framework.h"
 
 bool GCRender::Initialize(GCGraphics* pGraphics, Window* pWindow) {
-	m_pGraphicsManager = pGraphics;
 	m_pWindow = pWindow;
 	InitDirect3D();
 	OnResize();
@@ -369,9 +368,6 @@ void GCRender::UpdateViewport() {
 	m_ScreenViewport.MaxDepth = 1.0f;
 
 	m_ScissorRect = { 0, 0, m_pWindow->GetClientWidth(), m_pWindow->GetClientHeight() };
-
-	DirectX::XMMATRIX P = DirectX::XMMatrixPerspectiveFovLH(0.25f * MathHelper::Pi, m_pWindow->AspectRatio(), 1.0f, 1000.0f);
-	XMStoreFloat4x4(&m_Proj, P);
 }
 // RESIZE
 
@@ -445,7 +441,7 @@ void GCRender::Draw(const Timer& gt) {
 
 
 
-bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTexture, DirectX::XMFLOAT4X4 worldMatrix) {
+bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTexture, DirectX::XMFLOAT4X4 worldMatrix, DirectX::XMMATRIX projectionMatrix, DirectX::XMMATRIX viewMatrix) {
 
 	if (pShader == nullptr || pMesh == nullptr) {
 		return false;
@@ -454,40 +450,34 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 	m_CommandList->SetGraphicsRootSignature(pShader->GetRootSign());
 
 	m_CommandList->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView = pMesh->GetBoxGeometry()->VertexBufferView();
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView = pMesh->GetBufferGeometryData()->VertexBufferView();
 	m_CommandList->IASetVertexBuffers(0, 1, &vertexBufferView);
-	D3D12_INDEX_BUFFER_VIEW indexBufferView = pMesh->GetBoxGeometry()->IndexBufferView();
+	D3D12_INDEX_BUFFER_VIEW indexBufferView = pMesh->GetBufferGeometryData()->IndexBufferView();
 	m_CommandList->IASetIndexBuffer(&indexBufferView);
 
-	if (pShader->GetType() == STEnum::texture)
+	if (static_cast<UINT>(pShader->GetType()) == 1) // Texture?
 	{
 		if(pTexture)
 		{
-			m_CommandList->SetGraphicsRootDescriptorTable(0, pTexture->GetDescGPU());
+			m_CommandList->SetGraphicsRootDescriptorTable(2, pTexture->GetTextureAddress());
 		}
 		else {
 			return false;
 		}
 	}
 
-	DirectX::XMFLOAT3 pos1 = { 0.f, 0.f, 0.f };
-	DirectX::XMVECTOR pos = DirectX::XMVectorSet(0, -10, 5, 1.0f);
-	DirectX::XMVECTOR target = DirectX::XMVectorZero();
-	DirectX::XMVECTOR up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
-	DirectX::XMMATRIX view = DirectX::XMMatrixLookAtLH(pos, target, up);
-	DirectX::XMFLOAT4X4 MId = MathHelper::Identity4x4();
-	DirectX::XMMATRIX world = DirectX::XMLoadFloat4x4(&worldMatrix);
-	DirectX::XMMATRIX proj = DirectX::XMLoadFloat4x4(&m_Proj);
-	DirectX::XMMATRIX worldViewProj = world * view * proj;
+	pMesh->UpdateObjectBuffer(DirectX::XMLoadFloat4x4(&worldMatrix));
+	pMesh->UpdateCameraBuffer(viewMatrix, projectionMatrix);
 
-	pMesh->m_Buffer = new UploadBuffer<ObjectConstants>(Getmd3dDevice(), 1, true);
-	ObjectConstants objConstants;
-	XMStoreFloat4x4(&objConstants.WorldViewProj, XMMatrixTranspose(worldViewProj));
-	pMesh->m_Buffer->CopyData(0, objConstants);
-	m_CommandList->SetGraphicsRootConstantBufferView(static_cast<UINT>(pShader->GetType()), pMesh->m_Buffer->Resource()->GetGPUVirtualAddress());
 
-	m_CommandList->DrawIndexedInstanced(pMesh->GetBoxGeometry()->DrawArgs["mesh"].IndexCount, 1, 0, 0, 0);
+	m_CommandList->SetGraphicsRootConstantBufferView(0, pMesh->GetObjectCBData()->Resource()->GetGPUVirtualAddress());
+	m_CommandList->SetGraphicsRootConstantBufferView(1, pMesh->GetCameraCBData()->Resource()->GetGPUVirtualAddress());
+
+
+	// #TODO Réflechir a passer par la GCGeometry ? 
+	m_CommandList->DrawIndexedInstanced(pMesh->GetBufferGeometryData()->DrawArgs["mesh"].IndexCount, 1, 0, 0, 0);
+
 	return true;
 }
 

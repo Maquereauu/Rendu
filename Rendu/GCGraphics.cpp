@@ -104,7 +104,7 @@ std::vector<GCTexture*> GCGraphics::GetTextures() {
     return m_vTextures;
 }
 
-void GCGraphics::DeleteShader(GCShader* pShader) {
+void GCGraphics::RemoveShader(GCShader* pShader) {
     auto it = std::find(m_vShaders.begin(), m_vShaders.end(), pShader);
 
     if (it != m_vShaders.end()) {
@@ -114,7 +114,7 @@ void GCGraphics::DeleteShader(GCShader* pShader) {
     delete pShader;
 }
 
-void GCGraphics::DeleteMaterial(GCMaterial* pMaterial) {
+void GCGraphics::RemoveMaterial(GCMaterial* pMaterial) {
     auto it = std::find(m_vMaterials.begin(), m_vMaterials.end(), pMaterial);
 
     if (it != m_vMaterials.end()) {
@@ -123,7 +123,7 @@ void GCGraphics::DeleteMaterial(GCMaterial* pMaterial) {
 
     delete pMaterial;
 }
-void GCGraphics::DeleteMesh(GCMesh* pMesh) {
+void GCGraphics::RemoveMesh(GCMesh* pMesh) {
     auto it = std::find(m_vMeshes.begin(), m_vMeshes.end(), pMesh);
 
     if (it != m_vMeshes.end()) {
@@ -131,7 +131,7 @@ void GCGraphics::DeleteMesh(GCMesh* pMesh) {
     }
     delete pMesh;
 }
-void GCGraphics::DeleteTexture(GCTexture* pTexture) {
+void GCGraphics::RemoveTexture(GCTexture* pTexture) {
     auto it = std::find(m_vTextures.begin(), m_vTextures.end(), pTexture);
 
     if (it != m_vTextures.end()) {

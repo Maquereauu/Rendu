@@ -19,10 +19,10 @@ public:
 
 
 	//Delete
-	void DeleteShader(GCShader* pShader);
-	void DeleteMaterial(GCMaterial* pMaterial);
-	void DeleteMesh(GCMesh* pMesh);
-	void DeleteTexture(GCTexture* pTexture);
+	void RemoveShader(GCShader* pShader);
+	void RemoveMaterial(GCMaterial* pMaterial);
+	void RemoveMesh(GCMesh* pMesh);
+	void RemoveTexture(GCTexture* pTexture);
 
 
 	//// Resources Manager

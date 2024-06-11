@@ -1,8 +1,38 @@
 #pragma once
 
-struct ObjectConstants
-{
-	DirectX::XMFLOAT4X4 WorldViewProj = MathHelper::Identity4x4();
+//struct ObjectConstants
+//{
+//	DirectX::XMFLOAT4X4 WorldViewProj;
+//};
+
+
+//struct ObjectCB {
+//	
+//};
+//
+//struct WorldCB : ObjectCB {
+//	DirectX::XMFLOAT4X4 world; // Matrice du monde
+//};
+//
+//struct LightAndWorld : ObjectCB {
+//	DirectX::XMFLOAT4X4 world; // Matrice du monde
+//	DirectX::XMFLOAT4X4 light; // Matrice du monde
+//	DirectX::XMFLOAT4X4 normal; // Matrice du monde
+//};
+
+
+
+
+
+struct ObjectCB {
+	DirectX::XMFLOAT4X4 world; // Matrice du monde
+};
+
+
+
+struct CameraCB {
+	DirectX::XMFLOAT4X4 view; // Matrice de vue
+	DirectX::XMFLOAT4X4 proj; // Matrice de projection
 };
 
 
@@ -52,7 +82,7 @@ public:
 	void PostDraw();
 	void Draw(const Timer& gt);
 
-	bool DrawOneObject(GCMesh* pMesh, GCShader* pShader,GCTexture* pTexture, DirectX::XMFLOAT4X4 world);
+	bool DrawOneObject(GCMesh* pMesh, GCShader* pShader,GCTexture* pTexture, DirectX::XMFLOAT4X4 worldMatrix, DirectX::XMMATRIX projectionMatrix, DirectX::XMMATRIX viewMatrix);
 	//void BuildBoxGeometry();
 
 
@@ -83,12 +113,10 @@ public:
 	UINT GetRtvDescriptorSize() const { return m_rtvDescriptorSize; }
 	UINT GetDsvDescriptorSize() const { return m_dsvDescriptorSize; }
 	UINT GetCbvSrvUavDescriptorSize() const { return m_cbvSrvUavDescriptorSize; }
-	GCGraphics* GetGraphics() const { return m_pGraphicsManager; }
-	//GCGraphics* graphicsManager;
-public:
+
+
 private:
-	GCGraphics* m_pGraphicsManager;
-	DirectX::XMFLOAT4X4 m_Proj = MathHelper::Identity4x4();
+	
 	Window* m_pWindow;
 	// Swap chain size
 	static const int SwapChainBufferCount = 2;
@@ -133,8 +161,6 @@ private:
 	UINT      m_4xMsaaQuality = 0;      // quality level of 4X MSAA
 
 
-
-
 	// Screen
 	D3D12_VIEWPORT m_ScreenViewport;
 	D3D12_RECT m_ScissorRect;
@@ -142,13 +168,9 @@ private:
 	// Camera (Temporary)
 	CD3DX12_STATIC_SAMPLER_DESC staticSample;
 
-	// Instance (Temporary)
-
-	//UploadBuffer<ObjectConstants>* m_Buffer;
-
-
-	// 
 };
+
+
 #ifndef ReleaseCom
 #define ReleaseCom(x) { if(x){ x->Release(); x = 0; } }
 #endif
