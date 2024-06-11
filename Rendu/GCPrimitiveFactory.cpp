@@ -1,18 +1,18 @@
 #include "framework.h"
 
-PrimitiveFactory::PrimitiveFactory() {
+GCPrimitiveFactory::GCPrimitiveFactory() {
 	m_pRender = nullptr;
 }
 
-PrimitiveFactory::~PrimitiveFactory() {
+GCPrimitiveFactory::~GCPrimitiveFactory() {
 }
 
-void PrimitiveFactory::Initialize(int type, GCRender* pRender)
+void GCPrimitiveFactory::Initialize(int type, GCRender* pRender)
 {
 	m_pRender = pRender;
 }
 
-GCGeometry* PrimitiveFactory::BuildBoxGeometryColor()
+GCGeometry* GCPrimitiveFactory::BuildBoxGeometryColor()
 {
 	GCGeometry* boxGeometry = new GCGeometry();
 
@@ -57,7 +57,7 @@ GCGeometry* PrimitiveFactory::BuildBoxGeometryColor()
 }
 
 
-GCGeometry* PrimitiveFactory::BuildBoxGeometryTexture()
+GCGeometry* GCPrimitiveFactory::BuildBoxGeometryTexture()
 {
 	GCGeometry* boxGeometry = new GCGeometry();
 

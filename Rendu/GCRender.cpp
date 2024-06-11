@@ -1,6 +1,6 @@
 #include "framework.h"
 
-bool GCRender::Initialize(GCGraphics* pGraphics,Window* pWindow) {
+bool GCRender::Initialize(GCGraphics* pGraphics, Window* pWindow) {
 	m_pGraphicsManager = pGraphics;
 	m_pWindow = pWindow;
 	InitDirect3D();
@@ -485,7 +485,7 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 	ObjectConstants objConstants;
 	XMStoreFloat4x4(&objConstants.WorldViewProj, XMMatrixTranspose(worldViewProj));
 	pMesh->m_Buffer->CopyData(0, objConstants);
-	m_CommandList->SetGraphicsRootConstantBufferView(pShader->GetType() == STEnum::texture ? 1 : 0, pMesh->m_Buffer->Resource()->GetGPUVirtualAddress());
+	m_CommandList->SetGraphicsRootConstantBufferView(static_cast<UINT>(pShader->GetType()), pMesh->m_Buffer->Resource()->GetGPUVirtualAddress());
 
 	m_CommandList->DrawIndexedInstanced(pMesh->GetBoxGeometry()->DrawArgs["mesh"].IndexCount, 1, 0, 0, 0);
 	return true;

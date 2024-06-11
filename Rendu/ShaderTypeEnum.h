@@ -1,6 +1,6 @@
 #pragma once
 enum STEnum {
-	color,
-	texture,
-	total
+	color = 0,
+	texture = 1,
+	custom = 2
 };

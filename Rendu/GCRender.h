@@ -37,7 +37,6 @@ public:
 	void ResizeSwapChain();
 	void CreateRenderTargetViews();
 	void CreateDepthStencilBufferAndView();
-	void ExecuteResizeCommands();
 	void UpdateViewport();
 
 

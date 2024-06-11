@@ -1,23 +1,17 @@
 #pragma once
 
-class PrimitiveFactory
+class GCPrimitiveFactory
 {
 public:
 
-	PrimitiveFactory();
-	~PrimitiveFactory();
+	GCPrimitiveFactory();
+	~GCPrimitiveFactory();
 	void Initialize(int type, GCRender* pRender);
 
 	GCGeometry* BuildBoxGeometryColor();
 	GCGeometry* BuildBoxGeometryTexture();
 
-	// 
-	//void BuildSphereGeometry();
 protected:
-
-	//int m_Type;
-	//GCGEOMETRY m_BoxGeometry;
-	//Geometry m_SphereGeometry;
 
 	GCRender* m_pRender;
 };

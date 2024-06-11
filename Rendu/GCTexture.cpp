@@ -36,7 +36,7 @@ bool GCTexture::Initialize(std::string fileName, GCGraphics* pGraphics)
 
 	// Heap
 	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(pGraphics->GetRender()->GetCbvSrvUavSrvDescriptorHeap()->GetCPUDescriptorHandleForHeapStart());
-	hDescriptor.Offset(pGraphics->GetTexId(), m_haepDescSize);
+	hDescriptor.Offset(pGraphics->GetTextureId(), m_haepDescSize);
 
 	// Desc texture
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
@@ -51,7 +51,7 @@ bool GCTexture::Initialize(std::string fileName, GCGraphics* pGraphics)
 	// Manager
 
 	m_HDescriptorGPU = CD3DX12_GPU_DESCRIPTOR_HANDLE(pGraphics->GetRender()->GetCbvSrvUavSrvDescriptorHeap()->GetGPUDescriptorHandleForHeapStart());
-	m_HDescriptorGPU.Offset(pGraphics->GetTexId(), m_haepDescSize);
+	m_HDescriptorGPU.Offset(pGraphics->GetTextureId(), m_haepDescSize);
 	return true;
 	
 }
