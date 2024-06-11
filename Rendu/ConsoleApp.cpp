@@ -2,44 +2,38 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
-
-
-	/*DebugOutput("App started");*/
 	Window* window = new Window(hInstance);
 	window->Initialize();
-	//SetWindow(window);
 
 	GCGraphics* graphics = new GCGraphics();
 	graphics->Initialize(window);
 
-
-	graphics->GetModelParserFactory()->Initialize(graphics->GetRender(), "monkeyUv.obj");
-	graphics->GetModelParserFactory()->ParseObj();
-
-
-
+	// Geometry (Resource)
 	GCGeometry* geo = graphics->GetPrimitiveFactory()->BuildBoxGeometryColor();
-	GCGeometry* geo1 = graphics->GetModelParserFactory()->BuildObjTexture();
+	GCGeometry* geo1 = graphics->GetModelParserFactory()->BuildObjTexture("monkeyUv.obj");
 
-
+	///// Create Render Resources
 	graphics->GetRender()->ResetCommandList(); // Reset Command List Before Resources Creation
 
-
+	// Mesh
 	GCMesh* mesh = graphics->CreateMesh(geo);
 	GCMesh* mesh1 = graphics->CreateMesh(geo1);
+	// Shader
 	GCShader* shader1 = graphics->CreateShader(STEnum::color, L"color");
 	GCShader* shader2 = graphics->CreateShader(STEnum::texture, L"texture");
+	// Texture
 	GCTexture* tex1 = graphics->CreateTexture("texture");
 
 	graphics->GetRender()->CloseCommandList(); // Close and Execute after creation
 	graphics->GetRender()->ExecuteCommandList();// Close and Execute after creation
+	///// 
 
 
 	DirectX::XMFLOAT4X4 I(
 		0.5f, 0.0f, 0.0f, 0.0f,
 		0.0f, 0.5f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f);
+		3.0f, 0.0f, 0.0f, 1.0f);
 
 
 
