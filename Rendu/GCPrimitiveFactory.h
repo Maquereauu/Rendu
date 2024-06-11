@@ -6,12 +6,13 @@ public:
 
 	PrimitiveFactory();
 	~PrimitiveFactory();
-	void Initialize(int type, GCRender* pRender);
+	void Initialize();
 
-	GCGeometry* BuildBoxGeometryColor();
-	GCGeometry* BuildBoxGeometryTexture();
+	/*GCGeometry* BuildBoxGeometryColor();
+	GCGeometry* BuildBoxGeometryTexture();*/
 
-	GCGeometry* BuildPrimitive(std::wstring name, bool hasTexture);
+	GCGeometry* BuildGeometryColor(std::wstring name, DirectX::XMFLOAT4 color);
+	GCGeometry* BuildGeometryTexture(std::wstring name);
 	// 
 	//void BuildSphereGeometry();
 protected:

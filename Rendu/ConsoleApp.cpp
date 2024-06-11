@@ -27,7 +27,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	ModelParser->ParseObj();
 	PrimitiveFactory* primFact = new PrimitiveFactory();
 
-	GCGeometry* geo = primFact->BuildBoxGeometryTexture();
+	primFact->Initialize();
+	//GCGeometry* geo = primFact->BuildGeometryColor(L"cube", DirectX::XMFLOAT4(DirectX::Colors::White));
+	GCGeometry* geo = primFact->BuildGeometryTexture(L"circle");
 	GCGeometry* geo1 = ModelParser->BuildObjTexture();
 
 	GCMesh* mesh = graphics->CreateMesh(geo);
@@ -52,7 +54,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	//graphics->m_pRender->ResetCommandList();
 
 	graphics->m_pRender->PrepareDraw();
-	graphics->m_pRender->DrawOneObject(mesh1, shader2, tex1, MathHelper::Identity4x4());
+	graphics->m_pRender->DrawOneObject(mesh, shader2, tex1, MathHelper::Identity4x4());
 	graphics->m_pRender->PostDraw();
 
 	//GCRender* render = new GCRender();
