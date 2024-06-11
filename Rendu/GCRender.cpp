@@ -455,7 +455,7 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 	D3D12_INDEX_BUFFER_VIEW indexBufferView = pMesh->GetBufferGeometryData()->IndexBufferView();
 	m_CommandList->IASetIndexBuffer(&indexBufferView);
 
-	if (static_cast<UINT>(pShader->GetType()) == 1) // Texture?
+	if (pShader->GetType() == 1) // Texture?
 	{
 		if(pTexture)
 		{
@@ -468,6 +468,18 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 
 
 	pMesh->UpdateObjectBuffer(DirectX::XMLoadFloat4x4(&worldMatrix));
+
+
+	//DirectX::XMMATRIX worldMatrixXM = DirectX::XMLoadFloat4x4(&worldMatrix);
+	//DirectX::XMMATRIX transposedWorldMatrix = DirectX::XMMatrixTranspose(worldMatrixXM);
+	//DirectX::XMFLOAT4X4 transposedWorld;
+	//DirectX::XMStoreFloat4x4(&transposedWorld, transposedWorldMatrix);
+
+	//WorldCB worldData;
+	//worldData.world = transposedWorld;
+
+	//pMesh->UpdateObjectBuffer<WorldCB>(worldData);
+
 	pMesh->UpdateCameraBuffer(viewMatrix, projectionMatrix);
 
 

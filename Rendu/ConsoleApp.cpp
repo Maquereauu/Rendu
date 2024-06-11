@@ -18,18 +18,18 @@ std::string readShaderFile(const std::string& filePath) {
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
 
-	//AllocConsole(); // Crée une nouvelle console associée à ce processus
+	AllocConsole(); // Crée une nouvelle console associée à ce processus
 
-	//FILE* stream;
-	//freopen_s(&stream, "CONOUT$", "w", stdout); // Redirige la sortie standard vers la console
+	FILE* stream;
+	freopen_s(&stream, "CONOUT$", "w", stdout); // Redirige la sortie standard vers la console
 
-	//std::cout << "This works" << std::endl; // Affiche du texte dans la console
+	std::cout << "This works" << std::endl; // Affiche du texte dans la console
 
-	//std::string shaderCode = readShaderFile("Shaders/color.hlsl");
-	//if (!shaderCode.empty()) {
-	//	std::cout << "Contenu du shader : " << std::endl;
-	//	std::cout << shaderCode << std::endl;
-	//}
+	std::string shaderCode = readShaderFile("Shaders/color.hlsl");
+	if (!shaderCode.empty()) {
+		std::cout << "Contenu du shader : " << std::endl;
+		std::cout << shaderCode << std::endl;
+	}
 
 
 	Window* window = new Window(hInstance);
@@ -48,8 +48,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	// Mesh
 	GCMesh* mesh = graphics->CreateMesh(geo);
 	GCMesh* mesh1 = graphics->CreateMesh(geo1);
-	GCShader* shader1 = graphics->CreateShader(STEnum::color);
-	GCShader* shader2 = graphics->CreateShader(STEnum::texture);
+	GCShader* shader1 = graphics->CreateShaderColor();
+	GCShader* shader2 = graphics->CreateShaderTexture();
 	GCTexture* tex1 = graphics->CreateTexture("texture");
 
 	graphics->GetRender()->CloseCommandList(); // Close and Execute after creation
