@@ -127,7 +127,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="d3dUtil.h" />
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="framework.h" />
@@ -144,7 +143,6 @@
     <ClInclude Include="GCTexture.h" />
     <ClInclude Include="GCTextureFactory.h" />
     <ClInclude Include="GCGeometry.h" />
-    <ClInclude Include="Global.h" />
     <ClInclude Include="header.h" />
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="PrimitiveTypeEnum.h" />
@@ -157,7 +155,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleApp.cpp" />
-    <ClCompile Include="d3dUtil.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="GCGraphics.cpp" />
     <ClCompile Include="GCMaterial.cpp" />
@@ -172,7 +169,6 @@
     <ClCompile Include="GCTexture.cpp" />
     <ClCompile Include="GCTextureFactory.cpp" />
     <ClCompile Include="GCGeometry.cpp" />
-    <ClCompile Include="Global.cpp" />
     <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Window.cpp" />

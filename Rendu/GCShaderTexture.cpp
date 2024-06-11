@@ -10,11 +10,3 @@ void GCShaderTexture::CompileShader(std::wstring hlsl) {
 	};
 	m_count = 2;
 }
-
-void GCShaderTexture::Initialize(GCRender* pRender, std::wstring hlslName) {
-
-	m_pRender = pRender;
-	CompileShader(hlslName);
-	RootSign();
-	Pso();
-}

@@ -17,7 +17,7 @@ public:
 	ID3D12RootSignature* GetRootSign();
 	ID3D12PipelineState* GetPso();
 
-	virtual void Initialize(GCRender* pRender, std::wstring hlslName);
+	void Initialize(GCRender* pRender, std::wstring hlslName);
 	void Render();
 
 	//void Render(Mesh* mesh, Material* material, matrix);

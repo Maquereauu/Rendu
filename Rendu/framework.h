@@ -60,7 +60,6 @@ class Window;
 #include "d3dx12.h"
 #include "DDSTextureLoader.h"
 #include "MathHelper.h"
-#include "d3dUtil.h"
 
 #include "d3dx12.h"
 #include "Window.h"
@@ -78,7 +77,6 @@ class Window;
 #include "GCShaderTexture.h"
 #include "GCTexture.h"
 #include "GCTextureFactory.h"
-#include "Global.h"
 #include "ShaderTypeEnum.h"
 #include "Timer.h"
 #include "PrimitiveTypeEnum.h"

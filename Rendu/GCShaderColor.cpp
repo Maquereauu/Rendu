@@ -11,13 +11,3 @@ void GCShaderColor::CompileShader(std::wstring hlsl) {
 	m_count = 1;
 }
 
-void GCShaderColor::Initialize(GCRender* pRender, std::wstring hlslName) {
-
-	m_pRender = pRender;
-
-
-	CompileShader(hlslName);
-	RootSign();
-	Pso();
-}
-
