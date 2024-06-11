@@ -46,7 +46,7 @@ GCTexture* GCGraphics::CreateTexture(std::string fileName) {
 }
 
 
-GCShader* GCGraphics::CreateShader(int type, std::wstring hlsl) {
+GCShader* GCGraphics::CreateShader(int type) {
     GCShader* shader;
 
     switch (type) {
@@ -60,7 +60,7 @@ GCShader* GCGraphics::CreateShader(int type, std::wstring hlsl) {
     {
         shader = new GCShaderColor();
         shader->SetType(0);
-        shader->Initialize(m_pRender, hlsl);
+        shader->Initialize(m_pRender, L"color");
         m_vShaders.push_back(shader);
         m_shaderId++;
         return shader;
@@ -70,7 +70,7 @@ GCShader* GCGraphics::CreateShader(int type, std::wstring hlsl) {
     {
         shader = new GCShaderTexture();
         shader->SetType(1);
-        shader->Initialize(m_pRender, hlsl);
+        shader->Initialize(m_pRender, L"texture");
         m_vShaders.push_back(shader);
         m_shaderId++;
         return shader;

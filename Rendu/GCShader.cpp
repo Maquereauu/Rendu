@@ -21,7 +21,10 @@ void GCShader::Render() {
 }
 
 void GCShader::Initialize(GCRender* pRender, std::wstring hlslName) {
-
+	m_pRender = pRender;
+	CompileShader(hlslName);
+	RootSign();
+	Pso();
 }
 
 void GCShader::CompileShader(std::wstring hlsl) {

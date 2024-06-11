@@ -24,13 +24,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 
 	GCMesh* mesh = graphics->CreateMesh(geo);
 	GCMesh* mesh1 = graphics->CreateMesh(geo1);
-	GCShader* shader1 = graphics->CreateShader(STEnum::color, L"color");
-	GCShader* shader2 = graphics->CreateShader(STEnum::texture, L"texture");
+	GCShader* shader1 = graphics->CreateShader(STEnum::color);
+	GCShader* shader2 = graphics->CreateShader(STEnum::texture);
 
 	//GCMaterial* material1 = graphics->CreateMaterial();
 	//material1->AddTexture("ahah", graphics);
 
-	GCTexture* tex1 = graphics->CreateTexture("texture");
+	//GCTexture* tex1 = graphics->CreateTexture("texture");
 
 	graphics->GetRender()->CloseCommandList();
 	graphics->GetRender()->ExecuteCommandList();
@@ -40,7 +40,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f);
 	graphics->GetRender()->PrepareDraw();
-	graphics->GetRender()->DrawOneObject(mesh1, shader2, tex1, MathHelper::Identity4x4());
+	//graphics->GetRender()->DrawOneObject(mesh1, shader2, tex1, MathHelper::Identity4x4());
 	graphics->GetRender()->DrawOneObject(mesh, shader1, nullptr, I);
 	graphics->GetRender()->PostDraw();
 

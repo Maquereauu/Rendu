@@ -463,7 +463,7 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 	{
 		if(pTexture)
 		{
-			m_CommandList->SetGraphicsRootDescriptorTable(0, pTexture->m_HDescriptorGPU);
+			m_CommandList->SetGraphicsRootDescriptorTable(0, pTexture->GetDescGPU());
 		}
 		else {
 			return false;
