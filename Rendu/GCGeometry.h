@@ -78,3 +78,5 @@ public:
 	std::vector<DirectX::XMFLOAT2> texC;
 	SubmeshGeometry submesh;
 };
+
+

@@ -1,4 +1,6 @@
 #include "framework.h"
+
+
 GCGraphics::GCGraphics() {
     m_pRender = nullptr;
 }
@@ -6,21 +8,12 @@ GCGraphics::GCGraphics() {
 void GCGraphics::Initialize(Window* window) {
     m_pRender = new GCRender();
     m_pRender->Initialize(this,window);
+
+    // 
+    m_pPrimitiveFactory = new GCPrimitiveFactory();
+    m_pModelParserFactory = new GCModelParserObj();
 }
 
-//void Graphics::Initialize() {
-//	// Init Debug Console
-//	//AllocConsole();
-//	//FILE* fp;
-//	//freopen_s(&fp, "CONOUT$", "w", stdout);
-//	//freopen_s(&fp, "CONIN$", "r", stdin);
-//	//std::cout << "Console initialized!" << std::endl;
-//
-//	// Init render
-//
-//
-//
-//}
 
 GCMesh* GCGraphics::CreateMesh(GCGeometry* pGeometry) {
     GCMesh* mesh = new GCMesh();
