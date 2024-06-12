@@ -503,15 +503,15 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 	//SUploadBuffer<WorldCB>* worldCB = dynamic_cast<SUploadBuffer<WorldCB>*>(pMesh->GetObjectCBData());
 	//m_CommandList->SetGraphicsRootConstantBufferView(0, pMesh->GetObjectCBData()->Resource()->GetGPUVirtualAddress());
 
+
+	// Object | CB 0
 	auto* pUploadBuffer = dynamic_cast<SUploadBuffer<WorldCB>*>(pMesh->GetObjectCBData());
-
-
 	if (pUploadBuffer) {
 		m_CommandList->SetGraphicsRootConstantBufferView(0, pUploadBuffer->Resource()->GetGPUVirtualAddress());
 	}
 
 
-	// Camera
+	// Camera | CB 1
 	m_CommandList->SetGraphicsRootConstantBufferView(1, pMesh->GetCameraCBData()->Resource()->GetGPUVirtualAddress());
 
 
