@@ -69,12 +69,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	// SET CAMERA
 
 
-	DirectX::XMMATRIX I = DirectX::XMMatrixSet(
+	DirectX::XMFLOAT4X4 I(
 		0.5f, 0.0f, 0.0f, 0.0f,
 		0.0f, 0.5f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
-		3.0f, 0.0f, 0.0f, 1.0f
-	);
+		3.0f, 0.0f, 0.0f, 1.0f);
+
 
 
 
