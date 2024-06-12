@@ -1,36 +1,8 @@
 #include "framework.h"
 
-std::string readShaderFile(const std::string& filePath) {
-	std::ifstream file(filePath);
-	std::stringstream buffer;
-	if (file) {
-		buffer << file.rdbuf();
-		file.close();
-		return buffer.str();
-	}
-	else {
-		std::cerr << "Erreur : Impossible de lire le fichier " << filePath << std::endl;
-		return "";
-	}
-}
-
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
-
-	//AllocConsole(); // Crée une nouvelle console associée à ce processus
-
-	//FILE* stream;
-	//freopen_s(&stream, "CONOUT$", "w", stdout); // Redirige la sortie standard vers la console
-
-	//std::cout << "This works" << std::endl; // Affiche du texte dans la console
-
-	//std::string shaderCode = readShaderFile("Shaders/color.hlsl");
-	//if (!shaderCode.empty()) {
-	//	std::cout << "Contenu du shader : " << std::endl;
-	//	std::cout << shaderCode << std::endl;
-	//}
-
 
 	Window* window = new Window(hInstance);
 	window->Initialize();
@@ -41,15 +13,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	// Geometry (Resource)
 	GCGeometry* geo = graphics->GetPrimitiveFactory()->BuildBoxGeometryColor();
 	GCGeometry* geo1 = graphics->GetModelParserFactory()->BuildObjTexture("monkeyUv.obj");
+	GCShader* shader1 = graphics->CreateShader(STEnum::color);
+	GCShader* shader2 = graphics->CreateShader(STEnum::texture);
 
 	///// Create Render Resources
 	graphics->GetRender()->ResetCommandList(); // Reset Command List Before Resources Creation
 
+	shader1->Load();
+	shader2->Load();
 	// Mesh
 	GCMesh* mesh = graphics->CreateMesh(geo);
 	GCMesh* mesh1 = graphics->CreateMesh(geo1);
-	GCShader* shader1 = graphics->CreateShader(STEnum::color);
-	GCShader* shader2 = graphics->CreateShader(STEnum::texture);
 	GCTexture* tex1 = graphics->CreateTexture("texture");
 
 	graphics->GetRender()->CloseCommandList(); // Close and Execute after creation

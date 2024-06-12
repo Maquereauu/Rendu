@@ -22,12 +22,16 @@ void GCShader::Render() {
 
 void GCShader::Initialize(GCRender* pRender, std::wstring hlslName) {
 	m_pRender = pRender;
-	CompileShader(hlslName);
+	PreCompile(hlslName);
+}
+
+void GCShader::Load() {
+	CompileShader();
 	RootSign();
 	Pso();
 }
 
-void GCShader::CompileShader(std::wstring hlsl) {
+void GCShader::CompileShader() {
 
 }
 
@@ -178,4 +182,42 @@ ID3DBlob* GCShader::CompileShaderBase(
 	//hr;
 
 	return byteCode;
+}
+
+void GCShader::SaveShaderToFile(ID3DBlob* shaderBlob, const std::wstring& filename) {
+	std::ofstream file(filename, std::ios::binary);
+	if (!file.is_open()) {
+		throw std::runtime_error("Failed to open file for writing");
+	}
+	file.write(static_cast<const char*>(shaderBlob->GetBufferPointer()), shaderBlob->GetBufferSize());
+	file.close();
+}
+
+ID3DBlob* GCShader::LoadShaderFromFile(const std::wstring& filename) {
+	std::ifstream file(filename, std::ios::binary | std::ios::ate);
+	if (!file.is_open()) {
+		throw std::runtime_error("Failed to open file for reading");
+	}
+	std::streamsize size = file.tellg();
+	file.seekg(0, std::ios::beg);
+
+	ID3DBlob* shaderBlob = nullptr;
+	HRESULT hr = D3DCreateBlob(size, &shaderBlob);
+	if (FAILED(hr)) {
+		throw std::runtime_error("Failed to create shader blob");
+	}
+
+	if (!file.read(static_cast<char*>(shaderBlob->GetBufferPointer()), size)) {
+		shaderBlob->Release();
+		throw std::runtime_error("Failed to read file");
+	}
+
+	return shaderBlob;
+}
+
+void GCShader::PreCompile(std::wstring hlsl) {
+	ID3DBlob* vsByteCode = CompileShaderBase(L"Shaders\\" + hlsl + L".hlsl", nullptr, "VS", "vs_5_0");
+	ID3DBlob* psByteCode = CompileShaderBase(L"Shaders\\" + hlsl + L".hlsl", nullptr, "PS", "ps_5_0");
+	SaveShaderToFile(vsByteCode, hlsl + L"VS.cso");
+	SaveShaderToFile(psByteCode, hlsl + L"PS.cso");
 }
