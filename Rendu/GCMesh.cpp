@@ -101,7 +101,7 @@ void GCMesh::UploadGeometryData(GCGeometry* pGeometry) {
     const UINT vbByteSize = static_cast<UINT>(vertices.size() * sizeof(VertexType));
     const UINT ibByteSize = static_cast<UINT>(pGeometry->indices.size() * sizeof(std::uint16_t));
 
-    m_pBufferGeometryData = new MeshGeometry();
+    m_pBufferGeometryData = new MeshBufferData();
     m_pBufferGeometryData->Name = "boxGeo";
 
     D3DCreateBlob(vbByteSize, &m_pBufferGeometryData->VertexBufferCPU);
@@ -118,13 +118,15 @@ void GCMesh::UploadGeometryData(GCGeometry* pGeometry) {
     m_pBufferGeometryData->IndexFormat = DXGI_FORMAT_R16_UINT;
     m_pBufferGeometryData->IndexBufferByteSize = ibByteSize;
 
-    // Initialize submesh
-    SubmeshGeometry submesh;
-    submesh.IndexCount = static_cast<UINT>(pGeometry->indices.size());
-    submesh.StartIndexLocation = 0;
-    submesh.BaseVertexLocation = 0;
+    //// Initialize submesh
+    //SubmeshGeometry submesh;
+    //submesh.IndexCount = static_cast<UINT>(pGeometry->indices.size());
+    //submesh.StartIndexLocation = 0;
+    //submesh.BaseVertexLocation = 0;
 
-    m_pBufferGeometryData->DrawArgs["mesh"] = submesh;
+    m_pBufferGeometryData->IndexCount = static_cast<UINT>(pGeometry->indices.size());
+
+    //m_pBufferGeometryData->DrawArgs["mesh"] = submesh;
 }
 
 

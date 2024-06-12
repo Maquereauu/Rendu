@@ -507,7 +507,7 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 
 
 	// #TODO Réflechir a passer par la GCGeometry ? 
-	m_CommandList->DrawIndexedInstanced(pMesh->GetBufferGeometryData()->DrawArgs["mesh"].IndexCount, 1, 0, 0, 0);
+	m_CommandList->DrawIndexedInstanced(pMesh->GetBufferGeometryData()->IndexCount, 1, 0, 0, 0);
 
 	return true;
 }

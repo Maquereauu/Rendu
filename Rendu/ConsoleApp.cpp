@@ -82,7 +82,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 
 
 
-	//graphics->GetRender()->DrawOneObject(mesh1, shader2, tex1, MathHelper::Identity4x4(), projection, viewMatrix);
+	graphics->GetRender()->DrawOneObject(mesh1, shader2, tex1, MathHelper::Identity4x4(), projection, viewMatrix);
 	graphics->GetRender()->DrawOneObject(mesh, shader1, nullptr, I, projection, viewMatrix);
 
 
