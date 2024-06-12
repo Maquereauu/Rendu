@@ -4,7 +4,7 @@
 
 class ShaderCB;
 
-
+// Nouveau Upload Buffer pour les derivés de ShaderCB
 class SUploadBufferBase {
 public:
     SUploadBufferBase() : m_pUpload(nullptr), m_data(nullptr), m_elementByteSize(0), m_isConstantBuffer(false) {}
@@ -62,6 +62,8 @@ public:
     }
 };
 
+
+// Old Upload Buffer - Encore Utilisé pour la caméra
 template<typename T>
 class UploadBuffer
 {
