@@ -470,13 +470,13 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 
 
 
-	//DirectX::XMMATRIX worldMatrixXM = DirectX::XMLoadFloat4x4(&worldMatrix);
-	//DirectX::XMMATRIX transposedWorldMatrix = DirectX::XMMatrixTranspose(worldMatrixXM);
-	//DirectX::XMFLOAT4X4 transposedWorld;
-	//DirectX::XMStoreFloat4x4(&transposedWorld, transposedWorldMatrix);
+	DirectX::XMMATRIX worldMatrixXM = DirectX::XMLoadFloat4x4(&worldMatrix);
+	DirectX::XMMATRIX transposedWorldMatrix = DirectX::XMMatrixTranspose(worldMatrixXM);
+	DirectX::XMFLOAT4X4 transposedWorld;
+	DirectX::XMStoreFloat4x4(&transposedWorld, transposedWorldMatrix);
 
 	WorldCB worldData;
-	worldData.world = worldMatrix;
+	worldData.world = transposedWorld;
 
 
 
