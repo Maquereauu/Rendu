@@ -20,7 +20,7 @@ struct GCVERTEXTEXTURE
 };
 
 struct ShaderCB {
-
+    virtual ~ShaderCB() = default;
 };
 
 struct WorldCB : ShaderCB {
@@ -57,23 +57,27 @@ public:
 
     
 
-    //template<typename ShaderType>
-    //void Initialize(GCRender* pRender) {
-    //    m_pRender = pRender;
-    //    //m_pObjectCB = new UploadBuffer<ShaderType>(m_pRender->Getmd3dDevice(), 1, true);
-    //    m_pObjectCB = reinterpret_cast<UploadBuffer<ShaderCB>*>(new UploadBuffer<ShaderType>(m_pRender->Getmd3dDevice(), 1, true));
-    //    m_pCameraCB = new UploadBuffer<CameraCB>(m_pRender->Getmd3dDevice(), 1, true);
-    //}
+    template<typename ShaderType>
+    void Initialize(GCRender* pRender) {
+        m_pRender = pRender;
+        //m_pObjectCB = new UploadBuffer<ShaderType>(m_pRender->Getmd3dDevice(), 1, true);
+        m_pObjectCB = reinterpret_cast<UploadBuffer<ShaderCB>*>(new UploadBuffer<ShaderType>(m_pRender->Getmd3dDevice(), 1, true));
+        m_pCameraCB = new UploadBuffer<CameraCB>(m_pRender->Getmd3dDevice(), 1, true);
 
-    //template<typename T>
-    //void UpdateObjectBuffer(const T& objectData)
-    //{
-    //    m_pObjectCB->CopyData(0, objectData);
-    //}
+
+    }
+
+    template<typename T>
+    void UpdateObjectBuffer(const T& objectData)
+    {
+        m_pObjectCB->CopyData(0, objectData);
+
+
+    }
 
 
     // Update Constant Buffer
-    void UpdateObjectBuffer(DirectX::XMMATRIX worldMatrix);
+    //void UpdateObjectBuffer(DirectX::XMMATRIX worldMatrix);
     void UpdateCameraBuffer(DirectX::XMMATRIX viewMatrix, DirectX::XMMATRIX projMatrix);
 
 
@@ -82,8 +86,8 @@ public:
     inline MeshGeometry* GetBufferGeometryData() { return  m_pBufferGeometryData; }
     //inline UploadBuffer<ObjectConstants>* GetConstantBufferData() { return  m_Buffer; }
 
-    //inline UploadBuffer<ShaderCB>* GetObjectCBData() { return  m_pObjectCB; }
-    inline UploadBuffer<WorldCB>* GetObjectCBData() { return  m_pObjectCB; }
+    inline UploadBuffer<ShaderCB>* GetObjectCBData() { return  m_pObjectCB; }
+    //inline UploadBuffer<WorldCB>* GetObjectCBData() { return  m_pObjectCB; }
     inline UploadBuffer<CameraCB>* GetCameraCBData() { return  m_pCameraCB; }
 
 
@@ -95,8 +99,8 @@ private:
     MeshGeometry* m_pBufferGeometryData;
 
 
-    //UploadBuffer<ShaderCB>* m_pObjectCB;
-    UploadBuffer<WorldCB>* m_pObjectCB;
+    UploadBuffer<ShaderCB>* m_pObjectCB;
+    //UploadBuffer<WorldCB>* m_pObjectCB;
     UploadBuffer<CameraCB>* m_pCameraCB;
 
 

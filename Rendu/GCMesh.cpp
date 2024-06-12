@@ -70,14 +70,14 @@ GCMesh::~GCMesh() {
 
 }
 
-void GCMesh::Initialize(GCRender* pRender) {
-    m_pRender = pRender;
-    //m_Buffer = new UploadBuffer<ObjectConstants>(m_pRender->Getmd3dDevice(), 1, true);
-
-    m_pObjectCB = new UploadBuffer<WorldCB>(m_pRender->Getmd3dDevice(), 1, true);
-    m_pCameraCB = new UploadBuffer<CameraCB>(m_pRender->Getmd3dDevice(), 1, true);
-
-}
+//void GCMesh::Initialize(GCRender* pRender) {
+//    m_pRender = pRender;
+//    //m_Buffer = new UploadBuffer<ObjectConstants>(m_pRender->Getmd3dDevice(), 1, true);
+//
+//    m_pObjectCB = new UploadBuffer<WorldCB>(m_pRender->Getmd3dDevice(), 1, true);
+//    m_pCameraCB = new UploadBuffer<CameraCB>(m_pRender->Getmd3dDevice(), 1, true);
+//
+//}
 
 template<typename VertexType>
 void GCMesh::UploadGeometryData(GCGeometry* pGeometry) {
@@ -136,16 +136,16 @@ void GCMesh::UploadGeometryDataTexture(GCGeometry* pGeometry) {
 }
 
 
-void GCMesh::UpdateObjectBuffer(DirectX::XMMATRIX worldMatrix)
-{
-
-    worldMatrix = DirectX::XMMatrixTranspose(worldMatrix);
-
-
-    WorldCB objectCB;
-    XMStoreFloat4x4(&objectCB.world, worldMatrix);
-    m_pObjectCB->CopyData(0, objectCB);
-}
+//void GCMesh::UpdateObjectBuffer(DirectX::XMMATRIX worldMatrix)
+//{
+//
+//    worldMatrix = DirectX::XMMatrixTranspose(worldMatrix);
+//
+//
+//    WorldCB objectCB;
+//    XMStoreFloat4x4(&objectCB.world, worldMatrix);
+//    m_pObjectCB->CopyData(0, objectCB);
+//}
 
 void GCMesh::UpdateCameraBuffer(DirectX::XMMATRIX viewMatrix, DirectX::XMMATRIX projMatrix)
 {

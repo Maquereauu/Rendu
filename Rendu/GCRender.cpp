@@ -467,7 +467,7 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 	}
 
 
-	pMesh->UpdateObjectBuffer(DirectX::XMLoadFloat4x4(&worldMatrix));
+
 
 
 	//DirectX::XMMATRIX worldMatrixXM = DirectX::XMLoadFloat4x4(&worldMatrix);
@@ -475,16 +475,28 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 	//DirectX::XMFLOAT4X4 transposedWorld;
 	//DirectX::XMStoreFloat4x4(&transposedWorld, transposedWorldMatrix);
 
-	//WorldCB worldData;
-	//worldData.world = transposedWorld;
+	WorldCB worldData;
+	worldData.world = worldMatrix;
 
-	//pMesh->UpdateObjectBuffer<WorldCB>(worldData);
+	pMesh->UpdateObjectBuffer<WorldCB>(worldData);
+
+	//pMesh->UpdateObjectBuffer(DirectX::XMLoadFloat4x4(&worldMatrix));
 
 	pMesh->UpdateCameraBuffer(viewMatrix, projectionMatrix);
 
 
+	//m_CommandList->SetGraphicsRootConstantBufferView(0, pMesh->GetObjectCBData()->Resource()->GetGPUVirtualAddress());
+
+
+	UploadBuffer<WorldCB>* worldCB = dynamic_cast<UploadBuffer<WorldCB>*>(pMesh->GetObjectCBData());
+
+
 	m_CommandList->SetGraphicsRootConstantBufferView(0, pMesh->GetObjectCBData()->Resource()->GetGPUVirtualAddress());
+
+
+	// Camera
 	m_CommandList->SetGraphicsRootConstantBufferView(1, pMesh->GetCameraCBData()->Resource()->GetGPUVirtualAddress());
+
 
 
 	// #TODO Réflechir a passer par la GCGeometry ? 
