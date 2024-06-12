@@ -61,7 +61,7 @@ public:
     void Initialize(GCRender* pRender) {
         m_pRender = pRender;
         //m_pObjectCB = new UploadBuffer<ShaderType>(m_pRender->Getmd3dDevice(), 1, true);
-        m_pObjectCB = reinterpret_cast<UploadBuffer<ShaderCB>*>(new UploadBuffer<ShaderType>(m_pRender->Getmd3dDevice(), 1, true));
+        m_pObjectCB = new SUploadBuffer<ShaderType>(m_pRender->Getmd3dDevice(), 1, true);
         m_pCameraCB = new UploadBuffer<CameraCB>(m_pRender->Getmd3dDevice(), 1, true);
 
 
@@ -86,9 +86,15 @@ public:
     inline MeshGeometry* GetBufferGeometryData() { return  m_pBufferGeometryData; }
     //inline UploadBuffer<ObjectConstants>* GetConstantBufferData() { return  m_Buffer; }
 
-    inline UploadBuffer<ShaderCB>* GetObjectCBData() { return  m_pObjectCB; }
-    //inline UploadBuffer<WorldCB>* GetObjectCBData() { return  m_pObjectCB; }
-    inline UploadBuffer<CameraCB>* GetCameraCBData() { return  m_pCameraCB; }
+
+        //inline UploadBuffer<WorldCB>* GetObjectCBData() { return  m_pObjectCB; }
+    SUploadBufferBase* GetObjectCBData() {
+        return m_pObjectCB;
+    }
+
+    UploadBuffer<CameraCB>* GetCameraCBData() {
+        return m_pCameraCB;
+    }
 
 
 
@@ -98,9 +104,8 @@ private:
     //Buffer Data #TODO -> Change structure name
     MeshGeometry* m_pBufferGeometryData;
 
-
-    UploadBuffer<ShaderCB>* m_pObjectCB;
     //UploadBuffer<WorldCB>* m_pObjectCB;
+    SUploadBufferBase* m_pObjectCB;
     UploadBuffer<CameraCB>* m_pCameraCB;
 
 

@@ -53,6 +53,8 @@ class GCShaderColor;
 class GCShaderTexture;
 class GCTexture;
 class GCTextureFactory;
+class SUploadBufferBase; // 
+//class SUploadBuffer; //
 class MathHelper;
 class Timer;
 class Window;
