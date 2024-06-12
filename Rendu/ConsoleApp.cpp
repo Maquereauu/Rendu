@@ -18,7 +18,7 @@ std::string readShaderFile(const std::string& filePath) {
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
 
-	AllocConsole(); // Crée une nouvelle console associée à ce processus
+	AllocConsole(); // CrÃ©e une nouvelle console associÃ©e Ã  ce processus
 
 	FILE* stream;
 	freopen_s(&stream, "CONOUT$", "w", stdout); // Redirige la sortie standard vers la console
@@ -38,12 +38,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	GCGraphics* graphics = new GCGraphics();
 	graphics->Initialize(window);
 
+	graphics->GetPrimitiveFactory()->Initialize();
+
 	// Geometry (Resource)
-	GCGeometry* geo = graphics->GetPrimitiveFactory()->BuildBoxGeometryColor();
+	GCGeometry* geo = graphics->GetPrimitiveFactory()->BuildGeometryColor(L"cube", DirectX::XMFLOAT4(DirectX::Colors::White));
 	GCGeometry* geo1 = graphics->GetModelParserFactory()->BuildObjTexture("monkeyUv.obj");
 
 	///// Create Render Resources
 	graphics->GetRender()->ResetCommandList(); // Reset Command List Before Resources Creation
+
 
 	// Mesh
 	GCMesh* mesh = graphics->CreateMesh(geo);

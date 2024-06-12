@@ -16,6 +16,8 @@
 #include <tchar.h>
 #include "Timer.h"
 #include <string>
+#include <map>
+#include <variant>
 #include <memory>
 #include <algorithm>
 #include <vector>
