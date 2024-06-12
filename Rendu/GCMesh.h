@@ -20,7 +20,6 @@ struct GCVERTEXTEXTURE
 };
 
 struct ShaderCB {
-    virtual ~ShaderCB() = default;
 };
 
 struct WorldCB : ShaderCB {

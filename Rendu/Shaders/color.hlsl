@@ -49,7 +49,3 @@ float4 PS(VertexOut pin) : SV_Target
     //}
 }
 
-    //vout.PosH = mul(mul(float4(vin.PosL, 1.0f), float4x4(1.0f, 0.0f, 0.0f, 0.0f,
-    //                                                  0.0f, 1.0f, 0.0f, 0.0f,
-    //                                                  0.0f, 0.0f, 1.0f, 0.0f,
-    //                                                  0.0f, 0.0f, 0.0f, 1.0f)), mul(gView, gProj));
