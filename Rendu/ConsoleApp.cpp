@@ -18,18 +18,18 @@ std::string readShaderFile(const std::string& filePath) {
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
 
-	//AllocConsole(); // Crée une nouvelle console associée à ce processus
+	AllocConsole(); // CrÃ©e une nouvelle console associÃ©e Ã  ce processus
 
-	//FILE* stream;
-	//freopen_s(&stream, "CONOUT$", "w", stdout); // Redirige la sortie standard vers la console
+	FILE* stream;
+	freopen_s(&stream, "CONOUT$", "w", stdout); // Redirige la sortie standard vers la console
 
-	//std::cout << "This works" << std::endl; // Affiche du texte dans la console
+	std::cout << "This works" << std::endl; // Affiche du texte dans la console
 
-	//std::string shaderCode = readShaderFile("Shaders/color.hlsl");
-	//if (!shaderCode.empty()) {
-	//	std::cout << "Contenu du shader : " << std::endl;
-	//	std::cout << shaderCode << std::endl;
-	//}
+	std::string shaderCode = readShaderFile("Shaders/color.hlsl");
+	if (!shaderCode.empty()) {
+		std::cout << "Contenu du shader : " << std::endl;
+		std::cout << shaderCode << std::endl;
+	}
 
 
 	Window* window = new Window(hInstance);
@@ -42,14 +42,26 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	GCGeometry* geo = graphics->GetPrimitiveFactory()->BuildBoxGeometryColor();
 	GCGeometry* geo1 = graphics->GetModelParserFactory()->BuildObjTexture("monkeyUv.obj");
 
+
+	GCModelParserObj* ModelParser = new GCModelParserObj();
+	ModelParser->Initialize(graphics->m_pRender, "monkeyUv.obj");
+	ModelParser->ParseObj();
+	PrimitiveFactory* primFact = new PrimitiveFactory();
+
+	primFact->Initialize();
+	//GCGeometry* geo = primFact->BuildGeometryColor(L"cube", DirectX::XMFLOAT4(DirectX::Colors::White));
+	GCGeometry* geo = primFact->BuildGeometryTexture(L"circle");
+	GCGeometry* geo1 = ModelParser->BuildObjTexture();
+
 	///// Create Render Resources
 	graphics->GetRender()->ResetCommandList(); // Reset Command List Before Resources Creation
+
 
 	// Mesh
 	GCMesh* mesh = graphics->CreateMesh(geo);
 	GCMesh* mesh1 = graphics->CreateMesh(geo1);
-	GCShader* shader1 = graphics->CreateShader(STEnum::color);
-	GCShader* shader2 = graphics->CreateShader(STEnum::texture);
+	GCShader* shader1 = graphics->CreateShaderColor();
+	GCShader* shader2 = graphics->CreateShaderTexture();
 	GCTexture* tex1 = graphics->CreateTexture("texture");
 
 	graphics->GetRender()->CloseCommandList(); // Close and Execute after creation
@@ -89,6 +101,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	graphics->GetRender()->PostDraw();
 
 	//graphics->GetRender()->PrepareDraw();
+
+	graphics->m_pRender->PrepareDraw();
+	graphics->m_pRender->DrawOneObject(mesh, shader2, tex1, MathHelper::Identity4x4());
+	graphics->m_pRender->PostDraw();
 
 	//graphics->GetRender()->PostDraw();
 

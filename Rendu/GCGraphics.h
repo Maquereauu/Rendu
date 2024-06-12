@@ -12,7 +12,11 @@ public:
 
 
 	// Principal Object Creation
-	GCShader* CreateShader(int type);
+
+	GCShader* CreateShaderColor();
+	GCShader* CreateShaderTexture();
+
+
 	GCMaterial* CreateMaterial();
 	GCMesh* CreateMesh(GCGeometry* pGeometry);
 	GCTexture* CreateTexture(std::string fileName);

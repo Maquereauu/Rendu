@@ -74,7 +74,7 @@ void GCMesh::Initialize(GCRender* pRender) {
     m_pRender = pRender;
     //m_Buffer = new UploadBuffer<ObjectConstants>(m_pRender->Getmd3dDevice(), 1, true);
 
-    m_pObjectCB = new UploadBuffer<ObjectCB>(m_pRender->Getmd3dDevice(), 1, true);
+    m_pObjectCB = new UploadBuffer<WorldCB>(m_pRender->Getmd3dDevice(), 1, true);
     m_pCameraCB = new UploadBuffer<CameraCB>(m_pRender->Getmd3dDevice(), 1, true);
 
 }
@@ -136,31 +136,24 @@ void GCMesh::UploadGeometryDataTexture(GCGeometry* pGeometry) {
 }
 
 
-//void GCMesh::UpdateBuffer(DirectX::XMMATRIX worldViewProj)
-//{
-//    ObjectConstants objConstants;
-//    XMStoreFloat4x4(&objConstants.WorldViewProj, worldViewProj);
-//    m_Buffer->CopyData(0, objConstants);
-//}
-
 void GCMesh::UpdateObjectBuffer(DirectX::XMMATRIX worldMatrix)
 {
-    // Transposer la matrice du monde
+
     worldMatrix = DirectX::XMMatrixTranspose(worldMatrix);
 
-    // Constant buffer pour la matrice du monde
-    ObjectCB objectCB;
+
+    WorldCB objectCB;
     XMStoreFloat4x4(&objectCB.world, worldMatrix);
     m_pObjectCB->CopyData(0, objectCB);
 }
 
 void GCMesh::UpdateCameraBuffer(DirectX::XMMATRIX viewMatrix, DirectX::XMMATRIX projMatrix)
 {
-    // Transposer les matrices de vue et de projection
+
     viewMatrix = DirectX::XMMatrixTranspose(viewMatrix);
     projMatrix = DirectX::XMMatrixTranspose(projMatrix);
 
-    // Constant buffer pour les matrices de vue-projection
+
     CameraCB cameraCB;
     XMStoreFloat4x4(&cameraCB.view, viewMatrix);
     XMStoreFloat4x4(&cameraCB.proj, projMatrix);

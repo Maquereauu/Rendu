@@ -20,8 +20,11 @@ void GCShader::Render() {
 	m_pRender->GetCommandList()->SetGraphicsRootSignature(GetRootSign());
 }
 
-void GCShader::Initialize(GCRender* pRender, std::wstring hlslName) {
+void GCShader::Initialize(GCRender* pRender, std::wstring hlslName, int type) {
 	m_pRender = pRender;
+	m_type = type;
+
+
 	CompileShader(hlslName);
 	RootSign();
 	Pso();
@@ -39,7 +42,7 @@ void GCShader::RootSign() {
 	slotRootParameter[1].InitAsConstantBufferView(1);
     
 	// If texture
-	if (m_count == 2) {
+	if (m_type == 1) {
 		CD3DX12_DESCRIPTOR_RANGE srvTable;
 		srvTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 		slotRootParameter[2].InitAsDescriptorTable(1, &srvTable);
@@ -61,7 +64,7 @@ void GCShader::RootSign() {
     );
 
     // Configuration de la signature racine
-    CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(m_count+1, slotRootParameter, 1, &staticSample, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+    CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(m_type+2, slotRootParameter, 1, &staticSample, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
     // Sérialisation de la signature racine
     ID3DBlob* serializedRootSig = nullptr;
