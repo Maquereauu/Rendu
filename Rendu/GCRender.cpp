@@ -481,17 +481,7 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 
 
 	pMesh->UpdateObjectBuffer<WorldCB>(worldData);
-
-	//pMesh->UpdateObjectBuffer(DirectX::XMLoadFloat4x4(&worldMatrix));
-
 	pMesh->UpdateCameraBuffer(viewMatrix, projectionMatrix);
-
-
-
-
-
-	//SUploadBuffer<WorldCB>* worldCB = dynamic_cast<SUploadBuffer<WorldCB>*>(pMesh->GetObjectCBData());
-	//m_CommandList->SetGraphicsRootConstantBufferView(0, pMesh->GetObjectCBData()->Resource()->GetGPUVirtualAddress());
 
 	auto* pUploadBuffer = dynamic_cast<SUploadBuffer<WorldCB>*>(pMesh->GetObjectCBData());
 
