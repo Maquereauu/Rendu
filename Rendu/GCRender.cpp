@@ -441,7 +441,7 @@ void GCRender::Draw(const Timer& gt) {
 
 
 
-bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTexture, DirectX::XMFLOAT4X4 worldMatrix, DirectX::XMMATRIX projectionMatrix, DirectX::XMMATRIX viewMatrix) {
+bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTexture, DirectX::XMMATRIX worldMatrix, DirectX::XMMATRIX projectionMatrix, DirectX::XMMATRIX viewMatrix) {
 
 	if (pShader == nullptr || pMesh == nullptr) {
 		return false;
@@ -470,13 +470,23 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 
 
 
-	DirectX::XMMATRIX worldMatrixXM = DirectX::XMLoadFloat4x4(&worldMatrix);
-	DirectX::XMMATRIX transposedWorldMatrix = DirectX::XMMatrixTranspose(worldMatrixXM);
-	DirectX::XMFLOAT4X4 transposedWorld;
-	DirectX::XMStoreFloat4x4(&transposedWorld, transposedWorldMatrix);
+	//DirectX::XMMATRIX worldMatrixXM = DirectX::XMLoadFloat4x4(&worldMatrix);
+	//DirectX::XMMATRIX transposedWorldMatrix = DirectX::XMMatrixTranspose(worldMatrixXM);
+	//DirectX::XMFLOAT4X4 transposedWorld;
+	//DirectX::XMStoreFloat4x4(&transposedWorld, transposedWorldMatrix);
+
+	//DirectX::XMMATRIX transposedMatrix = DirectX::XMMatrixTranspose(worldMatrix);
+	//DirectX::XMFLOAT4X4 transposedFloat4x4;
+	//DirectX::XMStoreFloat4x4(&transposedFloat4x4, transposedMatrix);
+//	DirectX::XMFLOAT4X4 identityMatrixWithExtraOne = {
+//    1.0f, 0.0f, 0.0f, 0.0f,
+//    0.0f, 1.0f, 0.0f, 0.0f,
+//    0.0f, 0.0f, 1.0f, 0.0f,
+//    0.0f, 0.0f, 0.0f, 2.0f // Remplacer 2.0f par la valeur que vous souhaitez
+//};
 
 	WorldCB worldData;
-	worldData.world = worldMatrix;
+	worldData.world = MathHelper::Identity4x4();
 
 
 

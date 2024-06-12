@@ -72,7 +72,7 @@ public:
 	void PostDraw();
 	void Draw(const Timer& gt);
 
-	bool DrawOneObject(GCMesh* pMesh, GCShader* pShader,GCTexture* pTexture, DirectX::XMFLOAT4X4 worldMatrix, DirectX::XMMATRIX projectionMatrix, DirectX::XMMATRIX viewMatrix);
+	bool DrawOneObject(GCMesh* pMesh, GCShader* pShader,GCTexture* pTexture, DirectX::XMMATRIX worldMatrix, DirectX::XMMATRIX projectionMatrix, DirectX::XMMATRIX viewMatrix);
 	//void BuildBoxGeometry();
 
 

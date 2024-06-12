@@ -71,8 +71,6 @@ public:
     void UpdateObjectBuffer(const T& objectData)
     {
         m_pObjectCB->CopyData(0, objectData);
-
-
     }
 
 

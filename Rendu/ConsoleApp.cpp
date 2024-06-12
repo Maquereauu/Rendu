@@ -69,12 +69,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	// SET CAMERA
 
 
-	DirectX::XMFLOAT4X4 I(
+	DirectX::XMMATRIX I = DirectX::XMMatrixSet(
 		0.5f, 0.0f, 0.0f, 0.0f,
 		0.0f, 0.5f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
-		3.0f, 0.0f, 0.0f, 1.0f);
-
+		3.0f, 0.0f, 0.0f, 1.0f
+	);
 
 
 
@@ -82,7 +82,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 
 
 
-	graphics->GetRender()->DrawOneObject(mesh1, shader2, tex1, MathHelper::Identity4x4(), projection, viewMatrix);
+	//graphics->GetRender()->DrawOneObject(mesh1, shader2, tex1, MathHelper::Identity4x4(), projection, viewMatrix);
 	graphics->GetRender()->DrawOneObject(mesh, shader1, nullptr, I, projection, viewMatrix);
 
 
