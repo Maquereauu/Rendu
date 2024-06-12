@@ -146,8 +146,8 @@ void GCPrimitiveFactory::Initialize()
     };
 }
 
-GCGeometry* PrimitiveFactory::BuildGeometryColor(std::wstring name, DirectX::XMFLOAT4 color)
-
+GCGeometry* GCPrimitiveFactory::BuildGeometryColor(std::wstring name, DirectX::XMFLOAT4 color)
+{
 	GCGeometry* primitiveGeometry = new GCGeometry();
 
 	primitiveGeometry->indices = std::get<std::vector<uint16_t>>(m_primitiveInfos[name][L"index"]);
@@ -165,7 +165,7 @@ GCGeometry* PrimitiveFactory::BuildGeometryColor(std::wstring name, DirectX::XMF
 
 
 GCGeometry* GCPrimitiveFactory::BuildGeometryTexture(std::wstring name)
-
+{
 	GCGeometry* primitiveGeometry = new GCGeometry();
 
 	primitiveGeometry->indices = std::get<std::vector<uint16_t>>(m_primitiveInfos[name][L"index"]);
