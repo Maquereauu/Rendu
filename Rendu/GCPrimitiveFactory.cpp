@@ -1,12 +1,13 @@
 #include "framework.h"
 
-PrimitiveFactory::PrimitiveFactory() {
+GCPrimitiveFactory::GCPrimitiveFactory() {
+	m_pRender = nullptr;
 }
 
-PrimitiveFactory::~PrimitiveFactory() {
+GCPrimitiveFactory::~GCPrimitiveFactory() {
 }
 
-void PrimitiveFactory::Initialize() 
+void GCPrimitiveFactory::Initialize() 
 {
 
     // Create circle vertices, uvs and indices
@@ -146,7 +147,7 @@ void PrimitiveFactory::Initialize()
 }
 
 GCGeometry* PrimitiveFactory::BuildGeometryColor(std::wstring name, DirectX::XMFLOAT4 color)
-{
+
 	GCGeometry* primitiveGeometry = new GCGeometry();
 
 	primitiveGeometry->indices = std::get<std::vector<uint16_t>>(m_primitiveInfos[name][L"index"]);
@@ -162,8 +163,9 @@ GCGeometry* PrimitiveFactory::BuildGeometryColor(std::wstring name, DirectX::XMF
 	return primitiveGeometry;
 }
 
-GCGeometry* PrimitiveFactory::BuildGeometryTexture(std::wstring name)
-{
+
+GCGeometry* GCPrimitiveFactory::BuildGeometryTexture(std::wstring name)
+
 	GCGeometry* primitiveGeometry = new GCGeometry();
 
 	primitiveGeometry->indices = std::get<std::vector<uint16_t>>(m_primitiveInfos[name][L"index"]);

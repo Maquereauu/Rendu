@@ -1,25 +1,20 @@
 #pragma once
 
-class PrimitiveFactory
+class GCPrimitiveFactory
 {
 public:
 
-	PrimitiveFactory();
-	~PrimitiveFactory();
-	void Initialize();
 
+
+	GCPrimitiveFactory();
+	~GCPrimitiveFactory();
+  void Initialize();
 	/*GCGeometry* BuildBoxGeometryColor();
 	GCGeometry* BuildBoxGeometryTexture();*/
-
 	GCGeometry* BuildGeometryColor(std::wstring name, DirectX::XMFLOAT4 color);
 	GCGeometry* BuildGeometryTexture(std::wstring name);
-	// 
-	//void BuildSphereGeometry();
-protected:
-
-	//int m_Type;
-	//GCGEOMETRY m_BoxGeometry;
-	//Geometry m_SphereGeometry;
+  
+private:
 
 	GCRender* m_pRender;
 	std::map < std::wstring, std::map<

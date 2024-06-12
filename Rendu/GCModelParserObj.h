@@ -11,17 +11,19 @@ class GCModelParserObj
 public:
 	GCModelParserObj();
 	~GCModelParserObj();
-	void Initialize(GCRender* pRender, std::string fileName);
-	void ParseObj();
+	void Initialize(GCRender* pRender);
+	bool ParseObj(std::string fileName);
 
-	GCGeometry* BuildObjColor();
-	GCGeometry* BuildObjTexture();
+	GCGeometry* BuildObjColor(std::string fileName);
+	GCGeometry* BuildObjTexture(std::string fileName);
 
 
 private:
 	ObjInfo m_ParsedObj;
+
+
 	GCRender* m_pRender;
 	std::string m_fileName;
-	
+
 };
 

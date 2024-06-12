@@ -3,28 +3,20 @@
 class GCTexture
 {
 public:
-	GCTexture();
-	~GCTexture();
+    GCTexture();
+    ~GCTexture();
 
-	void Initialize(std::string fileName, GCGraphics* pGraphics);
+    bool Initialize(std::string fileName, GCGraphics* pGraphics);
 
-	void Render();
-public:
-	CD3DX12_GPU_DESCRIPTOR_HANDLE m_HDescriptorGPU;
+
+    inline UINT GetCbvSrvUavDescriptorSize() const { return m_cbvSrvUavDescriptorSize; }
+    inline ID3D12Resource* GetTextureBuffer() const { return m_pTextureBuffer; }
+    inline ID3D12Resource* GetUploadTexture() const { return m_pUploadTexture; }
+    inline CD3DX12_GPU_DESCRIPTOR_HANDLE GetTextureAddress() const { return m_textureAddress; }
+
 private:
-
-	std::string m_namePath;
-	// 
-	int SrvHeapIndex;
-
-
-
-	ID3D12Resource* m_textureBuffer;
-	ID3D12Resource* m_uploadTexture;
-	ID3D12Resource* m_resource = nullptr;
-	ID3D12Resource* m_uploadHeap = nullptr;
-	UINT m_haepDescSize;
-	UINT m_CbvSrvUavDescriptorSize;
-
-	CD3DX12_GPU_DESCRIPTOR_HANDLE m_textureAdress;
+    UINT m_cbvSrvUavDescriptorSize;
+    ID3D12Resource* m_pTextureBuffer;
+    ID3D12Resource* m_pUploadTexture;
+    CD3DX12_GPU_DESCRIPTOR_HANDLE m_textureAddress;
 };

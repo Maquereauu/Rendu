@@ -12,20 +12,46 @@ public:
 
 
 	// Principal Object Creation
-	GCShader* CreateShader(int type, std::wstring hlsl);
+
+	GCShader* CreateShaderColor();
+	GCShader* CreateShaderTexture();
+
+
 	GCMaterial* CreateMaterial();
 	GCMesh* CreateMesh(GCGeometry* pGeometry);
 	GCTexture* CreateTexture(std::string fileName);
+
+
+	//Delete
+	void RemoveShader(GCShader* pShader);
+	void RemoveMaterial(GCMaterial* pMaterial);
+	void RemoveMesh(GCMesh* pMesh);
+	void RemoveTexture(GCTexture* pTexture);
+
+
 	//// Resources Manager
 	std::vector<GCShader*> GetShaders();
 	std::vector<GCMaterial*> GetMaterials();
 	std::vector<GCMesh*> GetMeshes();
 	std::vector<GCTexture*> GetTextures();
 
+	// Id
+	int GetTextureId() const { return m_textureId; }
 
+
+	// Render
+	GCRender* GetRender() const { return m_pRender; }
+
+
+
+	GCPrimitiveFactory* GetPrimitiveFactory() const {return m_pPrimitiveFactory;}
+	GCModelParserObj* GetModelParserFactory() const {return m_pModelParserFactory;}
+
+
+
+private:
 	// Render instance contain Window
 	GCRender* m_pRender;
-
 
 	int m_meshId = 0;
 	int m_shaderId = 0;
@@ -37,7 +63,10 @@ public:
 	std::vector<GCMaterial*> m_vMaterials;
 	std::vector<GCMesh*> m_vMeshes;
 
-private:
+	// Mesh
+	GCPrimitiveFactory* m_pPrimitiveFactory;
+	GCModelParserObj* m_pModelParserFactory;
+
 
 
 

@@ -1,30 +1,24 @@
 #include "framework.h"
+
+
 GCGraphics::GCGraphics() {
-    /*m_pRender = nullptr;*/
+    m_pRender = nullptr;
 }
 
 void GCGraphics::Initialize(Window* window) {
     m_pRender = new GCRender();
     m_pRender->Initialize(this,window);
+
+    // 
+    m_pPrimitiveFactory = new GCPrimitiveFactory();
+    m_pModelParserFactory = new GCModelParserObj();
 }
 
-//void Graphics::Initialize() {
-//	// Init Debug Console
-//	//AllocConsole();
-//	//FILE* fp;
-//	//freopen_s(&fp, "CONOUT$", "w", stdout);
-//	//freopen_s(&fp, "CONIN$", "r", stdin);
-//	//std::cout << "Console initialized!" << std::endl;
-//
-//	// Init render
-//
-//
-//
-//}
 
 GCMesh* GCGraphics::CreateMesh(GCGeometry* pGeometry) {
     GCMesh* mesh = new GCMesh();
     mesh->Initialize(m_pRender);
+    //mesh->Initialize<WorldCB>(m_pRender);
     if(pGeometry->texC.size() == 0)        
     {
         mesh->UploadGeometryDataColor(pGeometry);
@@ -46,39 +40,27 @@ GCTexture* GCGraphics::CreateTexture(std::string fileName) {
 }
 
 
-GCShader* GCGraphics::CreateShader(int type, std::wstring hlsl) {
-    GCShader* shader = nullptr; // Initialisation de la variable shader à nullptr
+GCShader* GCGraphics::CreateShaderColor() {
+    GCShader* shader;
+    shader = new GCShaderColor();
+    shader->Initialize(m_pRender, L"color", STEnum::color);
+    m_vShaders.push_back(shader);
+    m_shaderId++;
+    return shader;
+    
+}
 
-    switch (type) {
-    case 0:
-    {
-        shader = new GCShaderColor();
-        shader->m_Type = 0;
-        shader->Initialize(m_pRender, hlsl);
-        m_vShaders.push_back(shader);
-        m_shaderId++;
-        return shader;
-        break;
-    }
-    case 1:
-    {
-        shader = new GCShaderTexture();
-        shader->m_Type = 1;
-        shader->Initialize(m_pRender, hlsl);
-        m_vShaders.push_back(shader);
-        m_shaderId++;
-        return shader;
-        break;
-    }
-    }
 
-    GCShader* parentShader = dynamic_cast<GCShader*>(shader);
-    if (parentShader != nullptr) {
-        return parentShader;
-    }
-    else {
-        return nullptr;
-    }
+GCShader* GCGraphics::CreateShaderTexture() {
+    GCShader* shader;
+
+    shader = new GCShaderTexture();
+    shader->Initialize(m_pRender, L"texture", STEnum::texture);
+    m_vShaders.push_back(shader);
+    m_shaderId++;
+    return shader;
+
+    
 }
 
 GCMaterial* GCGraphics::CreateMaterial() {
@@ -105,3 +87,39 @@ std::vector<GCTexture*> GCGraphics::GetTextures() {
     return m_vTextures;
 }
 
+void GCGraphics::RemoveShader(GCShader* pShader) {
+    auto it = std::find(m_vShaders.begin(), m_vShaders.end(), pShader);
+
+    if (it != m_vShaders.end()) {
+        m_vShaders.erase(it);
+    }
+
+    delete pShader;
+}
+
+void GCGraphics::RemoveMaterial(GCMaterial* pMaterial) {
+    auto it = std::find(m_vMaterials.begin(), m_vMaterials.end(), pMaterial);
+
+    if (it != m_vMaterials.end()) {
+        m_vMaterials.erase(it);
+    }
+
+    delete pMaterial;
+}
+void GCGraphics::RemoveMesh(GCMesh* pMesh) {
+    auto it = std::find(m_vMeshes.begin(), m_vMeshes.end(), pMesh);
+
+    if (it != m_vMeshes.end()) {
+        m_vMeshes.erase(it);
+    }
+    delete pMesh;
+}
+void GCGraphics::RemoveTexture(GCTexture* pTexture) {
+    auto it = std::find(m_vTextures.begin(), m_vTextures.end(), pTexture);
+
+    if (it != m_vTextures.end()) {
+        m_vTextures.erase(it);
+    }
+
+    delete pTexture;
+}

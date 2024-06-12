@@ -1,5 +1,7 @@
 #include "framework.h"
 
+
+// Utils 
 std::vector<std::string> split(std::string str, std::string delimiter)
 {
 	std::vector<std::string> v;
@@ -35,24 +37,39 @@ std::vector<float> getFloatCoordinates(std::vector<std::string>* pStrCoord)
 
 	return floatCoord;
 }
+//
 
+
+
+
+
+
+
+
+/// CLASS
 GCModelParserObj::GCModelParserObj() {
 }
 
 GCModelParserObj::~GCModelParserObj() {
 }
 
-void GCModelParserObj::Initialize(GCRender* pRender, std::string fileName)
+void GCModelParserObj::Initialize(GCRender* pRender)
 {
 	m_pRender = pRender;
-	m_fileName = fileName;
 }
 
-void GCModelParserObj::ParseObj()
+bool GCModelParserObj::ParseObj(std::string fileName)
 {
 
-	std::ifstream objFile(m_fileName);
+	std::ifstream objFile(fileName);
 	std::string line;
+
+	if (objFile) {
+
+	}
+	else {
+		return false;
+	}
 
 	while (!objFile.eof()) {
 
@@ -127,12 +144,16 @@ void GCModelParserObj::ParseObj()
 		}
 	}
 
-
+	return true;
 }
 
-
-GCGeometry* GCModelParserObj::BuildObjTexture()
+// TEXTURE
+GCGeometry* GCModelParserObj::BuildObjTexture(std::string fileName)
 {
+
+	ParseObj(fileName);
+
+
 	GCGeometry* objGeometry = new GCGeometry();
 
 	objGeometry->indiceNumber = m_ParsedObj.facesInfos.size();
@@ -152,7 +173,9 @@ GCGeometry* GCModelParserObj::BuildObjTexture()
 	return objGeometry;
 }
 
-GCGeometry* GCModelParserObj::BuildObjColor() {
+// COLOR
+
+GCGeometry* GCModelParserObj::BuildObjColor(std::string fileName) {
 
 	GCGeometry* objGeometry = new GCGeometry();
 

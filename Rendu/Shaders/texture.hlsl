@@ -3,7 +3,13 @@ SamplerState g_sampler : register(s0); // Sampler bound to s0, register space 0
 
 cbuffer cbPerObject : register(b0)
 {
-    float4x4 gWorldViewProj;
+    float4x4 gWorld;
+};
+
+cbuffer cbPerCamera : register(b1)
+{
+    float4x4 gView;
+    float4x4 gProj;
 };
 
 struct VertexIn
@@ -22,8 +28,8 @@ VertexOut VS(VertexIn vin)
 {
     VertexOut vout;
     
-    // Transform to homogeneous clip space.
-    vout.PosH = mul(float4(vin.PosL, 1.0f), gWorldViewProj);
+    // Transform to homogeneous clip space using gWorld, gView, and gProj matrices.
+    vout.PosH = mul(mul(float4(vin.PosL, 1.0f), gWorld), mul(gView, gProj));
     
     // Pass vertex texture coordinates into the pixel shader.
     vout.UV = vin.UV;

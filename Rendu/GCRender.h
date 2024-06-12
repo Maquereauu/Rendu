@@ -1,9 +1,29 @@
 #pragma once
 
-struct ObjectConstants
-{
-	DirectX::XMFLOAT4X4 WorldViewProj = MathHelper::Identity4x4();
-};
+//struct ObjectConstants
+//{
+//	DirectX::XMFLOAT4X4 WorldViewProj;
+//};
+
+
+//struct ObjectCB {
+//	
+//};
+//
+//struct WorldCB : ObjectCB {
+//	DirectX::XMFLOAT4X4 world; // Matrice du monde
+//};
+//
+//struct LightAndWorld : ObjectCB {
+//	DirectX::XMFLOAT4X4 world; // Matrice du monde
+//	DirectX::XMFLOAT4X4 light; // Matrice du monde
+//	DirectX::XMFLOAT4X4 normal; // Matrice du monde
+//};
+
+
+
+
+
 
 
 
@@ -37,7 +57,6 @@ public:
 	void ResizeSwapChain();
 	void CreateRenderTargetViews();
 	void CreateDepthStencilBufferAndView();
-	void ExecuteResizeCommands();
 	void UpdateViewport();
 
 
@@ -53,7 +72,7 @@ public:
 	void PostDraw();
 	void Draw(const Timer& gt);
 
-	void DrawOneObject(GCMesh* pMesh, GCShader* pShader,GCTexture* pTexture, DirectX::XMFLOAT4X4 world);
+	bool DrawOneObject(GCMesh* pMesh, GCShader* pShader,GCTexture* pTexture, DirectX::XMFLOAT4X4 worldMatrix, DirectX::XMMATRIX projectionMatrix, DirectX::XMMATRIX viewMatrix);
 	//void BuildBoxGeometry();
 
 
@@ -84,11 +103,10 @@ public:
 	UINT GetRtvDescriptorSize() const { return m_rtvDescriptorSize; }
 	UINT GetDsvDescriptorSize() const { return m_dsvDescriptorSize; }
 	UINT GetCbvSrvUavDescriptorSize() const { return m_cbvSrvUavDescriptorSize; }
-	//GCGraphics* graphicsManager;
-public:
-	GCGraphics* m_pGraphicsManager;
+
+
 private:
-	DirectX::XMFLOAT4X4 mProj = MathHelper::Identity4x4();
+	
 	Window* m_pWindow;
 	// Swap chain size
 	static const int SwapChainBufferCount = 2;
@@ -121,7 +139,7 @@ private:
 
 
 	// State var
-	bool m_canResize;
+	bool m_canResize = true;
 	int m_CurrBackBuffer = 0;
 
 	// Format
@@ -133,8 +151,6 @@ private:
 	UINT      m_4xMsaaQuality = 0;      // quality level of 4X MSAA
 
 
-
-
 	// Screen
 	D3D12_VIEWPORT m_ScreenViewport;
 	D3D12_RECT m_ScissorRect;
@@ -142,11 +158,9 @@ private:
 	// Camera (Temporary)
 	CD3DX12_STATIC_SAMPLER_DESC staticSample;
 
-	// Instance (Temporary)
-
-	std::unique_ptr<UploadBuffer<ObjectConstants>> m_Buffer;
-
-
-	// 
 };
 
+
+#ifndef ReleaseCom
+#define ReleaseCom(x) { if(x){ x->Release(); x = 0; } }
+#endif

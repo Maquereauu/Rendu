@@ -1,5 +1,5 @@
 #pragma once
-typedef enum PIEnum {
+enum PIEnum {
 	BoxColor,
 	BoxTexture,
 	PlaneTexture,
