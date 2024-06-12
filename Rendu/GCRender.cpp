@@ -469,7 +469,7 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 
 
 
-
+	// EN DEHORS DONC C'EST AU MOTEUR DE CONNAITRE LE TYPE DERIVE 
 	DirectX::XMMATRIX worldMatrixXM = DirectX::XMLoadFloat4x4(&worldMatrix);
 	DirectX::XMMATRIX transposedWorldMatrix = DirectX::XMMatrixTranspose(worldMatrixXM);
 	DirectX::XMFLOAT4X4 transposedWorld;
@@ -483,13 +483,15 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 	pMesh->UpdateObjectBuffer<WorldCB>(worldData);
 	pMesh->UpdateCameraBuffer(viewMatrix, projectionMatrix);
 
-	auto* pUploadBuffer = dynamic_cast<SUploadBuffer<WorldCB>*>(pMesh->GetObjectCBData());
+	// EN DEHORS DONC C'EST AU MOTEUR DE CONNAITRE LE TYPE DERIVE 
+
+	//auto* pUploadBuffer = dynamic_cast<SUploadBuffer<WorldCB>*>(pMesh->GetObjectCBData());
 
 
-	if (pUploadBuffer) {
-		m_CommandList->SetGraphicsRootConstantBufferView(0, pUploadBuffer->Resource()->GetGPUVirtualAddress());
-	}
-
+	//if (pUploadBuffer) {
+	//	m_CommandList->SetGraphicsRootConstantBufferView(0, pUploadBuffer->Resource()->GetGPUVirtualAddress());
+	//}
+	m_CommandList->SetGraphicsRootConstantBufferView(0, pMesh->GetObjectCBData()->Resource()->GetGPUVirtualAddress());
 
 	// Camera
 	m_CommandList->SetGraphicsRootConstantBufferView(1, pMesh->GetCameraCBData()->Resource()->GetGPUVirtualAddress());

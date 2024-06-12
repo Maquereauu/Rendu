@@ -20,17 +20,17 @@ void GCShader::Render() {
 	m_pRender->GetCommandList()->SetGraphicsRootSignature(GetRootSign());
 }
 
-void GCShader::Initialize(GCRender* pRender, std::wstring hlslName, int type) {
+void GCShader::Initialize(GCRender* pRender, HLSLFile* customShaderFile, int type) {
 	m_pRender = pRender;
 	m_type = type;
 
 
-	CompileShader(hlslName);
+	CompileShader(customShaderFile);
 	RootSign();
 	Pso();
 }
 
-void GCShader::CompileShader(std::wstring hlsl) {
+void GCShader::CompileShader(HLSLFile* customShaderFile) {
 
 }
 
@@ -157,11 +157,7 @@ ID3DBlob* GCShader::GetmpsByteCode()
 };
 
 
-ID3DBlob* GCShader::CompileShaderBase(
-	const std::wstring& filename,
-	const D3D_SHADER_MACRO* defines,
-	const std::string& entrypoint,
-	const std::string& target)
+ID3DBlob* GCShader::CompileShaderBase(const std::wstring& filename, const D3D_SHADER_MACRO* defines, const std::string& entrypoint,const std::string& target)
 {
 	UINT compileFlags = 0;
 	#if defined(DEBUG) || defined(_DEBUG)  

@@ -105,6 +105,8 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeaderFile>framework.h</PrecompiledHeaderFile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -140,11 +142,13 @@
     <ClInclude Include="GCRender.h" />
     <ClInclude Include="GCShader.h" />
     <ClInclude Include="GCShaderColor.h" />
+    <ClInclude Include="GCShaderCustom.h" />
     <ClInclude Include="GCShaderTexture.h" />
     <ClInclude Include="GCTexture.h" />
     <ClInclude Include="GCTextureFactory.h" />
     <ClInclude Include="GCGeometry.h" />
     <ClInclude Include="header.h" />
+    <ClInclude Include="HLSLReader.h" />
     <ClInclude Include="MathHelper.h" />
     <ClInclude Include="PrimitiveTypeEnum.h" />
     <ClInclude Include="Resource.h" />
@@ -157,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="ConsoleApp.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
+    <ClCompile Include="framework-header.h" />
     <ClCompile Include="GCGraphics.cpp" />
     <ClCompile Include="GCMaterial.cpp" />
     <ClCompile Include="GCMesh.cpp" />
@@ -166,6 +171,7 @@
     <ClCompile Include="GCRender.cpp" />
     <ClCompile Include="GCShader.cpp" />
     <ClCompile Include="GCShaderColor.cpp" />
+    <ClCompile Include="GCShaderCustom.cpp" />
     <ClCompile Include="GCShaderTexture.cpp" />
     <ClCompile Include="GCTexture.cpp" />
     <ClCompile Include="GCTextureFactory.cpp" />

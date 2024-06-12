@@ -41,7 +41,20 @@
 #include <wrl/client.h>
 #include <WindowsX.h>
 
+
+
+
+
+struct HLSLFile;
 struct GCGeometry;
+
+struct MeshBufferData;
+struct GCVERTEX;
+struct GCVERTEXTEXTURE;
+struct ShaderCB;
+struct WorldCB;
+struct LightAndWorld;
+struct CameraCB;
 
 class GCGraphics;
 class GCMaterial;
@@ -53,10 +66,11 @@ class GCRender;
 class GCShader;
 class GCShaderColor;
 class GCShaderTexture;
+class GCShaderCustom;
 class GCTexture;
 class GCTextureFactory;
 class SUploadBufferBase; // 
-//class SUploadBuffer; //
+//class SUploadBuffer; 
 class MathHelper;
 class Timer;
 class Window;
@@ -79,8 +93,12 @@ class Window;
 #include "GCPrimitiveFactory.h"
 #include "GCShaderColor.h"
 #include "GCShaderTexture.h"
+#include "GCShaderCustom.h"
 #include "GCTexture.h"
 #include "GCTextureFactory.h"
 #include "ShaderTypeEnum.h"
 #include "Timer.h"
 #include "PrimitiveTypeEnum.h"
+
+#include "HLSLReader.h"
+

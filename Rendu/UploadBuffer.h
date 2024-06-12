@@ -2,7 +2,7 @@
 //
 //#include "d3dUtil.h"
 
-class ShaderCB;
+struct ShaderCB;
 
 // Nouveau Upload Buffer pour les derivés de ShaderCB
 class SUploadBufferBase {

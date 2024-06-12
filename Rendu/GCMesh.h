@@ -11,6 +11,8 @@
 //    DirectX::BoundingBox Bounds;
 //};
 
+
+
 struct MeshBufferData
 {
     // Give it a name so we can look it up by name.
@@ -113,7 +115,7 @@ public:
 	GCMesh();
     ~GCMesh();
 
-    void Initialize(GCRender* pRender);
+    //void Initialize(GCRender* pRender);
 
     template<typename VertexType>
     void UploadGeometryData(GCGeometry* pGeometry);
@@ -138,24 +140,20 @@ public:
     {
         m_pObjectCB->CopyData(0, objectData);
     }
-
-
-    // Update Constant Buffer
-    //void UpdateObjectBuffer(DirectX::XMMATRIX worldMatrix);
     void UpdateCameraBuffer(DirectX::XMMATRIX viewMatrix, DirectX::XMMATRIX projMatrix);
 
 
 
     // Getter
     inline MeshBufferData* GetBufferGeometryData() { return  m_pBufferGeometryData; }
-    //inline UploadBuffer<ObjectConstants>* GetConstantBufferData() { return  m_Buffer; }
 
 
-        //inline UploadBuffer<WorldCB>* GetObjectCBData() { return  m_pObjectCB; }
+    // Object
     SUploadBufferBase* GetObjectCBData() {
         return m_pObjectCB;
     }
 
+    // Camera
     UploadBuffer<CameraCB>* GetCameraCBData() {
         return m_pCameraCB;
     }

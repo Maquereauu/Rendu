@@ -1,18 +1,7 @@
 #include "framework.h"
 
-std::string readShaderFile(const std::string& filePath) {
-	std::ifstream file(filePath);
-	std::stringstream buffer;
-	if (file) {
-		buffer << file.rdbuf();
-		file.close();
-		return buffer.str();
-	}
-	else {
-		std::cerr << "Erreur : Impossible de lire le fichier " << filePath << std::endl;
-		return "";
-	}
-}
+
+
 
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
@@ -23,13 +12,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	FILE* stream;
 	freopen_s(&stream, "CONOUT$", "w", stdout); // Redirige la sortie standard vers la console
 
-	std::cout << "This works" << std::endl; // Affiche du texte dans la console
-
-	std::string shaderCode = readShaderFile("Shaders/color.hlsl");
-	if (!shaderCode.empty()) {
-		std::cout << "Contenu du shader : " << std::endl;
-		std::cout << shaderCode << std::endl;
-	}
+	HLSLFile* customShaderFile = new HLSLFile(L"Shaders\\customTest.hlsl");
 
 
 	Window* window = new Window(hInstance);
@@ -49,10 +32,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 
 
 	// Mesh
-	GCMesh* mesh = graphics->CreateMesh(geo);
-	GCMesh* mesh1 = graphics->CreateMesh(geo1);
+	GCMesh* mesh = graphics->CreateMeshh<WorldCB>(geo);
+	GCMesh* mesh1 = graphics->CreateMeshh<WorldCB>(geo1);
+	//GCMesh* mesh = graphics->CreateMesh(geo);
+	//GCMesh* mesh1 = graphics->CreateMesh(geo1);
 	GCShader* shader1 = graphics->CreateShaderColor();
 	GCShader* shader2 = graphics->CreateShaderTexture();
+	//GCShader* shaderCustom = graphics->CreateShaderCustom(customShaderFile);
+
 	GCTexture* tex1 = graphics->CreateTexture("texture");
 
 	graphics->GetRender()->CloseCommandList(); // Close and Execute after creation

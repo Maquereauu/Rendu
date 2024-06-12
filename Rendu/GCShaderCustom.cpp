@@ -1,6 +1,6 @@
 #include "framework.h"
 
-void GCShaderColor::CompileShader(HLSLFile* customShaderFile) {
+void GCShaderCustom::CompileShader(HLSLFile* customShaderFile) {
     if (!customShaderFile) {
         std::cerr << "Invalid shader file." << std::endl;
         return;
@@ -12,4 +12,9 @@ void GCShaderColor::CompileShader(HLSLFile* customShaderFile) {
         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
         { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
     };
+
+
+
+
+    // #TODO Need To Interpret HLSL Data to Adapt Root Signature and Input Layout 
 }

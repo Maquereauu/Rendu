@@ -3,6 +3,15 @@
 #define FLAG_COORDS 0x01
 #define FLAG_UV 0x02
 
+
+//
+//class GCGeometry;
+//class GCMesh;
+
+//#include "GCMesh.h"
+
+
+
 class GCGraphics
 {
 public:
@@ -15,10 +24,28 @@ public:
 
 	GCShader* CreateShaderColor();
 	GCShader* CreateShaderTexture();
+	//GCShader* CreateShaderCustom(HLSLFile* customShaderFile);
 
 
 	GCMaterial* CreateMaterial();
 	GCMesh* CreateMesh(GCGeometry* pGeometry);
+
+
+	template<typename T>
+	GCMesh* CreateMeshh(GCGeometry* pGeometry) {
+		GCMesh* mesh = new GCMesh();
+		mesh->Initialize<T>(m_pRender);
+
+		if (pGeometry->texC.size() == 0)
+			mesh->UploadGeometryDataColor(pGeometry);
+		else
+			mesh->UploadGeometryDataTexture(pGeometry);
+
+		m_vMeshes.push_back(mesh);
+		return mesh;
+	}
+
+
 	GCTexture* CreateTexture(std::string fileName);
 
 
