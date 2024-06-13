@@ -12,10 +12,10 @@ public:
 	GCModelParserObj();
 	~GCModelParserObj();
 	void Initialize(GCRender* pRender);
-	bool ParseObj(std::string fileName);
+	bool ParseObj(std::wstring fileName);
 
-	GCGeometry* BuildObjColor(std::string fileName);
-	GCGeometry* BuildObjTexture(std::string fileName);
+	GCGeometry* BuildObjColor(std::wstring fileName);
+	GCGeometry* BuildObjTexture(std::wstring fileName);
 
 
 private:

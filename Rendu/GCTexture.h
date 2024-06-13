@@ -6,7 +6,7 @@ public:
     GCTexture();
     ~GCTexture();
 
-    bool Initialize(std::string fileName, GCGraphics* pGraphics);
+    bool Initialize(std::wstring fileName, GCGraphics* pGraphics);
 
 
     inline UINT GetCbvSrvUavDescriptorSize() const { return m_cbvSrvUavDescriptorSize; }

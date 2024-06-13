@@ -9,12 +9,19 @@ GCGraphics::GCGraphics() {
 }
 
 void GCGraphics::Initialize(Window* window) {
-    m_pRender = new GCRender();
-    m_pRender->Initialize(this,window);
+    if (window == nullptr)
+        OutputDebugString(L"Window can't be empty\n");
 
-    // 
-    m_pPrimitiveFactory = new GCPrimitiveFactory();
-    m_pModelParserFactory = new GCModelParserObj();
+    else {
+
+        m_pRender = new GCRender();
+        m_pRender->Initialize(this, window);
+
+        // 
+        m_pPrimitiveFactory = new GCPrimitiveFactory();
+        m_pModelParserFactory = new GCModelParserObj();
+
+    }
 }
 
 //template<typename T>
@@ -32,7 +39,14 @@ void GCGraphics::Initialize(Window* window) {
 //}
 
 
-GCTexture* GCGraphics::CreateTexture(std::string fileName) {
+GCTexture* GCGraphics::CreateTexture(std::wstring fileName) {
+
+    if (_waccess(fileName.c_str(), 0) == 0)
+    {
+        OutputDebugString((L"Texture file not foud: " + fileName + L"\n").c_str());
+        return NULL;
+    }
+
 	GCTexture* texture = new GCTexture();
 	texture->Initialize(fileName, this);
     m_vTextures.push_back(texture);
@@ -66,6 +80,13 @@ GCShader* GCGraphics::CreateShaderTexture() {
 }
 
 GCMesh* GCGraphics::CreateMesh(GCGeometry* pGeometry) {
+
+    if (pGeometry == nullptr)
+    {
+        OutputDebugString(L"Geometry can't be empty \n");
+        return NULL;
+    }
+
     GCMesh* mesh = new GCMesh();
     mesh->Initialize<WorldCB>(m_pRender);
     if (pGeometry->texC.size() == 0)
@@ -125,6 +146,11 @@ std::vector<GCTexture*> GCGraphics::GetTextures() {
 void GCGraphics::RemoveShader(GCShader* pShader) {
     auto it = std::find(m_vShaders.begin(), m_vShaders.end(), pShader);
 
+    if (it == m_vShaders.end())
+    {
+        OutputDebugString(L"Shader not found");
+    }
+
     if (it != m_vShaders.end()) {
         m_vShaders.erase(it);
     }
@@ -135,6 +161,11 @@ void GCGraphics::RemoveShader(GCShader* pShader) {
 void GCGraphics::RemoveMaterial(GCMaterial* pMaterial) {
     auto it = std::find(m_vMaterials.begin(), m_vMaterials.end(), pMaterial);
 
+    if (it == m_vMaterials.end())
+    {
+        OutputDebugString(L"Material not found");
+    }
+
     if (it != m_vMaterials.end()) {
         m_vMaterials.erase(it);
     }
@@ -144,6 +175,11 @@ void GCGraphics::RemoveMaterial(GCMaterial* pMaterial) {
 void GCGraphics::RemoveMesh(GCMesh* pMesh) {
     auto it = std::find(m_vMeshes.begin(), m_vMeshes.end(), pMesh);
 
+    if (it == m_vMeshes.end())
+    {
+        OutputDebugString(L"Mesh not found");
+    }
+
     if (it != m_vMeshes.end()) {
         m_vMeshes.erase(it);
     }
@@ -151,6 +187,11 @@ void GCGraphics::RemoveMesh(GCMesh* pMesh) {
 }
 void GCGraphics::RemoveTexture(GCTexture* pTexture) {
     auto it = std::find(m_vTextures.begin(), m_vTextures.end(), pTexture);
+
+    if (it == m_vTextures.end())
+    {
+        OutputDebugString(L"Texture not found");
+    }
 
     if (it != m_vTextures.end()) {
         m_vTextures.erase(it);

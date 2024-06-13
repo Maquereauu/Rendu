@@ -31,7 +31,7 @@ public:
 	template<typename T>
 	GCMesh* CreateMeshh(GCGeometry* pGeometry);
 
-	GCTexture* CreateTexture(std::string fileName);
+	GCTexture* CreateTexture(std::wstring fileName);
 
 
 	//Delete

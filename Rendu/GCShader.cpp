@@ -21,9 +21,15 @@ void GCShader::Render() {
 }
 
 void GCShader::Initialize(GCRender* pRender, std::wstring hlslName, int type) {
-	m_pRender = pRender;
-	m_type = type;
-	PreCompile(hlslName);
+
+	if (_waccess(hlslName.c_str(), 0) == 0)
+		OutputDebugString((L"Shader not found: " + hlslName + L"\n").c_str());
+
+	else {
+		m_pRender = pRender;
+		m_type = type;
+		PreCompile(hlslName);
+	}
 }
  
 void GCShader::Load() {

@@ -148,6 +148,13 @@ void GCPrimitiveFactory::Initialize()
 
 GCGeometry* GCPrimitiveFactory::BuildGeometryColor(std::wstring name, DirectX::XMFLOAT4 color)
 {
+    auto it = m_primitiveInfos.find(name);
+    if (it == m_primitiveInfos.end())
+    {
+        OutputDebugString((L"Primitive not found: " + name + L"\n").c_str());
+        return NULL;
+    }
+
 	GCGeometry* primitiveGeometry = new GCGeometry();
 
 	primitiveGeometry->indices = std::get<std::vector<uint16_t>>(m_primitiveInfos[name][L"index"]);
@@ -166,6 +173,13 @@ GCGeometry* GCPrimitiveFactory::BuildGeometryColor(std::wstring name, DirectX::X
 
 GCGeometry* GCPrimitiveFactory::BuildGeometryTexture(std::wstring name)
 {
+    auto it = m_primitiveInfos.find(name);
+    if (it == m_primitiveInfos.end())
+    {
+        OutputDebugString((L"Primitive not found: " + name + L"\n").c_str());
+        return NULL;
+    }
+
 	GCGeometry* primitiveGeometry = new GCGeometry();
 
 	primitiveGeometry->indices = std::get<std::vector<uint16_t>>(m_primitiveInfos[name][L"index"]);

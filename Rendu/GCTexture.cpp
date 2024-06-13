@@ -26,8 +26,14 @@ GCTexture::~GCTexture()
     m_textureAddress = CD3DX12_GPU_DESCRIPTOR_HANDLE(D3D12_DEFAULT);
 }
 
-bool GCTexture::Initialize(std::string fileName, GCGraphics* pGraphics)
+bool GCTexture::Initialize(std::wstring fileName, GCGraphics* pGraphics)
 {
+    if (_waccess(fileName.c_str(), 0) == 0)
+    {
+        OutputDebugString((L"Shader not found: " + fileName + L"\n").c_str());
+        return false;
+    }
+
     m_cbvSrvUavDescriptorSize = pGraphics->GetRender()->Getmd3dDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
   

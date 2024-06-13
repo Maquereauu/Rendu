@@ -58,7 +58,7 @@ void GCModelParserObj::Initialize(GCRender* pRender)
 	m_pRender = pRender;
 }
 
-bool GCModelParserObj::ParseObj(std::string fileName)
+bool GCModelParserObj::ParseObj(std::wstring fileName)
 {
 
 	std::ifstream objFile(fileName);
@@ -148,8 +148,13 @@ bool GCModelParserObj::ParseObj(std::string fileName)
 }
 
 // TEXTURE
-GCGeometry* GCModelParserObj::BuildObjTexture(std::string fileName)
+GCGeometry* GCModelParserObj::BuildObjTexture(std::wstring fileName)
 {
+	if (_waccess(fileName.c_str(), 0) == 0)
+	{
+		OutputDebugString((L"Obj file not found: " + fileName + L"\n").c_str());
+		return NULL;
+	}
 
 	ParseObj(fileName);
 
@@ -165,7 +170,7 @@ GCGeometry* GCModelParserObj::BuildObjTexture(std::string fileName)
 			DirectX::XMFLOAT3(m_ParsedObj.coords[m_ParsedObj.facesInfos[i][0]][0], m_ParsedObj.coords[m_ParsedObj.facesInfos[i][0]][1], m_ParsedObj.coords[m_ParsedObj.facesInfos[i][0]][2]));
 
 		objGeometry->texC.push_back(
-				DirectX::XMFLOAT2(m_ParsedObj.uvs[m_ParsedObj.facesInfos[i][1]][0], m_ParsedObj.uvs[m_ParsedObj.facesInfos[i][1]][1]) );
+			DirectX::XMFLOAT2(m_ParsedObj.uvs[m_ParsedObj.facesInfos[i][1]][0], m_ParsedObj.uvs[m_ParsedObj.facesInfos[i][1]][1]));
 
 		objGeometry->indices.push_back(i);
 	}
@@ -175,7 +180,13 @@ GCGeometry* GCModelParserObj::BuildObjTexture(std::string fileName)
 
 // COLOR
 
-GCGeometry* GCModelParserObj::BuildObjColor(std::string fileName) {
+GCGeometry* GCModelParserObj::BuildObjColor(std::wstring fileName) {
+
+	if (_waccess(fileName.c_str(), 0) == 0)
+	{
+		OutputDebugString((L"Obj file not found: " + fileName + L"\n").c_str());
+		return NULL;
+	}
 
 	GCGeometry* objGeometry = new GCGeometry();
 
