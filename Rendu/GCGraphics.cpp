@@ -1,5 +1,8 @@
 #include "framework.h"
 
+//#include "GCMesh.h"
+//#include "GCGeometry.h"
+
 
 GCGraphics::GCGraphics() {
     m_pRender = nullptr;
@@ -14,22 +17,19 @@ void GCGraphics::Initialize(Window* window) {
     m_pModelParserFactory = new GCModelParserObj();
 }
 
-
-GCMesh* GCGraphics::CreateMesh(GCGeometry* pGeometry) {
-    GCMesh* mesh = new GCMesh();
-    //mesh->Initialize(m_pRender);
-    mesh->Initialize<WorldCB>(m_pRender);
-    if(pGeometry->texC.size() == 0)        
-    {
-        mesh->UploadGeometryDataColor(pGeometry);
-    }
-    else {
-        mesh->UploadGeometryDataTexture(pGeometry);
-    }
-    m_vMeshes.push_back(mesh);
-    return mesh;
-}
-
+//template<typename T>
+//GCMesh* GCGraphics::CreateMeshh(GCGeometry* pGeometry) {
+//    GCMesh* mesh = new GCMesh();
+//    mesh->Initialize<T>(m_pRender);
+//
+//    if (pGeometry->texC.size() == 0)
+//    	mesh->UploadGeometryDataColor(pGeometry);
+//    else
+//    	mesh->UploadGeometryDataTexture(pGeometry);
+//
+//    m_vMeshes.push_back(mesh);
+//    return mesh;
+//}
 
 
 GCTexture* GCGraphics::CreateTexture(std::string fileName) {
@@ -41,27 +41,62 @@ GCTexture* GCGraphics::CreateTexture(std::string fileName) {
 
 
 GCShader* GCGraphics::CreateShaderColor() {
+    HLSLFile* shaderFile = new HLSLFile(L"Shaders\\color.hlsl");
+
     GCShader* shader;
     shader = new GCShaderColor();
-    shader->Initialize(m_pRender, L"color", STEnum::color);
+    shader->Initialize(m_pRender, shaderFile, STEnum::color);
+
     m_vShaders.push_back(shader);
     m_shaderId++;
-    return shader;
-    
+
+    return shader;   
 }
-
-
 GCShader* GCGraphics::CreateShaderTexture() {
-    GCShader* shader;
+    HLSLFile* shaderFile = new HLSLFile(L"Shaders\\texture.hlsl");
 
+    GCShader* shader;
     shader = new GCShaderTexture();
-    shader->Initialize(m_pRender, L"texture", STEnum::texture);
+    shader->Initialize(m_pRender, shaderFile, STEnum::texture);
+
     m_vShaders.push_back(shader);
     m_shaderId++;
-    return shader;
 
-    
+    return shader;
 }
+
+GCMesh* GCGraphics::CreateMesh(GCGeometry* pGeometry) {
+    GCMesh* mesh = new GCMesh();
+    mesh->Initialize<WorldCB>(m_pRender);
+    if (pGeometry->texC.size() == 0)
+    {
+        mesh->UploadGeometryDataColor(pGeometry);
+    }
+    else {
+        mesh->UploadGeometryDataTexture(pGeometry);
+    }
+    m_vMeshes.push_back(mesh);
+    return mesh;
+}
+
+
+//template GCMesh* GCGraphics::CreateMeshh<WorldCB>(GCGeometry* pGeometry);
+
+
+//GCShader* GCGraphics::CreateShaderCustom(HLSLFile* customShaderFile) {
+//    GCShader* shader;
+//    shader = new GCShaderCustom();
+//    shader->Initialize(m_pRender, customShaderFile, STEnum::texture); // #TODO Upgrade Shader Code to Allow Custom Shader Properly
+//
+//    m_vShaders.push_back(shader);
+//    m_shaderId++;
+//
+//    return shader;
+//}
+//
+
+
+
 
 GCMaterial* GCGraphics::CreateMaterial() {
     GCMaterial* material = new GCMaterial();

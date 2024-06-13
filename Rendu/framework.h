@@ -41,7 +41,22 @@
 #include <wrl/client.h>
 #include <WindowsX.h>
 
+
+
+
+
+struct HLSLFile;
 struct GCGeometry;
+
+struct MeshBufferData;
+struct GCVERTEX;
+struct GCVERTEXTEXTURE;
+struct ShaderCB;
+struct WorldCB;
+struct LightAndWorld;
+struct CameraCB;
+
+//template<typename T>;
 
 class GCGraphics;
 class GCMaterial;
@@ -53,10 +68,11 @@ class GCRender;
 class GCShader;
 class GCShaderColor;
 class GCShaderTexture;
+class GCShaderCustom;
 class GCTexture;
 class GCTextureFactory;
 class SUploadBufferBase; // 
-//class SUploadBuffer; //
+//class SUploadBuffer; 
 class MathHelper;
 class Timer;
 class Window;
@@ -67,20 +83,24 @@ class Window;
 
 #include "d3dx12.h"
 #include "Window.h"
-#include "GCGraphics.h"
-#include "UploadBuffer.h"
 #include "GCRender.h"
-#include "GCShader.h"
+#include "UploadBuffer.h"
 #include "GCGeometry.h"
-#include "GCMaterial.h"
 #include "GCMesh.h"
+#include "GCShader.h"
+#include "GCMaterial.h"
 #include "GCModelParser.h"
 #include "GCModelParserObj.h"
 #include "GCPrimitiveFactory.h"
 #include "GCShaderColor.h"
 #include "GCShaderTexture.h"
+#include "GCShaderCustom.h"
 #include "GCTexture.h"
+#include "GCGraphics.h"
 #include "GCTextureFactory.h"
 #include "ShaderTypeEnum.h"
 #include "Timer.h"
 #include "PrimitiveTypeEnum.h"
+
+#include "HLSLReader.h"
+

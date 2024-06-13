@@ -1,5 +1,8 @@
 #include "framework.h"
 
+struct Test : ShaderCB {
+	DirectX::XMFLOAT4X4 world; // Matrice du monde
+};
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
@@ -24,10 +27,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	shader1->Load();
 	shader2->Load();
 	// Mesh
-	GCMesh* mesh = graphics->CreateMesh(geo);
-	GCMesh* mesh1 = graphics->CreateMesh(geo1);
-	GCTexture* tex1 = graphics->CreateTexture("texture");
+	GCMesh* mesh = graphics->CreateMeshh<Test>(geo);
+	GCMesh* mesh1 = graphics->CreateMeshh<Test>(geo1);
+	//GCMesh* mesh = graphics->CreateMesh(geo);
+	//GCMesh* mesh1 = graphics->CreateMesh(geo1);
+	GCShader* shader1 = graphics->CreateShaderColor();
+	GCShader* shader2 = graphics->CreateShaderTexture();
+	//GCShader* shaderCustom = graphics->CreateShaderCustom(customShaderFile);
 
+
+	GCTexture* tex1 = graphics->CreateTexture("texture");
+		
 	graphics->GetRender()->CloseCommandList(); // Close and Execute after creation
 	graphics->GetRender()->ExecuteCommandList();// Close and Execute after creation
 
