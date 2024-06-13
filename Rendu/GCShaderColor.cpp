@@ -1,15 +1,12 @@
 #include "framework.h"
 
-void GCShaderColor::CompileShader(HLSLFile* customShaderFile) {
-    if (!customShaderFile) {
-        std::cerr << "Invalid shader file." << std::endl;
-        return;
-    }
-    m_vsByteCode = CompileShaderBase(customShaderFile->fileName, nullptr, "VS", "vs_5_0");
-    m_psByteCode = CompileShaderBase(customShaderFile->fileName, nullptr, "PS", "ps_5_0");
-    m_InputLayout =
-    {
-        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-        { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
-    };
+void GCShaderColor::CompileShader() {
+	m_vsByteCode = LoadShaderFromFile(L"colorVS.cso");
+	m_psByteCode = LoadShaderFromFile(L"colorPS.cso");
+	m_InputLayout =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
+	};
 }
+

@@ -1,21 +1,11 @@
 #include "framework.h"
 
-
-
 struct Test : ShaderCB {
 	DirectX::XMFLOAT4X4 world; // Matrice du monde
 };
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
-
-	AllocConsole(); // Crée une nouvelle console associée à ce processus
-
-	FILE* stream;
-	freopen_s(&stream, "CONOUT$", "w", stdout); // Redirige la sortie standard vers la console
-
-	HLSLFile* customShaderFile = new HLSLFile(L"Shaders\\customTest.hlsl");
-
 
 	Window* window = new Window(hInstance);
 	window->Initialize();
@@ -28,11 +18,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	// Geometry (Resource)
 	GCGeometry* geo = graphics->GetPrimitiveFactory()->BuildGeometryColor(L"cube", DirectX::XMFLOAT4(DirectX::Colors::White));
 	GCGeometry* geo1 = graphics->GetModelParserFactory()->BuildObjTexture("monkeyUv.obj");
+	GCShader* shader1 = graphics->CreateShaderColor();
+	GCShader* shader2 = graphics->CreateShaderTexture();
 
 	///// Create Render Resources
 	graphics->GetRender()->ResetCommandList(); // Reset Command List Before Resources Creation
 
-
+	shader1->Load();
+	shader2->Load();
 	// Mesh
 	GCMesh* mesh = graphics->CreateMeshh<Test>(geo);
 	GCMesh* mesh1 = graphics->CreateMeshh<Test>(geo1);
@@ -41,6 +34,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	GCShader* shader1 = graphics->CreateShaderColor();
 	GCShader* shader2 = graphics->CreateShaderTexture();
 	//GCShader* shaderCustom = graphics->CreateShaderCustom(customShaderFile);
+
 
 	GCTexture* tex1 = graphics->CreateTexture("texture");
 		

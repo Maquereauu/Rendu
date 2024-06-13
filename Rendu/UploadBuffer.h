@@ -2,9 +2,7 @@
 //
 //#include "d3dUtil.h"
 
-//struct ShaderCB;
-
-// Nouveau Upload Buffer pour les derivés de ShaderCB
+// Nouveau Upload Buffer pour les derivÃ©s de ShaderCB
 class SUploadBufferBase {
 public:
     SUploadBufferBase() : m_pUpload(nullptr), m_data(nullptr), m_elementByteSize(0), m_isConstantBuffer(false) {}
@@ -63,7 +61,7 @@ public:
 };
 
 
-// Old Upload Buffer - Encore Utilisé pour la caméra
+// Old Upload Buffer - Encore UtilisÃ© pour la camÃ©ra
 template<typename T>
 class UploadBuffer
 {
