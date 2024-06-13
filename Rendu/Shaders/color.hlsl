@@ -62,7 +62,9 @@ float4 PS(VertexOut pin) : SV_Target
     return float4(finalColor, diffuseAlbedo.a); // Use alpha from diffuse albedo
     */
     return pin.Color;
-    //bool isMatching = (gWorld[3][0] == 3.0f);
+
+
+    /*//bool isMatching = (gWorld[3][0] == 3.0f);
 
     //if (isMatching)
     //{
@@ -71,6 +73,6 @@ float4 PS(VertexOut pin) : SV_Target
     //else
     //{
     //    return pin.Color;
-    //}
+    //}*/
 }
 

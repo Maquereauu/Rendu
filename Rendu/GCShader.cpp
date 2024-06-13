@@ -22,6 +22,7 @@ void GCShader::Render() {
 
 void GCShader::Initialize(GCRender* pRender, std::wstring hlslName, int type) {
 	m_pRender = pRender;
+	m_type = type;
 	PreCompile(hlslName);
 }
 
