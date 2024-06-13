@@ -79,6 +79,10 @@ GCMesh* GCGraphics::CreateMesh(GCGeometry* pGeometry) {
     return mesh;
 }
 
+
+//template GCMesh* GCGraphics::CreateMeshh<WorldCB>(GCGeometry* pGeometry);
+
+
 //GCShader* GCGraphics::CreateShaderCustom(HLSLFile* customShaderFile) {
 //    GCShader* shader;
 //    shader = new GCShaderCustom();

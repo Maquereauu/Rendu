@@ -10,8 +10,6 @@
 
 //#include "GCMesh.h"
 
-
-
 class GCGraphics
 {
 public:
@@ -30,21 +28,8 @@ public:
 	GCMaterial* CreateMaterial();
 	GCMesh* CreateMesh(GCGeometry* pGeometry);
 
-
 	template<typename T>
-	GCMesh* CreateMeshh(GCGeometry* pGeometry) {
-		GCMesh* mesh = new GCMesh();
-		mesh->Initialize<T>(m_pRender);
-
-		if (pGeometry->texC.size() == 0)
-			mesh->UploadGeometryDataColor(pGeometry);
-		else
-			mesh->UploadGeometryDataTexture(pGeometry);
-
-		m_vMeshes.push_back(mesh);
-		return mesh;
-	}
-
+	GCMesh* CreateMeshh(GCGeometry* pGeometry);
 
 	GCTexture* CreateTexture(std::string fileName);
 
@@ -101,4 +86,18 @@ private:
 
 
 };
+template<typename T>
+GCMesh* GCGraphics::CreateMeshh(GCGeometry* pGeometry)
+{
+	GCMesh* mesh = new GCMesh();
+	mesh->Initialize<T>(m_pRender);
+
+	if (pGeometry->texC.size() == 0)
+		mesh->UploadGeometryDataColor(pGeometry);
+	else
+		mesh->UploadGeometryDataTexture(pGeometry);
+
+	m_vMeshes.push_back(mesh);
+	return mesh;
+}
 

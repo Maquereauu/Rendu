@@ -56,6 +56,8 @@ struct WorldCB;
 struct LightAndWorld;
 struct CameraCB;
 
+//template<typename T>;
+
 class GCGraphics;
 class GCMaterial;
 class GCMesh;
@@ -81,13 +83,12 @@ class Window;
 
 #include "d3dx12.h"
 #include "Window.h"
-#include "GCGraphics.h"
-#include "UploadBuffer.h"
 #include "GCRender.h"
-#include "GCShader.h"
+#include "UploadBuffer.h"
 #include "GCGeometry.h"
-#include "GCMaterial.h"
 #include "GCMesh.h"
+#include "GCShader.h"
+#include "GCMaterial.h"
 #include "GCModelParser.h"
 #include "GCModelParserObj.h"
 #include "GCPrimitiveFactory.h"
@@ -95,6 +96,7 @@ class Window;
 #include "GCShaderTexture.h"
 #include "GCShaderCustom.h"
 #include "GCTexture.h"
+#include "GCGraphics.h"
 #include "GCTextureFactory.h"
 #include "ShaderTypeEnum.h"
 #include "Timer.h"
