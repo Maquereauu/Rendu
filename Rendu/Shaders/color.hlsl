@@ -36,7 +36,8 @@ VertexOut VS(VertexIn vin)
 
 float4 PS(VertexOut pin) : SV_Target
 {
-    /*float4 diffuseAlbedo = float4(1.0f, 0.0f, 1.0f, 1.0f); // Diffuse albedo
+    /*
+    float4 diffuseAlbedo = float4(1.0f, 0.0f, 1.0f, 1.0f); // Diffuse albedo
     float3 fresnelR0 = float3(0.1f, 1.0f, 0.1f); // Fresnel reflectance at normal incidence
     float roughness = 0.0f; // Roughness
     // Light properties
@@ -58,8 +59,9 @@ float4 PS(VertexOut pin) : SV_Target
     // Combine diffuse and specular components
     float3 finalColor = diffuseColor + specularColor;
 
-    return float4(finalColor, diffuseAlbedo.a); // Use alpha from diffuse albedo*/
-    return pin.Color
+    return float4(finalColor, diffuseAlbedo.a); // Use alpha from diffuse albedo
+    */
+    return pin.Color;
 }
 
 
