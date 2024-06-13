@@ -31,8 +31,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	GCMesh* mesh1 = graphics->CreateMeshh<Test>(geo1);
 	//GCMesh* mesh = graphics->CreateMesh(geo);
 	//GCMesh* mesh1 = graphics->CreateMesh(geo1);
-	GCShader* shader1 = graphics->CreateShaderColor();
-	GCShader* shader2 = graphics->CreateShaderTexture();
 	//GCShader* shaderCustom = graphics->CreateShaderCustom(customShaderFile);
 
 

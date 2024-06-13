@@ -41,11 +41,11 @@ GCTexture* GCGraphics::CreateTexture(std::string fileName) {
 
 
 GCShader* GCGraphics::CreateShaderColor() {
-    HLSLFile* shaderFile = new HLSLFile(L"Shaders\\color.hlsl");
+    //HLSLFile* shaderFile = new HLSLFile(L"Shaders\\color.hlsl");
 
     GCShader* shader;
     shader = new GCShaderColor();
-    shader->Initialize(m_pRender, shaderFile, STEnum::color);
+    shader->Initialize(m_pRender, L"color", STEnum::color);
 
     m_vShaders.push_back(shader);
     m_shaderId++;
@@ -53,11 +53,11 @@ GCShader* GCGraphics::CreateShaderColor() {
     return shader;   
 }
 GCShader* GCGraphics::CreateShaderTexture() {
-    HLSLFile* shaderFile = new HLSLFile(L"Shaders\\texture.hlsl");
+    //HLSLFile* shaderFile = new HLSLFile(L"Shaders\\texture.hlsl");
 
     GCShader* shader;
     shader = new GCShaderTexture();
-    shader->Initialize(m_pRender, shaderFile, STEnum::texture);
+    shader->Initialize(m_pRender, L"texture", STEnum::texture);
 
     m_vShaders.push_back(shader);
     m_shaderId++;

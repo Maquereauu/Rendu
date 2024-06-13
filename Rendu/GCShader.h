@@ -17,7 +17,7 @@ public:
 	ID3D12RootSignature* GetRootSign();
 	ID3D12PipelineState* GetPso();
 
-	void Initialize(GCRender* pRender, HLSLFile* customShaderFile, int type);
+	void Initialize(GCRender* pRender, std::wstring hlslName, int type);
 	void Render();
 
 	int GetType() const { return m_type; }

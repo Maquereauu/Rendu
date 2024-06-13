@@ -20,12 +20,12 @@ void GCShader::Render() {
 	m_pRender->GetCommandList()->SetGraphicsRootSignature(GetRootSign());
 }
 
-void GCShader::Initialize(GCRender* pRender, HLSLFile* customShaderFile, int type) {
+void GCShader::Initialize(GCRender* pRender, std::wstring hlslName, int type) {
 	m_pRender = pRender;
 	m_type = type;
 	PreCompile(hlslName);
 }
-
+ 
 void GCShader::Load() {
 	CompileShader();
 	RootSign();
