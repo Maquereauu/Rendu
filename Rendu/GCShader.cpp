@@ -20,7 +20,7 @@ void GCShader::Render() {
 	m_pRender->GetCommandList()->SetGraphicsRootSignature(GetRootSign());
 }
 
-void GCShader::Initialize(GCRender* pRender, std::wstring hlslName) {
+void GCShader::Initialize(GCRender* pRender, std::wstring hlslName, int type) {
 	m_pRender = pRender;
 	PreCompile(hlslName);
 }
@@ -36,20 +36,20 @@ void GCShader::CompileShader() {
 }
 
 void GCShader::RootSign() {
-    // Déclaration des paramètres racine
+    // DÃ©claration des paramÃ¨tres racine
     CD3DX12_ROOT_PARAMETER slotRootParameter[3];
 
 	slotRootParameter[0].InitAsConstantBufferView(0);
 	slotRootParameter[1].InitAsConstantBufferView(1);
     
 	// If texture
-	if (m_count == 2) {
+	if (m_type == 1) {
 		CD3DX12_DESCRIPTOR_RANGE srvTable;
 		srvTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 		slotRootParameter[2].InitAsDescriptorTable(1, &srvTable);
 	}
 
-    // Configuration de l'échantillonneur statique
+    // Configuration de l'Ã©chantillonneur statique
     CD3DX12_STATIC_SAMPLER_DESC staticSample = CD3DX12_STATIC_SAMPLER_DESC(
         0, // shaderRegister
         D3D12_FILTER_MIN_MAG_MIP_LINEAR, // filter
@@ -65,19 +65,19 @@ void GCShader::RootSign() {
     );
 
     // Configuration de la signature racine
-    CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(m_count+1, slotRootParameter, 1, &staticSample, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+    CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(m_type+2, slotRootParameter, 1, &staticSample, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
-    // Sérialisation de la signature racine
+    // SÃ©rialisation de la signature racine
     ID3DBlob* serializedRootSig = nullptr;
     ID3DBlob* errorBlob = nullptr;
     HRESULT hr = D3D12SerializeRootSignature(&rootSigDesc, D3D_ROOT_SIGNATURE_VERSION_1, &serializedRootSig, &errorBlob);
 
-    // Gestion des erreurs de sérialisation
+    // Gestion des erreurs de sÃ©rialisation
     if (errorBlob != nullptr) {
         ::OutputDebugStringA((char*)errorBlob->GetBufferPointer());
     }
 
-    // Création de la signature racine
+    // CrÃ©ation de la signature racine
     m_pRender->Getmd3dDevice()->CreateRootSignature(
         0,
         serializedRootSig->GetBufferPointer(),

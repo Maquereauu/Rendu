@@ -23,5 +23,7 @@ private:
 
 
 	GCRender* m_pRender;
+	std::string m_fileName;
+
 };
 

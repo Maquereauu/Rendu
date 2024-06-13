@@ -70,14 +70,14 @@ GCMesh::~GCMesh() {
 
 }
 
-void GCMesh::Initialize(GCRender* pRender) {
-    m_pRender = pRender;
-    //m_Buffer = new UploadBuffer<ObjectConstants>(m_pRender->Getmd3dDevice(), 1, true);
-
-    m_pObjectCB = new UploadBuffer<ObjectCB>(m_pRender->Getmd3dDevice(), 1, true);
-    m_pCameraCB = new UploadBuffer<CameraCB>(m_pRender->Getmd3dDevice(), 1, true);
-
-}
+//void GCMesh::Initialize(GCRender* pRender) {
+//    m_pRender = pRender;
+//    //m_Buffer = new UploadBuffer<ObjectConstants>(m_pRender->Getmd3dDevice(), 1, true);
+//
+//    m_pObjectCB = new UploadBuffer<WorldCB>(m_pRender->Getmd3dDevice(), 1, true);
+//    m_pCameraCB = new UploadBuffer<CameraCB>(m_pRender->Getmd3dDevice(), 1, true);
+//
+//}
 
 template<typename VertexType>
 void GCMesh::UploadGeometryData(GCGeometry* pGeometry) {
@@ -101,7 +101,7 @@ void GCMesh::UploadGeometryData(GCGeometry* pGeometry) {
     const UINT vbByteSize = static_cast<UINT>(vertices.size() * sizeof(VertexType));
     const UINT ibByteSize = static_cast<UINT>(pGeometry->indices.size() * sizeof(std::uint16_t));
 
-    m_pBufferGeometryData = new MeshGeometry();
+    m_pBufferGeometryData = new MeshBufferData();
     m_pBufferGeometryData->Name = "boxGeo";
 
     D3DCreateBlob(vbByteSize, &m_pBufferGeometryData->VertexBufferCPU);
@@ -118,13 +118,15 @@ void GCMesh::UploadGeometryData(GCGeometry* pGeometry) {
     m_pBufferGeometryData->IndexFormat = DXGI_FORMAT_R16_UINT;
     m_pBufferGeometryData->IndexBufferByteSize = ibByteSize;
 
-    // Initialize submesh
-    SubmeshGeometry submesh;
-    submesh.IndexCount = static_cast<UINT>(pGeometry->indices.size());
-    submesh.StartIndexLocation = 0;
-    submesh.BaseVertexLocation = 0;
+    //// Initialize submesh
+    //SubmeshGeometry submesh;
+    //submesh.IndexCount = static_cast<UINT>(pGeometry->indices.size());
+    //submesh.StartIndexLocation = 0;
+    //submesh.BaseVertexLocation = 0;
 
-    m_pBufferGeometryData->DrawArgs["mesh"] = submesh;
+    m_pBufferGeometryData->IndexCount = static_cast<UINT>(pGeometry->indices.size());
+
+    //m_pBufferGeometryData->DrawArgs["mesh"] = submesh;
 }
 
 
@@ -136,31 +138,24 @@ void GCMesh::UploadGeometryDataTexture(GCGeometry* pGeometry) {
 }
 
 
-//void GCMesh::UpdateBuffer(DirectX::XMMATRIX worldViewProj)
+//void GCMesh::UpdateObjectBuffer(DirectX::XMMATRIX worldMatrix)
 //{
-//    ObjectConstants objConstants;
-//    XMStoreFloat4x4(&objConstants.WorldViewProj, worldViewProj);
-//    m_Buffer->CopyData(0, objConstants);
+//
+//    worldMatrix = DirectX::XMMatrixTranspose(worldMatrix);
+//
+//
+//    WorldCB objectCB;
+//    XMStoreFloat4x4(&objectCB.world, worldMatrix);
+//    m_pObjectCB->CopyData(0, objectCB);
 //}
-
-void GCMesh::UpdateObjectBuffer(DirectX::XMMATRIX worldMatrix)
-{
-    // Transposer la matrice du monde
-    worldMatrix = DirectX::XMMatrixTranspose(worldMatrix);
-
-    // Constant buffer pour la matrice du monde
-    ObjectCB objectCB;
-    XMStoreFloat4x4(&objectCB.world, worldMatrix);
-    m_pObjectCB->CopyData(0, objectCB);
-}
 
 void GCMesh::UpdateCameraBuffer(DirectX::XMMATRIX viewMatrix, DirectX::XMMATRIX projMatrix)
 {
-    // Transposer les matrices de vue et de projection
+
     viewMatrix = DirectX::XMMatrixTranspose(viewMatrix);
     projMatrix = DirectX::XMMatrixTranspose(projMatrix);
 
-    // Constant buffer pour les matrices de vue-projection
+
     CameraCB cameraCB;
     XMStoreFloat4x4(&cameraCB.view, viewMatrix);
     XMStoreFloat4x4(&cameraCB.proj, projMatrix);

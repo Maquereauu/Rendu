@@ -10,11 +10,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	GCGraphics* graphics = new GCGraphics();
 	graphics->Initialize(window);
 
+	graphics->GetPrimitiveFactory()->Initialize();
+
 	// Geometry (Resource)
-	GCGeometry* geo = graphics->GetPrimitiveFactory()->BuildBoxGeometryColor();
+	GCGeometry* geo = graphics->GetPrimitiveFactory()->BuildGeometryColor(L"cube", DirectX::XMFLOAT4(DirectX::Colors::White));
 	GCGeometry* geo1 = graphics->GetModelParserFactory()->BuildObjTexture("monkeyUv.obj");
-	GCShader* shader1 = graphics->CreateShader(STEnum::color);
-	GCShader* shader2 = graphics->CreateShader(STEnum::texture);
+	GCShader* shader1 = graphics->CreateShaderColor();
+	GCShader* shader2 = graphics->CreateShaderTexture();
 
 	///// Create Render Resources
 	graphics->GetRender()->ResetCommandList(); // Reset Command List Before Resources Creation

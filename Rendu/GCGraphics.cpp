@@ -17,7 +17,8 @@ void GCGraphics::Initialize(Window* window) {
 
 GCMesh* GCGraphics::CreateMesh(GCGeometry* pGeometry) {
     GCMesh* mesh = new GCMesh();
-    mesh->Initialize(m_pRender);
+    //mesh->Initialize(m_pRender);
+    mesh->Initialize<WorldCB>(m_pRender);
     if(pGeometry->texC.size() == 0)        
     {
         mesh->UploadGeometryDataColor(pGeometry);
@@ -39,45 +40,27 @@ GCTexture* GCGraphics::CreateTexture(std::string fileName) {
 }
 
 
-GCShader* GCGraphics::CreateShader(int type) {
+GCShader* GCGraphics::CreateShaderColor() {
+    GCShader* shader;
+    shader = new GCShaderColor();
+    shader->Initialize(m_pRender, L"color", STEnum::color);
+    m_vShaders.push_back(shader);
+    m_shaderId++;
+    return shader;
+    
+}
+
+
+GCShader* GCGraphics::CreateShaderTexture() {
     GCShader* shader;
 
-    switch (type) {
-    default:
-    {
-        shader = new GCShader();
-        return shader;
-        break;
-    }
-    case 0:
-    {
-        shader = new GCShaderColor();
-        shader->SetType(0);
-        shader->Initialize(m_pRender, L"color");
-        m_vShaders.push_back(shader);
-        m_shaderId++;
-        return shader;
-        break;
-    }
-    case 1:
-    {
-        shader = new GCShaderTexture();
-        shader->SetType(1);
-        shader->Initialize(m_pRender, L"texture");
-        m_vShaders.push_back(shader);
-        m_shaderId++;
-        return shader;
-        break;
-    }
-    }
+    shader = new GCShaderTexture();
+    shader->Initialize(m_pRender, L"texture", STEnum::texture);
+    m_vShaders.push_back(shader);
+    m_shaderId++;
+    return shader;
 
-    //GCShader* parentShader = dynamic_cast<GCShader*>(shader);
-    //if (parentShader != nullptr) {
-    //    return parentShader;
-    //}
-    //else {
-    //    return nullptr;
-    //}
+    
 }
 
 GCMaterial* GCGraphics::CreateMaterial() {

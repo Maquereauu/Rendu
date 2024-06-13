@@ -1,7 +1,69 @@
 #pragma once
-
+//
 //#include "d3dUtil.h"
 
+class ShaderCB;
+
+// Nouveau Upload Buffer pour les derivés de ShaderCB
+class SUploadBufferBase {
+public:
+    SUploadBufferBase() : m_pUpload(nullptr), m_data(nullptr), m_elementByteSize(0), m_isConstantBuffer(false) {}
+    virtual ~SUploadBufferBase() {
+        if (m_pUpload) {
+            m_pUpload->Unmap(0, nullptr);
+        }
+        m_data = nullptr;
+    }
+
+    ID3D12Resource* Resource() const {
+        return m_pUpload.Get();
+    }
+
+    virtual void CopyData(int elementIndex, const ShaderCB& data) = 0;
+
+protected:
+    Microsoft::WRL::ComPtr<ID3D12Resource> m_pUpload;
+    BYTE* m_data;
+    UINT m_elementByteSize;
+    bool m_isConstantBuffer;
+
+    UINT CalcConstantBufferByteSize(UINT byteSize) {
+        return (byteSize + 255) & ~255;
+    }
+};
+
+template<typename T>
+class SUploadBuffer : public SUploadBufferBase {
+public:
+    SUploadBuffer(ID3D12Device* device, UINT elementCount, bool isConstantBuffer) {
+        m_isConstantBuffer = isConstantBuffer;
+        m_elementByteSize = sizeof(T);
+
+        if (isConstantBuffer) {
+            m_elementByteSize = CalcConstantBufferByteSize(sizeof(T));
+        }
+
+        CD3DX12_RESOURCE_DESC resourceDesc = CD3DX12_RESOURCE_DESC::Buffer(m_elementByteSize * elementCount);
+        CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+
+        device->CreateCommittedResource(
+            &heapProps,
+            D3D12_HEAP_FLAG_NONE,
+            &resourceDesc,
+            D3D12_RESOURCE_STATE_GENERIC_READ,
+            nullptr,
+            IID_PPV_ARGS(&m_pUpload));
+
+        m_pUpload->Map(0, nullptr, reinterpret_cast<void**>(&m_data));
+    }
+
+    void CopyData(int elementIndex, const ShaderCB& data) override {
+        memcpy(&m_data[elementIndex * m_elementByteSize], &data, sizeof(T));
+    }
+};
+
+
+// Old Upload Buffer - Encore Utilisé pour la caméra
 template<typename T>
 class UploadBuffer
 {
@@ -39,7 +101,8 @@ public:
 
     UploadBuffer(const UploadBuffer& rhs) = delete;
     UploadBuffer& operator=(const UploadBuffer& rhs) = delete;
-    ~UploadBuffer()
+
+    virtual ~UploadBuffer()
     {
         if (mUploadBuffer != nullptr)
             mUploadBuffer->Unmap(0, nullptr);

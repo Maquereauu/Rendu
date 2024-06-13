@@ -16,6 +16,8 @@
 #include <tchar.h>
 #include "Timer.h"
 #include <string>
+#include <map>
+#include <variant>
 #include <memory>
 #include <algorithm>
 #include <vector>
@@ -53,6 +55,8 @@ class GCShaderColor;
 class GCShaderTexture;
 class GCTexture;
 class GCTextureFactory;
+class SUploadBufferBase; // 
+//class SUploadBuffer; //
 class MathHelper;
 class Timer;
 class Window;

@@ -455,7 +455,7 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 	D3D12_INDEX_BUFFER_VIEW indexBufferView = pMesh->GetBufferGeometryData()->IndexBufferView();
 	m_CommandList->IASetIndexBuffer(&indexBufferView);
 
-	if (static_cast<UINT>(pShader->GetType()) == 1) // Texture?
+	if (pShader->GetType() == 1) // Texture?
 	{
 		if(pTexture)
 		{
@@ -467,16 +467,37 @@ bool GCRender::DrawOneObject(GCMesh* pMesh, GCShader* pShader, GCTexture* pTextu
 	}
 
 
-	pMesh->UpdateObjectBuffer(DirectX::XMLoadFloat4x4(&worldMatrix));
+
+
+
+	DirectX::XMMATRIX worldMatrixXM = DirectX::XMLoadFloat4x4(&worldMatrix);
+	DirectX::XMMATRIX transposedWorldMatrix = DirectX::XMMatrixTranspose(worldMatrixXM);
+	DirectX::XMFLOAT4X4 transposedWorld;
+	DirectX::XMStoreFloat4x4(&transposedWorld, transposedWorldMatrix);
+
+	WorldCB worldData;
+	worldData.world = transposedWorld;
+
+
+
+	pMesh->UpdateObjectBuffer<WorldCB>(worldData);
 	pMesh->UpdateCameraBuffer(viewMatrix, projectionMatrix);
 
+	auto* pUploadBuffer = dynamic_cast<SUploadBuffer<WorldCB>*>(pMesh->GetObjectCBData());
 
-	m_CommandList->SetGraphicsRootConstantBufferView(0, pMesh->GetObjectCBData()->Resource()->GetGPUVirtualAddress());
+
+	if (pUploadBuffer) {
+		m_CommandList->SetGraphicsRootConstantBufferView(0, pUploadBuffer->Resource()->GetGPUVirtualAddress());
+	}
+
+
+	// Camera
 	m_CommandList->SetGraphicsRootConstantBufferView(1, pMesh->GetCameraCBData()->Resource()->GetGPUVirtualAddress());
 
 
+
 	// #TODO Réflechir a passer par la GCGeometry ? 
-	m_CommandList->DrawIndexedInstanced(pMesh->GetBufferGeometryData()->DrawArgs["mesh"].IndexCount, 1, 0, 0, 0);
+	m_CommandList->DrawIndexedInstanced(pMesh->GetBufferGeometryData()->IndexCount, 1, 0, 0, 0);
 
 	return true;
 }
