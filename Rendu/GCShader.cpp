@@ -22,20 +22,21 @@ void GCShader::Render() {
 
 void GCShader::Initialize(GCRender* pRender, std::wstring hlslName, int type) {
 	m_pRender = pRender;
-	m_type = type;
+	PreCompile(hlslName);
+}
 
-
-	CompileShader(hlslName);
+void GCShader::Load() {
+	CompileShader();
 	RootSign();
 	Pso();
 }
 
-void GCShader::CompileShader(std::wstring hlsl) {
+void GCShader::CompileShader() {
 
 }
 
 void GCShader::RootSign() {
-    // Déclaration des paramètres racine
+    // DÃ©claration des paramÃ¨tres racine
     CD3DX12_ROOT_PARAMETER slotRootParameter[3];
 
 	slotRootParameter[0].InitAsConstantBufferView(0);
@@ -48,7 +49,7 @@ void GCShader::RootSign() {
 		slotRootParameter[2].InitAsDescriptorTable(1, &srvTable);
 	}
 
-    // Configuration de l'échantillonneur statique
+    // Configuration de l'Ã©chantillonneur statique
     CD3DX12_STATIC_SAMPLER_DESC staticSample = CD3DX12_STATIC_SAMPLER_DESC(
         0, // shaderRegister
         D3D12_FILTER_MIN_MAG_MIP_LINEAR, // filter
@@ -66,17 +67,17 @@ void GCShader::RootSign() {
     // Configuration de la signature racine
     CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(m_type+2, slotRootParameter, 1, &staticSample, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
-    // Sérialisation de la signature racine
+    // SÃ©rialisation de la signature racine
     ID3DBlob* serializedRootSig = nullptr;
     ID3DBlob* errorBlob = nullptr;
     HRESULT hr = D3D12SerializeRootSignature(&rootSigDesc, D3D_ROOT_SIGNATURE_VERSION_1, &serializedRootSig, &errorBlob);
 
-    // Gestion des erreurs de sérialisation
+    // Gestion des erreurs de sÃ©rialisation
     if (errorBlob != nullptr) {
         ::OutputDebugStringA((char*)errorBlob->GetBufferPointer());
     }
 
-    // Création de la signature racine
+    // CrÃ©ation de la signature racine
     m_pRender->Getmd3dDevice()->CreateRootSignature(
         0,
         serializedRootSig->GetBufferPointer(),
@@ -181,4 +182,42 @@ ID3DBlob* GCShader::CompileShaderBase(
 	//hr;
 
 	return byteCode;
+}
+
+void GCShader::SaveShaderToFile(ID3DBlob* shaderBlob, const std::wstring& filename) {
+	std::ofstream file(filename, std::ios::binary);
+	if (!file.is_open()) {
+		throw std::runtime_error("Failed to open file for writing");
+	}
+	file.write(static_cast<const char*>(shaderBlob->GetBufferPointer()), shaderBlob->GetBufferSize());
+	file.close();
+}
+
+ID3DBlob* GCShader::LoadShaderFromFile(const std::wstring& filename) {
+	std::ifstream file(filename, std::ios::binary | std::ios::ate);
+	if (!file.is_open()) {
+		throw std::runtime_error("Failed to open file for reading");
+	}
+	std::streamsize size = file.tellg();
+	file.seekg(0, std::ios::beg);
+
+	ID3DBlob* shaderBlob = nullptr;
+	HRESULT hr = D3DCreateBlob(size, &shaderBlob);
+	if (FAILED(hr)) {
+		throw std::runtime_error("Failed to create shader blob");
+	}
+
+	if (!file.read(static_cast<char*>(shaderBlob->GetBufferPointer()), size)) {
+		shaderBlob->Release();
+		throw std::runtime_error("Failed to read file");
+	}
+
+	return shaderBlob;
+}
+
+void GCShader::PreCompile(std::wstring hlsl) {
+	ID3DBlob* vsByteCode = CompileShaderBase(L"Shaders\\" + hlsl + L".hlsl", nullptr, "VS", "vs_5_0");
+	ID3DBlob* psByteCode = CompileShaderBase(L"Shaders\\" + hlsl + L".hlsl", nullptr, "PS", "ps_5_0");
+	SaveShaderToFile(vsByteCode, hlsl + L"VS.cso");
+	SaveShaderToFile(psByteCode, hlsl + L"PS.cso");
 }
